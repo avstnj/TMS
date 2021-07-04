@@ -1,0 +1,79 @@
+﻿@using Asis.Ulasim.Models.Fills
+@{
+    var _network= new Network();
+    IQueryable<NetworkModel> network = null;
+    network = _network.FillNetwork();
+}
+@*<label class="col-lg-2 col-form-label">
+    Network
+</label>
+<div class="col-lg-8 col-md-9 col-sm-12" data-skin="dark" data-toggle="m-tooltip" data-placement="top">
+    <select id="network" class="form-control m-bootstrap-select m_selectpicker" multiple data-actions-box="true" data-live-search="true">
+        @{
+            if (network.Any())
+            {
+                foreach (var item in network)
+                {
+                    {
+                        <option value='@item.ID'>@item.Name</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value='HI' disabled="disabled"> </option>
+            }
+        }
+    </select>
+    <span class="m-form__help">
+        Please Select Network
+    </span>
+</div>*@
+
+<div class="form-group">
+    <label>Network</label>
+    <select id="network" class="form-control form-control-solid">
+        @{
+            if (network.Any())
+            {
+                foreach (var item in network)
+                {
+                    {
+                        <option value='@item.ID'>@item.Name</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value='HI' disabled="disabled"> </option>
+            }
+        }
+    </select>
+</div>
+
+<script type="text/javascript">
+    function GetSelectNetwork() {
+        var mSelected = "";
+        var lbl = $('#network').val();
+        if (lbl === "HI") {
+            mSelected = "HI";
+        } else {
+            var ddl = document.getElementById("network");
+            if (ddl.options[0].value === "HI") {
+                mSelected = "HI";
+            } else if (ddl.selectedIndex === -1) {
+                mSelected = "";
+            } else {
+                var selectedValueArray = [];
+                $("#network :selected").each(function() {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelected = selectedValueArray.join(',');
+            }
+        }
+        return mSelected;
+    }
+</script>
+
+
+

@@ -1,0 +1,13 @@
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\bin\Debug\netcoreapp3.1\TestConsoleApp.exe
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\bin\Debug\netcoreapp3.1\TestConsoleApp.deps.json
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\bin\Debug\netcoreapp3.1\TestConsoleApp.runtimeconfig.json
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\bin\Debug\netcoreapp3.1\TestConsoleApp.runtimeconfig.dev.json
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\bin\Debug\netcoreapp3.1\TestConsoleApp.dll
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\bin\Debug\netcoreapp3.1\TestConsoleApp.pdb
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\obj\Debug\netcoreapp3.1\TestConsoleApp.csprojAssemblyReference.cache
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\obj\Debug\netcoreapp3.1\TestConsoleApp.AssemblyInfoInputs.cache
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\obj\Debug\netcoreapp3.1\TestConsoleApp.AssemblyInfo.cs
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\obj\Debug\netcoreapp3.1\TestConsoleApp.csproj.CoreCompileInputs.cache
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\obj\Debug\netcoreapp3.1\TestConsoleApp.dll
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\obj\Debug\netcoreapp3.1\TestConsoleApp.pdb
+C:\Users\tanju.avsar\source\repos\TMS\TestConsoleApp\obj\Debug\netcoreapp3.1\TestConsoleApp.genruntimeconfig.cache

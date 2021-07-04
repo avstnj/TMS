@@ -1,0 +1,348 @@
+﻿@using System.Text
+@using Asis.Ulasim.Models.Account
+@using Asis.Ulasim.Controllers
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<HomeController> Localizer
+@{
+    Layout = "_Layout";
+}
+<head>
+
+    <link href="~/css/default/custom/components/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" />
+    <script src="~/css/default/custom/components/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+</head>
+@{
+    ApplicationUser _usersInfo = null;
+    if (Context.User.Identity.Name != null)
+    {
+        _usersInfo = (from u in Context.User.Claims
+                      select new ApplicationUser
+                      {
+                          UserId = Convert.ToInt32(Context.User.Claims.FirstOrDefault(c => c.Type == "UserId").Value),
+                          UserName = Context.User.Claims.FirstOrDefault(c => c.Type == "UserName").Value,
+                          FirstName = Context.User.Claims.FirstOrDefault(c => c.Type == "FirstName").Value,
+                          LastName = Context.User.Claims.FirstOrDefault(c => c.Type == "LastName").Value,
+                          UserEmail = Context.User.Claims.FirstOrDefault(c => c.Type == "UserEmail").Value,
+                          IdentityNumber = Context.User.Claims.FirstOrDefault(c => c.Type == "IdentityNumber").Value,
+                          UserMobile = Context.User.Claims.FirstOrDefault(c => c.Type == "UserMobile").Value,
+                          UserPhoto = Encoding.ASCII.GetBytes(Context.User.Claims.FirstOrDefault(c => c.Type == "UserPhoto").Value)
+                      }).FirstOrDefault();
+        //}
+    }
+
+
+    else
+    {
+        @Url.Action("/Account/Index")
+    }
+}
+<div class="col-xl-10 col-lg-8">
+    <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-tools">
+                <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
+                    <li class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab" aria-selected="true">
+                            <i class="flaticon-share m--hide"></i>
+                            User Information
+                        </a>
+                    </li>
+                    <li class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
+                           Change Password
+                        </a>
+                    </li>
+                    <li class="nav-item m-tabs__item">
+                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
+                            Upload Picture
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="m_user_profile_tab_1">
+                <form class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                UserName *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="userName" type="text" class="form-control m-input" name="userName" value="@_usersInfo.UserName" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                Name *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="name" type="text" class="form-control m-input" name="name" value="@_usersInfo.FirstName">
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                LastName *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="surName" type="text" class="form-control m-input" name="surName" value="@_usersInfo.LastName">
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                Identity Number *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="identificationNo" type="text" class="form-control m-input" name="identificationNo" value="@_usersInfo.IdentityNumber" maxlength="11">
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                Telephone *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="phone" type="text" class="form-control m-input" name="phone" value="@_usersInfo.UserMobile">
+                                <div class="input-group-append">
+                                    <a href="#" class="btn btn-brand">
+                                        <i class="la la-phone"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                Email *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="email" type="text" class="form-control m-input" name="email" value="@_usersInfo.UserEmail">
+                                <span class="m-form__help">
+                                    Enter Your E-mail Address *
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-7">
+                                    <button type="submit" id="btnUpdate" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                                        Upload Information
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane " id="m_user_profile_tab_2">
+                <form class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                               User Name *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="pUserName" type="text" class="form-control m-input" name="pUserName" value="@_usersInfo.UserName" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                New Password *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="pPassword" type="text" class="form-control m-input" name="pPassword" placeholder="xxxxxx">
+                                <span class="m-form__help">
+                                   Enter At Least 6 And At Most 8 Characters
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                Email *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="pEmail" type="text" class="form-control m-input" name="pEmail" value="@_usersInfo.UserEmail">
+                                <span class="m-form__help">
+                                    Enter Your E-mail Address
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-7">
+                                    <button type="submit" id="btnChange" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                                        Change Password
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane " id="m_user_profile_tab_3">
+
+                <form class="m-form m-form--fit m-form--label-align-right">
+                    <div class="m-portlet__body">
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                User Name *
+                            </label>
+                            <div class="col-lg-4 col-md-9 col-sm-12">
+                                <input id="iUserName" type="text" class="form-control m-input" name="pUserName" value="@_usersInfo.UserName" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <div class="fileinput fileinput-new" data-provides="fileinput" style="margin-left: 31%">
+                                <div class="fileinput-new thumbnail" style="height: 150px; width: 200px;">
+                                    <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                                </div>
+                                <div id="dvLoadImage" class="fileinput-preview fileinput-exists thumbnail" style="max-height: 150px; max-width: 200px;"> </div>
+                                <span class="m-form__help">
+                                    Image Size 80x80
+                                </span>
+                                <div>
+                                    <span class="btn default btn-file" style="background-color: #00c5dc; border-color: #00c5dc; color: #ffffff; cursor: pointer !important; margin-left: 29px;">
+                                        <span class="fileinput-new">Select Picture </span>
+                                        <span class="fileinput-exists"> Change </span>
+                                        <input type="file" name="...">
+                                    </span>
+                                    <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput" style="background-color: #00c5dc; border-color: #00c5dc; color: #ffffff; cursor: pointer !important"> Delete </a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions">
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-7">
+                                    <button type="submit" id="btnLoad" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                                        Upload Picture
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("_PartialLoadPanel")
+    @await Html.PartialAsync("_PartialAlert")
+</div>
+
+<script type="text/javascript">
+    $("#btnUpdate").click(function (e) {
+        e.preventDefault();
+        var userName = $('#userName').val();
+        var name = $('#name').val();
+        var surName = $('#surName').val();
+        var identificationNo = $('#identificationNo').val();
+        var mobilNumber = $('#phone').val();
+        var email = $('#email').val();
+
+        if (userName === "" || name === "" || email === "") {
+            command: toastr["error"]("Kullanıcı Adı, Adı, Şifre ve E-Mail alanları boş geçilemez..!");
+        } else {
+            loadPanel.show();
+            $.ajax({
+                url: "/UserSettings/PartialUpdateUser",
+                type: "POST",
+                data: {
+                    userName: userName,
+                    name: name,
+                    surName: surName,
+                    identificationNo: identificationNo,
+                    mobilNumber: mobilNumber,
+                    email: email
+                },
+                success: function (res) {
+                    $("#dvMessage").html(res);
+                },
+                error: function (xhr, textStatus, error) {
+                    command: toastr["error"]("Recording Failed..!");
+                },
+                complete: function () {
+                    $("#loading-image").hide();
+                    loadPanel.hide();
+                }
+            });
+        }
+    });
+    $("#btnChange").click(function (e) {
+        e.preventDefault();
+        $("#loading-image").show();
+        var userName = $('#pUserName').val();
+        var password = $('#pPassword').val();
+        var email = $('#pEmail').val();
+        var number = password.match(/\d+/g);
+        var upperCase = password.match(/([A-Z]+)/g);
+        var lowerCase = password.match(/([a-z]+)/g);
+        if (number === null || upperCase === null || lowerCase === null) {
+            command: toastr["error"]("Şifre En az Bir Büyük, Bir Küçük Harf Ve Rakamdan Oluşmalıdır...!");
+        } else {
+            loadPanel.show();
+            $.ajax({
+                url: "/UserSettings/PartialChangePasswordUser",
+                type: "POST",
+                data: {
+                    userName: userName,
+                    password: password,
+                    email: email
+                },
+                success: function (res) {
+                    $("#dvMessage").html(res);
+                    toastr["success"]("Şifre değiştirildi! ");
+                },
+                error: function (xhr, textStatus, error) {
+                    command: toastr["error"]("Recording Failed..!");
+                },
+                complete: function () {
+                    $("#loading-image").hide();
+                    loadPanel.hide();
+                }
+            });
+        }
+    });
+    $("#btnLoad").click(function (e) {
+        e.preventDefault();
+        $("#loading-image").show();
+        var userName = $('#iUserName').val();
+        var userPhoto = $('#dvLoadImage')[0].childNodes[0].currentSrc;
+        var width = $('#dvLoadImage').width();
+        var height = $('#dvLoadImage').height();
+        if (userPhoto === null || userPhoto === undefined) {
+            command: toastr["error"]("Resim Seçilmedi...!");
+        } else if (width > 85 && height > 85) {
+            command: toastr["error"]("Resim 80 X 80 Pixel olmalıdır...!");
+        } else {
+            loadPanel.show();
+            $.ajax({
+                url: "/UserSettings/PartialLoadImage",
+                type: "POST",
+                data: {
+                    userName: userName,
+                    userPhoto: userPhoto
+                },
+                success: function (res) {
+                    $("#dvMessage").html(res);
+                },
+                error: function (xhr, textStatus, error) {
+                    command: toastr["error"]("Recording Failed..!");
+                },
+                complete: function () {
+                    $("#loading-image").hide();
+                    loadPanel.hide();
+                }
+            });
+        }
+    });
+</script>

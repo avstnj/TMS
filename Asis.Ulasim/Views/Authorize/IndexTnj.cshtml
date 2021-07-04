@@ -1,0 +1,427 @@
+﻿@using Asis.Ulasim.Models.Administrator
+@{
+    ViewData["Title"] = "IndexTnj";
+    Layout = "~/Views/Shared/_LayoutTnj.cshtml";
+    var menuList = (IQueryable<MenuListModel>)ViewBag.MenuList;
+}
+
+<!--begin::Page Custom Styles(used by this page)-->
+<link href="template/dist/assets/css/pages/wizard/wizard-1.css" rel="stylesheet" type="text/css" />
+<!--end::Page Custom Styles-->
+<style>
+    .userroles {
+        border-style: solid !important;
+        border-width: 2px !important;
+        border-color: #0000CC !important;
+        border-radius: 10px;
+        padding: 5px !important;
+        border-color: #ff00dc !important;
+    }
+</style>
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
+            <!--begin::Body-->
+            <div class="card-body p-0">
+                <!--begin::Wizard-->
+                <div class="wizard wizard-1" id="kt_contact_add" data-wizard-state="step-first" data-wizard-clickable="true">
+                    <!--begin::Wizard Nav-->
+                    <div class="wizard-nav border-bottom">
+                        <div class="wizard-steps p-8 p-lg-10">
+                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current" id="addaccount">
+                                <div class="wizard-label">
+                                    <span class="svg-icon svg-icon-4x wizard-icon">
+                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Chat-check.svg-->
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M16,15.6315789 L16,12 C16,10.3431458 14.6568542,9 13,9 L6.16183229,9 L6.16183229,5.52631579 C6.16183229,4.13107011 7.29290239,3 8.68814808,3 L20.4776218,3 C21.8728674,3 23.0039375,4.13107011 23.0039375,5.52631579 L23.0039375,13.1052632 L23.0206157,17.786793 C23.0215995,18.0629336 22.7985408,18.2875874 22.5224001,18.2885711 C22.3891754,18.2890457 22.2612702,18.2363324 22.1670655,18.1421277 L19.6565168,15.6315789 L16,15.6315789 Z" fill="#000000" />
+                                                <path d="M1.98505595,18 L1.98505595,13 C1.98505595,11.8954305 2.88048645,11 3.98505595,11 L11.9850559,11 C13.0896254,11 13.9850559,11.8954305 13.9850559,13 L13.9850559,18 C13.9850559,19.1045695 13.0896254,20 11.9850559,20 L4.10078614,20 L2.85693427,21.1905292 C2.65744295,21.3814685 2.34093638,21.3745358 2.14999706,21.1750444 C2.06092565,21.0819836 2.01120804,20.958136 2.01120804,20.8293182 L2.01120804,18.32426 C1.99400175,18.2187196 1.98505595,18.1104045 1.98505595,18 Z M6.5,14 C6.22385763,14 6,14.2238576 6,14.5 C6,14.7761424 6.22385763,15 6.5,15 L11.5,15 C11.7761424,15 12,14.7761424 12,14.5 C12,14.2238576 11.7761424,14 11.5,14 L6.5,14 Z M9.5,16 C9.22385763,16 9,16.2238576 9,16.5 C9,16.7761424 9.22385763,17 9.5,17 L11.5,17 C11.7761424,17 12,16.7761424 12,16.5 C12,16.2238576 11.7761424,16 11.5,16 L9.5,16 Z" fill="#000000" opacity="0.3" />
+                                            </g>
+                                        </svg>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <h3 class="wizard-title">User & Roles</h3>
+                                </div>
+                            </div>
+                            <div class="wizard-step" data-wizard-type="step" id="editaccount">
+                                <div class="wizard-label">
+                                    <span class="svg-icon svg-icon-4x wizard-icon">
+                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Devices/Display1.svg-->
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M11.7573593,15.2426407 L8.75735931,15.2426407 C8.20507456,15.2426407 7.75735931,15.6903559 7.75735931,16.2426407 C7.75735931,16.7949254 8.20507456,17.2426407 8.75735931,17.2426407 L11.7573593,17.2426407 L11.7573593,18.2426407 C11.7573593,19.3472102 10.8619288,20.2426407 9.75735931,20.2426407 L5.75735931,20.2426407 C4.65278981,20.2426407 3.75735931,19.3472102 3.75735931,18.2426407 L3.75735931,14.2426407 C3.75735931,13.1380712 4.65278981,12.2426407 5.75735931,12.2426407 L9.75735931,12.2426407 C10.8619288,12.2426407 11.7573593,13.1380712 11.7573593,14.2426407 L11.7573593,15.2426407 Z" fill="#000000" opacity="0.3" transform="translate(7.757359, 16.242641) rotate(-45.000000) translate(-7.757359, -16.242641)" />
+                                                <path d="M12.2426407,8.75735931 L15.2426407,8.75735931 C15.7949254,8.75735931 16.2426407,8.30964406 16.2426407,7.75735931 C16.2426407,7.20507456 15.7949254,6.75735931 15.2426407,6.75735931 L12.2426407,6.75735931 L12.2426407,5.75735931 C12.2426407,4.65278981 13.1380712,3.75735931 14.2426407,3.75735931 L18.2426407,3.75735931 C19.3472102,3.75735931 20.2426407,4.65278981 20.2426407,5.75735931 L20.2426407,9.75735931 C20.2426407,10.8619288 19.3472102,11.7573593 18.2426407,11.7573593 L14.2426407,11.7573593 C13.1380712,11.7573593 12.2426407,10.8619288 12.2426407,9.75735931 L12.2426407,8.75735931 Z" fill="#000000" transform="translate(16.242641, 7.757359) rotate(-45.000000) translate(-16.242641, -7.757359)" />
+                                                <path d="M5.89339828,3.42893219 C6.44568303,3.42893219 6.89339828,3.87664744 6.89339828,4.42893219 L6.89339828,6.42893219 C6.89339828,6.98121694 6.44568303,7.42893219 5.89339828,7.42893219 C5.34111353,7.42893219 4.89339828,6.98121694 4.89339828,6.42893219 L4.89339828,4.42893219 C4.89339828,3.87664744 5.34111353,3.42893219 5.89339828,3.42893219 Z M11.4289322,5.13603897 C11.8194565,5.52656326 11.8194565,6.15972824 11.4289322,6.55025253 L10.0147186,7.96446609 C9.62419433,8.35499039 8.99102936,8.35499039 8.60050506,7.96446609 C8.20998077,7.5739418 8.20998077,6.94077682 8.60050506,6.55025253 L10.0147186,5.13603897 C10.4052429,4.74551468 11.0384079,4.74551468 11.4289322,5.13603897 Z M0.600505063,5.13603897 C0.991029355,4.74551468 1.62419433,4.74551468 2.01471863,5.13603897 L3.42893219,6.55025253 C3.81945648,6.94077682 3.81945648,7.5739418 3.42893219,7.96446609 C3.0384079,8.35499039 2.40524292,8.35499039 2.01471863,7.96446609 L0.600505063,6.55025253 C0.209980772,6.15972824 0.209980772,5.52656326 0.600505063,5.13603897 Z" fill="#000000" opacity="0.3" transform="translate(6.014719, 5.843146) rotate(-45.000000) translate(-6.014719, -5.843146)" />
+                                                <path d="M17.9142136,15.4497475 C18.4664983,15.4497475 18.9142136,15.8974627 18.9142136,16.4497475 L18.9142136,18.4497475 C18.9142136,19.0020322 18.4664983,19.4497475 17.9142136,19.4497475 C17.3619288,19.4497475 16.9142136,19.0020322 16.9142136,18.4497475 L16.9142136,16.4497475 C16.9142136,15.8974627 17.3619288,15.4497475 17.9142136,15.4497475 Z M23.4497475,17.1568542 C23.8402718,17.5473785 23.8402718,18.1805435 23.4497475,18.5710678 L22.0355339,19.9852814 C21.6450096,20.3758057 21.0118446,20.3758057 20.6213203,19.9852814 C20.2307961,19.5947571 20.2307961,18.9615921 20.6213203,18.5710678 L22.0355339,17.1568542 C22.4260582,16.76633 23.0592232,16.76633 23.4497475,17.1568542 Z M12.6213203,17.1568542 C13.0118446,16.76633 13.6450096,16.76633 14.0355339,17.1568542 L15.4497475,18.5710678 C15.8402718,18.9615921 15.8402718,19.5947571 15.4497475,19.9852814 C15.0592232,20.3758057 14.4260582,20.3758057 14.0355339,19.9852814 L12.6213203,18.5710678 C12.2307961,18.1805435 12.2307961,17.5473785 12.6213203,17.1568542 Z" fill="#000000" opacity="0.3" transform="translate(18.035534, 17.863961) scale(1, -1) rotate(45.000000) translate(-18.035534, -17.863961)" />
+                                            </g>
+                                        </svg>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <h3 class="wizard-title">User & Menus</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Wizard Nav-->
+                    <!--begin::Wizard Body-->
+                    <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
+                        <div class="col-xl-12 col-xxl-7">
+                            <!--begin::Form Wizard Form-->
+                            <form class="form" id="kt_contact_add_form">
+                                <!--begin::Form Wizard Step 1-->
+                                <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                                    <div class="userroles">
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="form-group row">
+                                                    <label class="col-xl-2 col-lg-2 col-form-label" style="text-align: right;font-size: initial;">User</label>
+                                                    <div class="col-lg-6 col-xl-6">
+                                                        <select id="userlist" name="user" class="form-control form-control-lg form-control-solid">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-2 col-form-label"></label>
+                                                    <div class="col-10 col-form-label">
+                                                        <div id="dvChkRoleList" class="checkbox-list">
+                                                            @{
+                                                                if (ViewBag.Roles != null)
+                                                                {
+                                                                    foreach (var item in ViewBag.Roles)
+                                                                    {
+                                                                        {
+                                                                            <label class="checkbox mcheckbox">
+                                                                                <input id="chkRole_@item.Id" value="@item.Id" type="checkbox" name="checkbox" />
+                                                                                <span></span>
+                                                                                @item.RoleName
+                                                                            </label>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between border-top pt-10" style="border-top-width: 0 !important;">
+                                                    <div class="mr-2"></div>
+                                                    <button type="button" onclick="InsertUserRoleChange()" class="btn btn-dark font-weight-bold btn-pill" id="btnChangeRole"><i class="fa fa-edit"></i> Save Changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="border-top pt-10">
+                                        <div class="mr-2"></div>
+                                        <div id="updateAccountDiv">
+                                            <button data-toggle="modal" data-target="#modal_newrole" type="button" class="btn btn-success font-weight-bold btn-pill" id="btnNewRole"><i class="fa fa-plus"></i>New Role</button>
+                                            <button data-toggle="modal" data-target="#modal_editrole" type="button" class="btn btn-primary font-weight-bold btn-pill" id="btnEditRole"><i class="fa fa-edit"></i> Update Role</button>
+                                            <button data-toggle="modal" data-target="#modal_removerole" type="button" class="btn btn-danger font-weight-bold btn-pill" id="accountresetpasswordBtn"><i class="fa fa-eraser"></i>Delete Role</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Form Wizard Step 1-->
+
+                                <!--begin::Form Wizard Step 2-->
+                                <div class="pb-5" data-wizard-type="step-content">
+                                    <div class="userroles">
+                                        <div class="row">
+                                            <!--begin::Card-->
+                                            <div class="col-xl-12">
+                                                <div class="card card-custom gutter-b">
+                                                    <div class="card-body">
+                                                        <!--begin::Accordion-->
+                                                        <div class="accordion accordion-solid accordion-toggle-plus" id="accordionExample6">
+                                                            @if (menuList.Where(n => n.Category == "mReport").Count() > 0)
+                                                            {
+                                                                <div class="card">
+                                                                    <div class="card-header" id="headingOne6">
+                                                                        <div class="card-title" data-toggle="collapse" data-target="#collapseOne6">
+                                                                            <i class="flaticon-pie-chart-1"></i>1. Report Screens
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="collapseOne6" class="collapse show" data-parent="#accordionExample6">
+                                                                        <div id="dvChkMenu" class="card-body">
+                                                                            @{
+                                                                                foreach (var item in menuList.Where(n => n.Category == "mReport"))
+                                                                                {
+                                                                                    {
+                                                                                        <label class="checkbox mcheckbox">
+                                                                                            <input id="chkMenu_@item.SubMenuRecId" value="@item.SubMenuId" type="checkbox" name="checkbox" />
+                                                                                            <span></span>
+                                                                                            @item.SubMenuName
+                                                                                        </label>
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            @if (menuList.Where(n => n.Category == "mDefinition").Count() > 0)
+                                                            {
+                                                                <div class="card">
+                                                                    <div class="card-header" id="headingTwo6">
+                                                                        <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseTwo6">
+                                                                            <i class="flaticon2-notification"></i>2. Definition Screens
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="collapseTwo6" class="collapse" data-parent="#accordionExample6">
+                                                                        <div id="dvChkMenu" class="card-body">
+                                                                            @{
+                                                                                foreach (var item in menuList.Where(n => n.Category == "mDefinition"))
+                                                                                {
+                                                                                    {
+                                                                                        <label class="checkbox mcheckbox">
+                                                                                            <input id="chkMenu_@item.SubMenuRecId" value="@item.SubMenuId" type="checkbox" name="checkbox" />
+                                                                                            <span></span>
+                                                                                            @item.SubMenuName
+                                                                                        </label>
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            @if (menuList.Where(n => n.Category == "mVehiclTracking").Count() > 0)
+                                                            {
+                                                                <div class="card">
+                                                                    <div class="card-header" id="headingThree6">
+                                                                        <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseThree6">
+                                                                            <i class="flaticon2-chart"></i>3. Vehicle Tracking System
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="collapseThree6" class="collapse" data-parent="#accordionExample6">
+                                                                        <div id="dvChkMenu" class="card-body">
+                                                                            @{
+                                                                                foreach (var item in menuList.Where(n => n.Category == "mVehiclTracking"))
+                                                                                {
+                                                                                    {
+                                                                                        <label class="checkbox mcheckbox">
+                                                                                            <input id="chkMenu_@item.SubMenuRecId" value="@item.SubMenuId" type="checkbox" name="checkbox" />
+                                                                                            <span></span>
+                                                                                            @item.SubMenuName
+                                                                                        </label>
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            @if (menuList.Where(n => n.Category == "Administration").Count() > 0)
+                                                            {
+                                                                <div class="card">
+                                                                    <div class="card-header" id="headingThree6">
+                                                                        <div class="card-title collapsed" data-toggle="collapse" data-target="#collapseThree6">
+                                                                            <i class="icon-2x text-dark-50 flaticon-user"></i>4. Management Panel
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="collapseThree6" class="collapse" data-parent="#accordionExample6">
+                                                                        <div id="dvChkMenu" class="card-body">
+                                                                            @{
+                                                                                foreach (var item in menuList.Where(n => n.Category == "Administration"))
+                                                                                {
+                                                                                    {
+                                                                                        <label class="checkbox mcheckbox">
+                                                                                            <input id="chkMenu_@item.SubMenuRecId" value="@item.SubMenuId" type="checkbox" name="checkbox" />
+                                                                                            <span></span>
+                                                                                            @item.SubMenuName
+                                                                                        </label>
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <!--end::Accordion-->
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        @await Html.PartialAsync("CustomPartial/_PartialRolesTnj")
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between border-top pt-10" style="border-top-width: 0 !important;">
+                                                    <div class="mr-2"></div>
+                                                    <button type="button" onclick="InsertRoleMenuChange()" class="btn btn-dark font-weight-bold btn-pill" id="btnChangeRole"><i class="fa fa-edit"></i> Save Changes</button>
+                                                </div>
+                                            </div>
+                                            <!--end::Card-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Form Wizard Step 2-->
+                                <!--begin::Wizard Actions-->
+                                <!--end::Wizard Actions-->
+                            </form>
+                            <!--end::Form Wizard Form-->
+                        </div>
+                    </div>
+                    <!--end::Wizard Body-->
+                </div>
+                <!--end::Wizard-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Card-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Entry-->
+<!--begin::Modal : Add New Role Modal-->
+<div class="modal fade" id="modal_newrole" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:125%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Role Add Screen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="scroll scroll-pull" data-scroll="true" style="height:100px !important">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-xl-3 col-lg-3 col-form-label" style="text-align:right;">Role Name</label>
+                            <div class="col-lg-6 col-xl-6">
+                                <input class="form-control form-control-lg form-control-solid" id="rolename" name="rolename" type="text" placeholder="" value="">
+                                @*<span class="form-text" style="color: red !important; display: none;" id="lastnameeditalert">User Name is required</span>*@
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="InsertNewRole();">
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Modal : Edit Role Modal-->
+<!--begin::Modal-->
+<div class="modal fade" id="modal_editrole" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:125%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Role Edit Screen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="scroll scroll-pull" data-scroll="true">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-xl-3 col-lg-3 col-form-label" style="text-align:right;">Roles</label>
+                            <div class="col-lg-6 col-xl-6">
+                                <select id="slRole" name="slRole" class="form-control form-control-lg form-control-solid">
+                                    @{
+                                        if (ViewBag.Roles != null)
+                                        {
+                                            <option value='-1'>Select Role</option>
+                                            foreach (var item in ViewBag.Roles)
+                                            {
+                                                {
+                                                    <option value='@item.Id'>@item.RoleName</option>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="HI" disabled="disabled"> No Data </option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xl-3 col-lg-3 col-form-label" style="text-align:right;">Role Name</label>
+                            <div class="col-lg-6 col-xl-6">
+                                <input class="form-control form-control-lg form-control-solid" id="rolenameedit" name="rolenameedit" type="text" placeholder="" value="">
+                                @*<span class="form-text" style="color: red !important; display: none;" id="lastnameeditalert">User Name is required</span>*@
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="EditRole();" id="btnEdit">
+                    <i class="fa fa-edit"></i>
+                    Update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Modal-->
+<!--begin::Modal : Remove Role Modal-->
+<div class="modal fade" id="modal_removerole" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:125%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Role Edit Screen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="scroll scroll-pull" data-scroll="true">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-xl-3 col-lg-3 col-form-label" style="text-align:right;">User</label>
+                            <div class="col-lg-6 col-xl-6">
+                                <select id="slRoleremove" name="slRoleremove" class="form-control form-control-lg form-control-solid">
+                                    @{
+                                        if (ViewBag.Roles != null)
+                                        {
+                                            <option value='-1'>Select Role</option>
+                                            foreach (var item in ViewBag.Roles)
+                                            {
+                                                {
+                                                    <option value='@item.Id'>@item.RoleName</option>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="HI" disabled="disabled"> No Data </option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="DeleteRole()" id="btnDelete">
+                    <i class="fa fa-eraser"></i>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Modal-->
+
+
+@section Scripts {
+    @*<script src="~/js/Common/toast.js"></script>*@
+    <script src="template/dist/assets/js/pages/features/miscellaneous/sweetalert2.min.js"></script>
+
+    <!--begin::Page Scripts(used by this page)-->
+    <script src="~/js/Administrator/Authorize.js"></script>
+    <!--end::Page Scripts-->
+}

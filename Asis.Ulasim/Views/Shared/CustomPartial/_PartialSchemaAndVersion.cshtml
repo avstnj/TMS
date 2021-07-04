@@ -1,0 +1,106 @@
+﻿@using Asis.Ulasim.Models.Fills
+@{
+    var schema = new Asis.Ulasim.Models.Fills.SchemaAndVersion();
+    IQueryable<SchemaModel> schemas = null;
+    schemas = schema.GetSchema();
+}
+<label id="lblRoller" class="col-lg-2 col-form-label">
+    Version
+</label>
+<div id="dvSchema" class="col-lg-3 col-md-9 col-sm-12">
+    <select class="form-control m-bootstrap-select m_selectpicker" id="schema" name="groupCodeTypes" data-actions-box="true" data-live-search="true">
+        @{
+            if (schemas.Any())
+            {
+                foreach (var item in schemas.Distinct())
+                {
+                   <option value='@item.ID'>@item.ID</option>
+                }
+            }
+            else
+            {
+               
+            }
+        }
+    </select>
+</div>
+
+<div id="dvVersion" class="col-lg-3 col-md-9 col-sm-12">
+    <select class="form-control m-bootstrap-select m_selectpicker" id="version" name="groupCodes" data-actions-box="true" data-live-search="true"></select>
+</div>
+<script type="text/javascript">
+    function GetSelectedSchema() {
+        var group = "";
+        var groupArray = new Array();
+        if (document.getElementById("dvSchema").selectedIndex === -1) {
+            $("#dvSchema").find('option').each(function () {
+                groupArray.push($(this).val());
+            });
+            group = groupArray.join(',');
+        } else {
+            $("#dvSchema").find('option:selected').each(function () {
+                groupArray.push($(this).val());
+            });
+            group = groupArray.join(',');
+        }
+        return group;
+    }
+    function GetSelectedGroupCodes() {
+        var group = "";
+        var groupArray = new Array();
+        if (document.getElementById("dvVersion").selectedIndex === -1) {
+            $("#dvVersion").find('option').each(function () {
+                groupArray.push($(this).val());
+            });
+            group = groupArray.join(',');
+        } else {
+            $("#dvVersion").find('option:selected').each(function () {
+                groupArray.push($(this).val());
+            });
+            group = groupArray.join(',');
+        }
+        return group;
+    }
+    $(document).ready(function () {
+            var schemaId = GetSelectedSchema();
+            if (schemaId === "-1") {
+                return;
+            }
+        $.ajax({
+            url: "/ConfigurationManagement/GetSchemaAndVersion",
+            type: "GET",
+            data: {
+                schemaId: schemaId
+            },
+            success: function(res) {
+                if (res !== "") {
+                    loadVersion(res);
+                }
+            }
+        });
+    });
+
+
+
+    function loadVersion(dataString) {
+        var data = dataString;
+        var markup = "";
+        $("#version").show();
+        if (data == null) {
+            $("#version").html("");
+            $("#version").val('').trigger("chosen:updated");
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                markup += "<option value='" + data[i].Version + "'>" + data[i].Version + "</option>";
+            }
+            var tmpHtml = $("#version").html();
+            $("#version").html(tmpHtml + markup);
+            $("#version").trigger("chosen:updated");
+        }
+        $('#version').selectpicker('refresh');
+    }
+
+ 
+</script>
+
+

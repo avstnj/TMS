@@ -1,0 +1,167 @@
+﻿@using Asis.Ulasim.Models.Common
+@using Asis.Ulasim.Models.Definitions.UserAuthorization
+@{
+    //var bm = new BaseModel();
+    var _userPlates = new UserPlatesDef();
+    IQueryable<PlatesModel> userPlates = null;
+    userPlates = _userPlates.SelectUserPlates();
+
+}
+<link href="~/lib/jquery-multi-select/css/multi-select.css" rel="stylesheet"/>
+<link href="~/lib/jquery-multi-select/css/select2_metro.css" rel="stylesheet"/>
+<style type="text/css">
+    .ms-container {
+        background: none;
+        width: 500px;
+    }
+
+    .ms-selectable, .ms-selection { height: 340px; }
+
+    .ms-list { height: 300px !important; }
+
+    .allButtons {
+        float: left;
+        height: 70px;
+        margin-top: 140px;
+        padding-left: 7px;
+        width: 36px;
+    }
+
+    .hat-tanimli-transactionlar { background-color: mistyrose; }
+</style>
+<label class="col-lg-3 col-form-label">
+    Plakalar
+</label>
+<div class="col-md-9">
+        <div id="plateAllButtons" class="allButtons">
+            <a id="plateSelectAll" class="btn default" style="margin-bottom: 2px;">
+                <i class="fa fa-angle-double-left"></i>
+            </a>
+            <a id="plateDeSelectAll" class="btn default">
+                <i class="fa fa-angle-double-right"></i>
+            </a>
+        </div>
+    <select class="multi-select" multiple="" id="plateSelectList">
+    @if (userPlates.Any())
+    {
+        foreach (var item in userPlates)
+        {
+            
+               
+                    <option value='@item.Plates'>@item.Plates</option>
+                
+           
+        }
+    }
+    else
+    {
+        <option value="HI" disabled="disabled"> Data Yok..! </option>
+    }
+    </select>
+</div>
+<script src="~/lib/jquery-multi-select/js/select2.js"></script>
+<script src="~/lib/jquery-multi-select/js/jquery.multi-select.js"></script>
+<script src="~/lib/jquery-multi-select/js/jquery.quicksearch.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function() {
+
+        $('#plateSelectList').multiSelect({
+            selectableHeader:
+                "<input type='text' class='form-control search-input' autocomplete='off' placeholder='Ara...'>",
+            selectionHeader:
+                "<input type='text' class='form-control search-input' autocomplete='off' placeholder='Ara...'>",
+            afterInit: function() {
+                var that = this,
+                    $selectableSearch = that.$selectableUl.prev(),
+                    $selectionSearch = that.$selectionUl.prev(),
+                    selectableSearchString =
+                        '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                    selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                    .on('keydown',
+                        function(e) {
+                            if (e.which === 40) {
+                                that.$selectableUl.focus();
+                                return false;
+                            }
+                        });
+
+                that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                    .on('keydown',
+                        function(e) {
+                            if (e.which === 40) {
+                                that.$selectionUl.focus();
+                                return false;
+                            }
+                        });
+            },
+            afterSelect: function () {
+                this.qs1.cache();
+                this.qs2.cache();
+            },
+            afterDeselect: function() {
+                this.qs1.cache();
+                this.qs2.cache();
+            },
+            selectableOptgroup: true
+        });
+
+        $('.m_selectpicker').on("change",
+            function(e) {
+                LoadUserPlates();
+            });
+
+        $("#plateDeSelectAll").on("click",
+            function() {
+                $('#plateSelectList').multiSelect('select_all');
+                return false;
+            });
+        $("#plateSelectAll").on("click",
+            function() {
+                $('#plateSelectList').multiSelect('deselect_all');
+                return false;
+            });
+        $('.ms-selectable + .ms-selection').before($('#plateAllButtons'));
+    });
+
+    function LoadUserPlates() {
+
+        var selectedUser = "";
+        try {
+            selectedUser = window.GetUsers();
+            if (selectedUser === undefined | selectedUser === '-1') {
+                return;
+            }
+        } catch (err) {
+            return;
+        }
+
+        $.ajax({
+            url: "/UserPlatesDef/SelectUserPlates",
+            type: 'POST',
+            data: {
+                userId: selectedUser
+            },
+            success: function(res) {
+                $('#plateSelectList').multiSelect('deselect_all');
+                var i;
+                if (res !== "") {
+                    var selectedPlateList = res.split(",");
+                    var plateSize = selectedPlateList.length;
+                    $('#plateSelectList').multiSelect('deselect_all');
+                    for (i = 0; i < plateSize; i++) {
+                        $('#plateSelectList').multiSelect('select', [selectedPlateList[i]]);
+                    }
+                } else {
+                    $('#plateSelectList').multiSelect('deselect_all');
+                }
+
+            }
+        });
+    }
+
+
+</script>

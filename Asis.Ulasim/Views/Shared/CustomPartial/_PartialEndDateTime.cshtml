@@ -1,0 +1,73 @@
+﻿<label id="endDate" class="col-lg-2 col-form-label">
+   @Localizer["EndDate"]
+</label>
+<div id="endDateDiv" class="col-lg-3">
+    <div id="end-date-time" style="width: 100% !important;" data-skin="dark" data-toggle="m-tooltip" data-placement="top" data-original-title="Bitiş Tarihi"></div> @*pattern="^([12][0-9]|0[1-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$"*@
+    <span class="m-form__help">
+        @Localizer["PleaseEnterTheEndDate"]
+    </span>
+</div>
+
+<style>
+    @@media only screen and (max-device-width: 480px) {
+        /* styles for mobile browsers smaller than 480px; (iPhone) */
+        .dx-overlay-content {
+            zoom: 0.8;
+        }
+    }
+    @@media only screen and (device-width: 768px) {
+        /* default iPad screens */
+        .dx-overlay-content {
+            zoom: 1.2;
+        }
+    }
+</style>
+<script type="text/javascript">
+    var newDate = new Date();
+    var endDate = newDate.getDate();
+    var endMonth = newDate.getMonth();
+    var endYear = newDate.getFullYear();
+    $("#end-date-time").dxDateBox({
+        type: "datetime",
+        displayFormat: "dd.MM.yyyy HH:mm:ss",
+        disabled: false,
+        pickerType: "calendar",
+        value: new Date(endYear, endMonth, endDate, 23, 59, 59),
+        //showClearButton: true
+        calendarOptions: {
+            firstDayOfWeek: 1,
+            cellTemplate: function(cellData, cellIndex, cellElement) {
+                var color = $("<span>").css({ "color": "#8a86a8", "font-weight": "bold" }).text(cellData.text);
+                var normal = $("<span>").text(cellData.text);
+                return (cellIndex === 5 || cellIndex === 6) ? color : normal;
+            }
+        }
+    });
+
+    function GetEndDateTime() {
+        var dateBox = $("#end-date-time").dxDateBox("instance");
+        var dateBoxValue = dateBox.option('value');
+        var month = dateBoxValue.getMonth() + 1;
+        return dateBoxValue.getFullYear() +
+            '.' +
+            month +
+            '.' +
+            dateBoxValue.getDate() +
+            ' ' +
+            dateBoxValue.getHours() +
+            ':' +
+            dateBoxValue.getMinutes() +
+            ':' +
+            dateBoxValue.getSeconds();
+    }
+    function GetEndDate() {
+        var dateBox = $("#end-date-time").dxDateBox("instance");
+        var dateBoxValue = dateBox.option('value');
+        var month = dateBoxValue.getMonth() + 1;
+        return dateBoxValue.getFullYear() +
+            '.' +
+            month +
+            '.' +
+            dateBoxValue.getDate();
+    }
+</script>

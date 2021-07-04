@@ -1,0 +1,35 @@
+﻿@{
+    var cardList = Model as List<SelectListItem> ?? new List<SelectListItem>();
+}
+
+<label class="col-lg-2 col-form-label">
+    Kart No
+</label>
+<div class="col-lg-3 col-md-9 col-sm-12" data-skin="dark" data-toggle="m-tooltip" data-placement="top" data-original-title="Lütfen Kart No Seçiniz">
+    <select id="selectCardList" class="form-control m-bootstrap-select m_selectpicker" data-actions-box="true" data-live-search="true">
+        @if (cardList.Count > 0)
+        {
+            foreach (var item in cardList)
+            {
+                <option value='@item.Value'>@item.Text</option>
+            }
+        }
+        else
+        {
+            <option value="HI" disabled="disabled"> Lütfen Kart No Seçiniz </option>
+        }
+    </select>
+    <span class="m-form__help">
+        Lütfen Kart No Seçiniz
+    </span>
+</div>
+
+<script type="text/javascript">
+    function GetUserCard() {
+        var selectedText = $('#selectCardList').val();
+        if (selectedText && selectedText!== "HI") {
+            return $('#selectCardList').val();
+        }
+        return "";
+    }
+</script>

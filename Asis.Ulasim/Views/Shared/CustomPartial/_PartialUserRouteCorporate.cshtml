@@ -1,0 +1,55 @@
+﻿@using Asis.Ulasim.Models.Common
+@using Asis.Ulasim.Models.Definitions.UserAuthorization
+@using DevExpress.PivotGrid.Criteria
+@{
+    var bm = new BaseModel();
+    var _userRoute = new UserRouteDef();
+    IQueryable<GroupCorporateItemRoute> userRoute = null;
+    var UserId = Convert.ToInt32(Context.User.Claims.FirstOrDefault(c => c.Type == "UserId").Value);
+    userRoute = _userRoute.SelectUserRouteTown(UserId);
+}
+
+<label class="col-lg-2 col-form-label">
+    Hatlar
+</label>
+<div id="town" class="col-lg-3 col-md-9 col-sm-12" data-skin="dark" data-toggle="m-tooltip" data-placement="top" data-original-title="Kullanıcıya Atanmış Kurumlar">
+    <select id="townRoute" class="form-control m-bootstrap-select m_selectpicker" multiple data-actions-box="true" data-live-search="true">
+           @foreach (var item in userRoute)
+            {
+                <optgroup label='@item.TownName'>
+                    @foreach (var dataItem in item.List)
+                    {
+                        <option value='@dataItem'>@dataItem</option>
+                    }
+                </optgroup>
+            }
+    </select>
+    <span class="m-form__help">
+        Lütfen Hat Seçiniz
+    </span>
+</div>
+
+<script type="text/javascript">
+    function GetUserRouteTown() {
+        var mSelected = "";
+        var lbl = $('#townRoute').val();
+        if (lbl === "HI") {
+            mSelected = "HI";
+        } else {
+            var ddl = document.getElementById("townRoute");
+            if (ddl.options[0].value === "HI") {
+                mSelected = "HI";
+            } else if (ddl.selectedIndex === -1) {
+                mSelected = "";
+            } else {
+                var selectedValueArray = [];
+                $("#townRoute :selected").each(function () {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelected = selectedValueArray.join(',');
+            }
+        }
+        return mSelected;
+    }
+
+</script>

@@ -1,0 +1,91 @@
+﻿@using Asis.Ulasim.Models.Definitions.ConfigurationManagement
+@{
+    var _configurationManagement = new ConfigurationManagement();
+    IQueryable<ConfigurationModel> configurationManagement = null;
+    configurationManagement = _configurationManagement.GetConfigurationManagementNew();
+}
+<div class="card" id="kt_datatable_ConfigurationManagementQ_visible" style="display:none;">
+    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        @*<div class="card-title">
+            <h3 class="card-label">
+                Both Scrollbars
+            </h3>
+        </div>*@
+    </div>
+    <div class="card-body">
+        <!--begin: Datatable-->
+        <table class="table table-separate table-head-custom table-checkable" id="kt_datatable_ConfigurationManagementQ">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>RequestJson</th>
+                    <th>ResponseJson</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (configurationManagement.Any())
+                    {
+                        foreach (var item in configurationManagement)
+                        {
+                            <tr>
+                                <th>@item.Name</th>
+                                <th>@item.RequestJson</th>
+                                <th>@item.ResponseJson</th>
+                                <th>@item.Status</th>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+        <!--end: Datatable-->
+    </div>
+</div>
+
+<script type="text/javascript">
+    debugger;
+    function kt_datatable_ConfigurationManagementQ() {
+        var table = $('#kt_datatable_ConfigurationManagementQ');
+
+        table.DataTable({
+            scrollY: '50vh',
+            scrollX: true,
+            scrollCollapse: true,
+            createdRow: function (row, data, index) {
+                debugger;
+            },
+            columnDefs: [
+                //{
+                //    targets: 0,
+                //    width: '1000px',
+                //    render: function (data, type, full, meta) {
+                //        debugger;
+                //    }
+                //},
+                {
+                    targets: 1,
+                    width: '100%'
+                },
+                {
+                    targets: 2,
+                    width: '100%',
+                    //render: function (data, type, full, meta) {
+                    //    debugger;
+                    //}
+                },
+                {
+                    targets: 3,
+                    width: '100%',
+                    //render: function (data, type, full, meta) {
+                    //    debugger;
+                    //}
+                },
+            ],
+        });
+
+        $('#kt_datatable_ConfigurationManagementQ_length').remove();
+        $('#kt_datatable_ConfigurationManagementQ_filter').remove();
+    }
+</script>

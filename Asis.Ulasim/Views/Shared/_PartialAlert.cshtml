@@ -1,0 +1,11 @@
+﻿@using System.Web
+@if (Model != null)
+
+{
+    <script type="text/javascript">
+        @Html.Raw(HttpUtility.HtmlDecode(Model));
+        // $("#dvMessage").show();
+        // $("#dvMessage").html(Model);
+    </script>
+}
+@*<div id="dvMessage"></div>*@

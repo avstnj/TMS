@@ -1,0 +1,434 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="m-portlet">
+    <!--begin::Form-->
+    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+        <div class="m-datatable--loaded" id="dgConfigurationPublishment"></div>
+    </form>
+    <!--end::Form-->
+</div>
+
+<div class="modal-body">
+    <div class="col-md-6">
+        <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+            <div class="form-group m-form__group row">
+
+
+                @await Html.PartialAsync("CustomPartial/_PartialNetwork")
+            </div>
+            <div class="form-group m-form__group row">
+                @await Html.PartialAsync("CustomPartial/_PartialDeviceType")
+            </div>
+            <div class="form-group m-form__group row">
+                @await Html.PartialAsync("CustomPartial/_PartialDevice")
+            </div>
+            <div style="margin-left:120px">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    CANCEL
+                </button>
+                <button type="button" id="btnCreate" class="btn btn-primary">
+                    CREATE
+                </button>
+                <button type="button" id="btnSend" class="btn btn-primary">
+                    SEND
+                </button>
+            </div>
+
+        </form>
+        <div class="col-md-6" style="margin-left:470px;margin-top:-400px;">
+            <label id="lbleditor" for="w3review">Configuration Preview:</label><br />
+            <textarea id="xjsoneditor" name="w3review" rows="30" cols="100"></textarea>
+
+        </div>
+    </div>
+
+
+    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+        <div class="m-datatable--loaded" id="dgConfigurationPublishmentNew"  ></div>
+    </form>
+</div>
+<script type="text/javascript">
+
+    function prettyPrint() {
+        var ugly = document.getElementById('xjsoneditor').value;
+        var obj = JSON.parse(ugly);
+        var pretty = JSON.stringify(obj, undefined, 4);
+        document.getElementById('xjsoneditor').value = pretty;
+    }
+
+    $(document).ready(function () {
+        var currentKey = "";
+        //var detailID;
+        $(".modal-body").hide();
+
+        $(function () {
+            var URL = "/ConfigurationPublishment";
+            var ordersStore = new DevExpress.data.CustomStore({
+                key: "ID",
+                load: function () {
+                    return sendRequest(URL + "/GetConfigurationPublishment");
+                }
+            });
+
+
+
+
+            var dataGrid = $("#dgConfigurationPublishment").dxDataGrid({
+                dataSource: ordersStore,
+                repaintChangesOnly: true,
+                showBorders: true,
+                showColumnLines: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                remoteOperations: false,
+                allowColumnReordering: true,
+                allowColumnResizing: true,
+                columnAutoWidth: true,
+                loadPanel: {
+                    enabled: true
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                selection: {
+                    mode: "single"
+                },
+                paging: {
+                    enabled: false
+                },
+                scrolling: {
+                    mode: "virtual"
+                },
+                editing: {
+                    //editEnabled: true,
+                    mode: "popup",
+                    allowUpdating: false,
+                    allowAdding: false,
+                    allowDeleting: false,
+                    popup: {
+                        title: "Configuraton Publishment",
+                        showTitle: true,
+                        width: 750,
+                        height: 315,
+                        position: {
+                            my: "center",
+                            at: "center",
+                            of: window
+                        },
+                    }
+                },
+                columns: [
+                    {
+                        dataField: "ID",
+                        caption: "Id",
+                        visible: false,
+                        formItem: { visible: false }
+                    },
+                    {
+                        dataField: "CapabilityId",
+                        caption: "Capability",
+                        lookup: {
+                            allowClearing: true,
+                            dataSource: {
+                                paginate: true,
+                                store: new DevExpress.data.CustomStore({
+                                    key: "ID",
+                                    loadMode: "raw",
+                                    load: function () {
+                                        return sendRequest(URL + "/FillCapability");
+                                    }
+                                })
+                            },
+                            valueExpr: "ID",
+                            displayExpr: "Name"
+                        }
+                    },
+                    {
+                        dataField: "DeviceTypeId",
+                        caption: "DeviceType",
+                        lookup: {
+                            allowClearing: true,
+                            dataSource: {
+                                paginate: true,
+                                store: new DevExpress.data.CustomStore({
+                                    key: "ID",
+                                    loadMode: "raw",
+                                    load: function () {
+                                        return sendRequest(URL + "/FillDeviceType");
+                                    }
+                                })
+                            },
+                            valueExpr: "ID",
+                            displayExpr: "Name"
+                        }
+                    },
+                    {
+                        dataField: "EquipmentId",
+                        caption: "Equipment",
+                        lookup: {
+                            allowClearing: true,
+                            dataSource: {
+                                paginate: true,
+                                store: new DevExpress.data.CustomStore({
+                                    key: "ID",
+                                    loadMode: "raw",
+                                    load: function () {
+                                        return sendRequest(URL + "/FillEquipment");
+                                    }
+                                })
+                            },
+                            valueExpr: "ID",
+                            displayExpr: "Name"
+                        }
+                    },
+                    {
+                        dataField: "ConfigurationId",
+                        caption: "Configuration",
+                        lookup: {
+                            allowClearing: true,
+                            dataSource: {
+                                paginate: true,
+                                store: new DevExpress.data.CustomStore({
+                                    key: "ID",
+                                    loadMode: "raw",
+                                    load: function () {
+                                        return sendRequest(URL + "/FillConfiguration");
+                                    }
+                                })
+                            },
+                            valueExpr: "ID",
+                            displayExpr: "Name"
+                        }
+                    },
+                    {
+                        dataField: "Version",
+                        caption: "Version"
+                    },
+                    {
+                        type: "buttons",
+                        width: 110,
+                        buttons: [
+                            "edit", {
+                                hint: "Detail",
+                                text: "Detail",
+                                onClick: function (e) {
+                                    debugger;
+                                    // currentKey= e.row.values[0];
+                                    currentKey = e.row.key;
+                                    showLoadPanel();
+
+                                    // $("#modal-body").show();
+
+                                }
+                            }
+                        ]
+                    }
+                ]
+
+            }).dxDataGrid("instance");
+            dataGrid.option("height", (($(window).height()) - 400));
+           
+        });
+
+        $(function () {
+            var URL = "/ConfigurationPublishment";
+            var ordersStore = new DevExpress.data.CustomStore({
+                key: "ID",
+                load: function () {
+                    return sendRequest(URL + "/GetConfigurationPublishmentNew");
+                }
+            });
+            var dataGrid = $("#dgConfigurationPublishmentNew").dxDataGrid({
+                dataSource: ordersStore,
+                repaintChangesOnly: true,
+                showBorders: true,
+                showColumnLines: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                remoteOperations: false,
+                allowColumnReordering: true,
+                allowColumnResizing: true,
+                columnAutoWidth: true,
+                loadPanel: {
+                    enabled: true
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                selection: {
+                    mode: "single"
+                },
+                paging: {
+                    enabled: false
+                },
+                scrolling: {
+                    mode: "virtual"
+                },
+                editing: {
+                    //editEnabled: true,
+                    mode: "popup",
+                    allowUpdating: false,
+                    allowAdding: false,
+                    allowDeleting: false,
+                    popup: {
+                        title: "Configuraton Publishment",
+                        showTitle: true,
+                        width: 750,
+                        height: 315,
+                        position: {
+                            my: "center",
+                            at: "center",
+                            of: window
+                        },
+                    }
+                },
+                columns: [
+                    {
+                        dataField: "ID",
+                        caption: "Id",
+                        visible: false,
+                        formItem: { visible: false }
+                    },
+                    //{
+                    //    dataField: "Version",
+                    //    caption: "Version"
+                    //},
+                    {
+                        dataField: "Name",
+                        caption: "Name"
+                    },
+                    //{
+                    //    dataField: "DeviceTypeId",
+                    //    caption: "DeviceType",
+                    //    lookup: {
+                    //        allowClearing: true,
+                    //        dataSource: {
+                    //            paginate: true,
+                    //            store: new DevExpress.data.CustomStore({
+                    //                key: "ID",
+                    //                loadMode: "raw",
+                    //                load: function () {
+                    //                    return sendRequest(URL + "/FillDeviceType");
+                    //                }
+                    //            })
+                    //        },
+                          //  valueExpr: "ID",
+                          //  displayExpr: "Name"
+                        //}
+                   // },
+                    {
+                        dataField: "RequestJson",
+                        caption: "RequestJson"
+                    },
+                    {
+                        dataField: "ResponseJson",
+                        caption: "ResponseJson"
+                    },
+                    {
+                        dataField: "Status",
+                        caption: "Status"
+                    }
+                ]
+
+            })
+                .dxDataGrid("instance");
+                // dataGrid.refresh();
+            dataGrid.option("height", (($(window).height()) - 400));
+           dataGrid.refresh();
+        });
+
+        function sendRequest(url, method, data) {
+            var d = $.Deferred();
+            method = method || "GET";
+            $.ajax(url,
+                {
+                    method: method || "GET",
+                    data: data,
+                    cache: false,
+                    xhrFields: { withCredentials: true }
+                }).done(function (result) {
+                    // d.resolve(method === "GET" ? result.data : result);
+                    d.resolve(method === "GET" ? result : result);
+                }).fail(function (xhr) {
+                    d.reject(xhr.responseText ? xhr.responseText : xhr.statusText);
+                });
+            return d.promise();
+        }
+
+        $("#btnCreate").click(function () {
+            var network = GetSelectNetwork();
+            var deviceTypeId = GetSelectDeviceType();
+            var device = GetSelectDevice();
+            //var jsonEditor = $("#jsoneditor").val();
+            //loadPanel.show();
+            $.ajax({
+                url: '/ConfigurationPublishment/InsertConfigurationPublishment',
+                type: 'POST',
+                data: {
+                    Id: currentKey,
+                    network: network,
+                    deviceTypeId: deviceTypeId,
+                    device: device
+                   // jsonEditor: jsonEditor
+                },
+                success: function (result) {
+                    $("#xjsoneditor").val(result);
+                    prettyPrint();
+                },
+
+                error: function (xhr, textStatus, error) {
+                    command: toastr["error"]("Recording Failed..!");
+                    //  loadPanel.hide();
+                },
+                complete: function () {
+                    //  loadPanel.hide();
+                }
+            });
+        });
+        $("#btnSend").click(function () {
+            
+            var jsonEditor = $("#xjsoneditor").val();
+          
+            $.ajax({
+                url: '/ConfigurationPublishment/SendConfigurationPublishment',
+                type: 'POST',
+                data: {
+                    Id: currentKey,
+                    jsonEditor: jsonEditor
+                },
+                success: function (result) {
+                    $("#xjsoneditor").val(result);
+                    prettyPrint();
+
+                    $.ajax({
+                        url: '/ConfigurationPublishment/GetConfigurationPublishmentNew',
+                        type: 'GET',
+                        success: function (resdata) {
+                            $("#dgConfigurationPublishmentNew").dxDataGrid("instance").option("dataSource", resdata); 
+                            $("#dgConfigurationPublishmentNew").dxDataGrid("instance").refresh();  
+                        }
+                    });
+                },
+                error: function (xhr, textStatus, error) {
+                    command: toastr["error"]("Recording Failed..!");
+                    hideLoadPanel();
+                },
+                complete: function () {
+                }
+            });
+        });
+
+        function showLoadPanel() {
+            $(".modal-body").show();
+        }
+
+        function hideLoadPanel() {
+            $(".modal-body").hide();
+        }
+    });
+
+
+</script>

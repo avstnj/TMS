@@ -1,0 +1,74 @@
+﻿@*@model string*@
+<div class="m-portlet m-portlet--mobile" id="dvReportBody" style="display: none">
+    <div class="m-portlet__head" style="height: auto;">
+        <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+                <li class="m-portlet__nav-item">
+                    <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
+                        <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
+                            <i class="la la-ellipsis-h m--font-brand"></i>
+                        </a>
+                        <div class="m-dropdown__wrapper">
+                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                            <div class="m-dropdown__inner">
+                                <div class="m-dropdown__body">
+                                    <div class="m-dropdown__content">
+                                        <ul class="m-nav">
+                                            <li class="m-nav__section m-nav__section--first">
+                                                <span class="m-nav__section-text">
+                                                    Quick Actions
+                                                </span>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon flaticon-file"></i>
+                                                    <span class="m-nav__link-text">
+                                                        Excell
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon la-file-pdf-o"></i>
+                                                    <span class="m-nav__link-text">
+                                                        PDF
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="m-nav__item">
+                                                <a href="" class="m-nav__link">
+                                                    <i class="m-nav__link-icon socicon-mail"></i>
+                                                    <span class="m-nav__link-text">
+                                                        e-Mail
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="m-portlet__body--no-padding" style="border: 8px solid #f5f5f5;">
+        <!--begin: Datatable -->
+        <div class="m-datatable--loaded" id="dvReportTable"></div>
+        <!--end: Datatable -->
+    </div>
+    @*<div class="m-datatable__detail" id="dvReportTable" style="border: 8px solid #f5f5f5;"></div>*@
+    <div id="dvError" style="display: none"></div>
+</div>
+<div class="m-portlet__body--no-padding" @*style="border: 8px solid #f5f5f5; " *@>
+    <!--begin: Datatable -->
+    <div class="m-datatable--loaded" id="dvReportTables" style="overflow-x: auto;"></div>
+    <!--end: Datatable -->
+</div>
+
+@*<script>
+    $(document).on("click", "#document", function () {
+        window.open("/@Model/Document", "_blank");
+    });
+</script>*@

@@ -1,0 +1,716 @@
+﻿
+<div class="m-wizard__form">
+    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="m_form">
+        <!--begin: Form Body -->
+        <div class="m-portlet__body">
+            <div class="col-xl-12">
+                <div class="m-datatable--ed" id="gvDiagnostic" style="overflow: auto;"></div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style type="text/css">
+    .BankColumnsColor {
+        background-color: #0eff7c;
+        text-align: center;
+    }
+
+    .myalign {
+        vertical-align: middle !important;
+    }  
+    .CoinColumnsColor {
+        background-color: black;
+        text-align: center;
+    }
+
+
+
+    .master-detail-caption {
+        padding: 0 0 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align :left;
+        
+    }
+</style>
+<script type="text/javascript">
+    function mastermonitoring() {
+        $(function monitoring() {
+            var URL = "/Monitoring";
+            var ordersStore = new DevExpress.data.CustomStore({
+                load: function () {
+                    return sendRequest(URL + "/GetMonitoringDetail");
+                }
+            });
+            var dataGrid = $("#gvDiagnostic").dxDataGrid({
+                dataSource: ordersStore,
+                repaintChangesOnly: true,
+                showBorders: true,
+                showColumnLines: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                remoteOperations: false,
+                allowColumnReordering: true,
+                allowColumnResizing: true,
+                columnResizingMode: "widget",
+                columnAutoWidth: true,
+                keyExpr: "DeviceId",
+                selection: {
+                    mode: "single"
+                },
+                onSelectionChanged: function (e) {
+                    e.component.collapseAll(-1);
+                    e.component.expandRow(e.currentSelectedRowKeys[0]);
+                },
+                //onContentReady: function (e) {
+                //    if (!e.component.getSelectedRowKeys().length)
+                //        e.component.selectRowsByIndexes(0);
+                //},
+                loadPanel: {
+                    enabled: false
+                },
+                filterRow: {
+                    visible: false,
+                    applyFilter: "auto"
+                },
+                selection: {
+                    mode: "single"
+                },
+                scrolling: {
+                    columnRenderingMode: "virtual",
+                    useNative: true
+                },
+                paging: {
+                    pageSize: 20
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    showInfo: true,
+                    allowedPageSizes: [5, 10, 15, 20]
+                },
+                columns: [
+                    {
+                        dataField: "DeviceId",
+                        caption: "Device Id",
+                        alignment: "left",
+                    },
+                    {
+                        dataField: "DeviceType",
+                        caption: "Device Type",
+                        dataType: "string",
+                        alignment: "left",
+                    },
+                    {
+                        dataField: "CreateDate",
+                        caption: "Create Date",
+                        dataType: "date",
+                        format: "dd/MM/yy HH:mm:ss"
+                    },
+                    {
+                        caption: "Options",
+                        columns: [{
+                            caption: "Bank Note",
+                            cssClass: "BankColumnsColor",
+                            columns: [{
+                                dataField: "BankNoteAcceptorStatus",
+                                caption: "Bank Note Acceptor Status",
+                                dataType: "string",
+                                cellTemplate: function (element, info) {
+                                    if (info.text == "true") {
+                                        element.append("<div>" + "●" + "</div>")
+                                            .css("color", "#8BC34A");
+                                        element.css("font-size", "40px");
+                                        element.css("text-align", "center");
+                                    }
+                                    else if (info.text == "false") {
+                                        element.append("<div>" + "●" + "</div>")
+                                            .css("color", "red");
+                                        element.css("font-size", "40px");
+                                        element.css("text-align", "center");
+                                    }
+                                },
+                            },
+                            {
+                                dataField: "BanknNoteHopperStatus",
+                                caption: "Bank Note Hopper Status",
+                                dataType: "string",
+                                cellTemplate: function (element, info) {
+                                    if (info.text == "true") {
+                                        element.append("<div>" + "●" + "</div>")
+                                            .css("color", "#8BC34A");
+                                        element.css("font-size", "40px");
+                                        element.css("text-align", "center");
+                                    }
+                                    else if (info.text == "false") {
+                                        element.append("<div>" + "●" + "</div>")
+                                            .css("color", "red");
+                                        element.css("font-size", "40px");
+                                        element.css("text-align", "center");
+                                    }
+                                },
+                            },
+                            {
+                                dataField: "BankNoteAcceptorCount",
+                                caption: "Bank Note Acceptor Amount",
+                                dataType: "int",
+                                alignment: "left",
+                            },
+                            ]
+                        },
+
+                        {
+                            caption: "Coin",
+                            cssClass: "CoinColumnsColor",
+                            columns: [{
+
+                                dataField: "CoinAcceptorStatus",
+                                caption: "Coin Acceptor Status",
+                                dataType: "string",
+                                cellTemplate: function (element, info) {
+                                    if (info.text == "true") {
+                                        element.append("<div>" + "●" + "</div>")
+                                            .css("color", "#8BC34A");
+                                        element.css("font-size", "40px");
+                                        element.css("text-align", "center");
+                                    }
+                                    else if (info.text == "false") {
+                                        element.append("<div>" + "●" + "</div>")
+                                            .css("color", "red");
+                                        element.css("font-size", "40px");
+                                        element.css("text-align", "center");
+                                    }
+                                },
+                            },
+                            {
+                                dataField: "CoinHopperStatus",
+                                caption: "Coin Hopper Status",
+                                dataType: "string",
+                                cellTemplate: function (element, info) {
+                                    if (info.text == "true") {
+                                        element.append("<div>" + "●" + "</div>")
+                                            .css("color", "#8BC34A");
+                                        element.css("font-size", "40px");
+                                        element.css("text-align", "center");
+                                    }
+                                    else if (info.text == "false") {
+                                        element.append("<div>" + "●" + "</div>")
+                                            .css("color", "red");
+                                        element.css("font-size", "40px");
+                                        element.css("text-align", "center");
+                                    }
+                                },
+                            },
+                            {
+                                dataField: "CoinAcceptorCount",
+                                caption: "Coin Acceptor Amount",
+                                dataType: "int",
+                                alignment: "left",
+                            },
+                            ]
+                        },
+                        {
+                            dataField: "CardReaderStatus",
+                            caption: "Card Reader Status",
+                            dataType: "string",
+                            cellTemplate: function (element, info) {
+                                if (info.text == "true") {
+                                    element.append("<div>" + "●" + "</div>")
+                                        .css("color", "#8BC34A");
+                                    element.css("font-size", "40px");
+                                    element.css("text-align", "center");
+                                }
+                                else if (info.text == "false") {
+                                    element.append("<div>" + "●" + "</div>")
+                                        .css("color", "red");
+                                    element.css("font-size", "40px");
+                                    element.css("text-align", "center");
+                                }
+                            },
+                        },
+                        {
+                            dataField: "TicketPrinterStatus",
+                            caption: "Ticket Printer Status",
+                            dataType: "string",
+                            cellTemplate: function (element, info) {
+                                if (info.text == "true") {
+                                    element.append("<div>" + "●" + "</div>")
+                                        .css("color", "#8BC34A");
+                                    element.css("font-size", "40px");
+                                    element.css("text-align", "center");
+                                }
+                                else if (info.text == "false") {
+                                    element.append("<div>" + "●" + "</div>")
+                                        .css("color", "red");
+                                    element.css("font-size", "40px");
+                                    element.css("text-align", "center");
+                                }
+                            },
+                        },
+
+
+
+                            {
+                                dataField: "TicketPrinterCount",
+                                caption: "Ticket Printer Amount",
+                                dataType: "string",
+                                alignment: "left",
+                            },
+                        {
+                            dataField: "ApplicationVersion",
+                            caption: "Applicatio Version",
+                            dataType: "string",
+                            alignment: "left",
+                        },
+                        ]
+                    },
+                ],
+                masterDetail: {
+                    enabled: false,
+                    template: createHopperTabTemplate
+                }
+            })
+        });
+
+
+
+    }
+    $(document).ready(function () {
+       mastermonitoring();
+    //  setInterval(mastermonitoring, 5000);
+    });
+    function masterDetailTemplate(container, options) {
+        return $("<div>").dxTabPanel({
+            items: [{
+                title: "Hopper",
+              template: createHopperTabTemplate(container, options)
+            }, {
+                title: "Alarm",
+                    //template: createHopperTabTemplate(container, options),
+            }]
+        });
+    }
+    function createHopperTabTemplate(container, options) {
+        var currentData = options.data.BanknNoteHopperTape;
+        var currentDataAlarm = options.data.Alarms;
+        container.css("text-align", "left");
+        $("<div>")
+            .addClass("master-detail-caption")
+            .text("Hopper Status")
+            .appendTo(container);
+        $("<div>")
+            .dxDataGrid({
+                columnAutoWidth: true,
+                showBorders: true,
+                showColumnLines: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                alignment: "left",
+
+
+                columns: [
+                    {
+
+                        dataField: "Name",
+                        dataType: "string",
+                        alignment: "center"
+
+
+                    },
+                    {
+                        dataField: "No",
+                        dataType: "string",
+                        alignment: "center"
+
+                    },
+                    {
+                        dataField: "Type",
+                        dataType: "string",
+                        alignment: "center"
+                    },
+                    {
+                        dataField: "Count",
+                        dataType: "string",
+                        alignment: "center"
+                    }
+                ],
+                dataSource: currentData,
+                key: "DeviceId",
+                filter: ["DeviceId", "=", options.key.DeviceId]
+            }).appendTo(container);
+
+        $("<div>")
+            .addClass("master-detail-caption")
+            .text("Alarm Status")
+            .appendTo(container);
+
+        $("<div>")
+            .dxDataGrid({
+                columnAutoWidth: true,
+                showBorders: true,
+                showColumnLines: true,
+                showRowLines: true,
+                rowAlternationEnabled: true,
+                alignment: "left",
+                columns: [
+                    {
+
+                        dataField: "createDate",
+                        dataType: "date",
+                        alignment: "left",
+                        format: "dd/MM/yy HH:mm:ss"
+
+
+                    },
+                    {
+                        dataField: "alarm",
+                        dataType: "string",
+                        alignment: "left",
+                        width:55,
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+
+                    },
+                    {
+                        dataField: "printerLED",
+                        dataType: "string",
+                        alignment: "left",
+                        width: 55,
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+                    {
+                        dataField: "banknoteHopperLED",
+                        dataType: "string",
+                        alignment: "left",
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+                    {
+                        dataField: "coinHopperLED",
+                        dataType: "string",
+                        alignment: "left",
+                        cellTemplate: function (element, info) {
+                        if (info.text == "true") {
+                            element.append("<div>" + "●" + "</div>")
+                                .css("color", "#8BC34A");
+                            element.css("font-size", "40px");
+                            element.css("text-align", "center");
+                        }
+                        else if (info.text == "false") {
+                            element.append("<div>" + "●" + "</div>")
+                                .css("color", "red");
+                            element.css("font-size", "40px");
+                            element.css("text-align", "center");
+                        }
+                    },
+                    },
+                    {
+                        dataField: "coinAcceptorLED",
+                        dataType: "string",
+                        alignment: "left",
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+                    {
+                        dataField: "pc",
+                        dataType: "string",
+                        alignment: "left",
+                        width :40,
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+                    {
+                        dataField: "antiPin",
+                        dataType: "string",
+                        alignment: "left",
+                        width: 40,
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+                    {
+                        dataField: "lcdFan",
+                        dataType: "string",
+                        alignment: "left",
+                        width: 40,
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+
+                    {
+                        dataField: "frontDoorImpact",
+                        dataType: "string",
+                        alignment: "left",
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+
+                    {
+                        dataField: "coinAcceptorFullness",
+                        dataType: "string",
+                        alignment: "left",
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+
+                    {
+                        dataField: "electricity",
+                        dataType: "string",
+                        alignment: "left",
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+
+                    {
+                        dataField: "hopperCabinCover",
+                        dataType: "string",
+                        alignment: "left",
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+
+                    {
+                        dataField: "cabinCover",
+                        dataType: "string",
+                        alignment: "left",
+                        cellTemplate: function (element, info) {
+                            if (info.text == "true") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "#8BC34A");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                            else if (info.text == "false") {
+                                element.append("<div>" + "●" + "</div>")
+                                    .css("color", "red");
+                                element.css("font-size", "40px");
+                                element.css("text-align", "center");
+                            }
+                        },
+                    },
+
+                    {
+                        dataField: "cabinInternalTemperature" ,
+                        dataType: "string",
+                        alignment: "left"
+                        
+                      
+                    },
+
+                    {
+                        dataField: "lcdTemperature" ,
+                        dataType: "string",
+                        alignment: "left"
+          
+                    },
+
+
+
+
+
+                ],
+                dataSource: currentDataAlarm,
+                key: "DeviceId",
+                filter: ["DeviceId", "=", options.key.DeviceId]
+            }).appendTo(container);
+    }
+    //function createDetailTabTemplate(container, options) {
+    //    var currentData = options.data.BanknNoteHopperTape;
+    //  //  container.css("text-align", "left");
+    //    $("<div>")
+    //        .addClass("master-detail-caption")
+    //        .text("Hopper Status")
+    //        .appendTo(container);
+    //    $("<div>")
+    //        .dxDataGrid({
+    //            columnAutoWidth: true,
+    //            showBorders: true,
+    //            showColumnLines: true,
+    //            showRowLines: true,
+    //            rowAlternationEnabled: true,
+    //            alignment: "left",
+
+
+    //            columns: [
+    //                {
+
+    //                    dataField: "Name",
+    //                    dataType: "string",
+    //                    alignment: "left"
+
+
+    //                },
+    //                {
+    //                    dataField: "No",
+    //                    dataType: "string",
+    //                    alignment: "left"
+
+    //                },
+    //                {
+    //                    dataField: "Type",
+    //                    dataType: "string",
+    //                    alignment: "left"
+    //                },
+    //                {
+    //                    dataField: "Count",
+    //                    dataType: "string",
+    //                    alignment: "left"
+    //                }
+    //            ],
+    //            dataSource: currentData,
+    //            key: "ID",
+    //            filter: ["mID", "=", options.key.ID]
+    //        }).appendTo(container);
+    //}
+    function sendRequest(url, method, data) {
+        var d = $.Deferred();
+        method = method || "GET";
+        $.ajax(url,
+            {
+                method: method || "GET",
+                data: data,
+                cache: false,
+                xhrFields: { withCredentials: true }
+            }).done(function (result) {
+                // d.resolve(method === "GET" ? result.data : result);
+                d.resolve(method === "GET" ? result : result);
+            }).fail(function (xhr) {
+                d.reject(xhr.responseText ? xhr.responseText : xhr.statusText);
+            });
+        return d.promise();
+    }
+</script>
+
+ 

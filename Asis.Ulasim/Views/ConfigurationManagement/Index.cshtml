@@ -1,0 +1,679 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Asis.Ulasim.Models.Fills
+@{
+    var schema = new Asis.Ulasim.Models.Fills.SchemaAndVersion();
+    IQueryable<SchemaModel> schemas = null;
+    schemas = schema.GetSchema();
+}
+<div class="m-portlet">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <span class="m-portlet__head-icon m--hide">
+                    <i class="la la-gear"></i>
+                </span>
+                <h3 class="m-portlet__head-text">
+                    Configuration Management
+                </h3>
+            </div>
+        </div>
+    </div>
+    <!--begin::Form-->
+    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+        <div class="m-portlet__body">
+            <div class="m-datatable--loaded" id="dgConfigurationManagement"></div>
+        </div>
+        <div class="modal fade" id="dvConfPopUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelMonitor" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Section
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                            <span aria-hidden="true">
+                                ×
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <label id="lblRoller" class="col-lg-2 col-form-label">
+                                Version
+                            </label>
+                            <div id="dvSchema" class="col-lg-3 col-md-9 col-sm-12">
+                                <select class="form-control m-bootstrap-select m_selectpicker" id="schema" name="groupCodeTypes" data-actions-box="true" data-live-search="true"></select>
+                            </div>
+
+                            <div id="dvVersion" class="col-lg-3 col-md-9 col-sm-12">
+                                <select class="form-control m-bootstrap-select m_selectpicker" id="version" name="groupCodes" data-actions-box="true" data-live-search="true"></select>
+                            </div>
+                        </div>
+                        <div class="m-datatable--loaded" id="dxtreeTasks"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="refreshConfigList();">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--end::Form-->
+</div>
+<script type="text/javascript">
+    var schema;
+    var version;
+    var capability;
+    var deviceTypeId;
+    var equipment;
+    var configuration;
+    var Id;
+    var capabilityConfigurationId;
+    var newId;
+    $(function () {
+        var URL = "/ConfigurationManagement";
+        function createButton(text, id) {
+            return $('<button class="swal2-input swal2-styled" style="background-color:#009688;" id="' +
+                id +
+                '">' +
+                text +
+                '</button>');
+        }
+        var ordersStore = new DevExpress.data.CustomStore({
+            key: "CapabilityConfigurationId",
+            load: function () {
+                return sendRequest(URL + "/GetConfigurationManagement");
+            },
+            insert: function (values) {
+                debugger;
+                return sendRequest(URL + "/InsertConfigurationManagement",
+                    "POST",
+                    {
+                        values: JSON.stringify(values)
+
+                    });
+            },
+            update: function (key, values) {
+                sendRequest(URL + "/UpdateConfigurationManagement",
+                    "PUT",
+                    {
+                        key: key,
+                        values: JSON.stringify(values),
+                    });
+                refreshConfigList();
+                // swThreeButtonUpd(key, values);
+            },
+            delete: function (key) {
+                sendRequest(URL + "/DeleteConfigurationManagement",
+                    "DEL",
+                    {
+                        key: key,
+                        values: JSON.stringify(values),
+                    });
+                refreshConfigList();
+            }
+
+        });
+        var dataGrid = $("#dgConfigurationManagement").dxDataGrid({
+            dataSource: ordersStore,
+            repaintChangesOnly: true,
+            showBorders: true,
+            showColumnLines: true,
+            showRowLines: true,
+            rowAlternationEnabled: true,
+            remoteOperations: false,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnAutoWidth: true,
+            selection: {
+                mode: "single"
+            },
+            scrolling: {
+                mode: "virtual"
+            },
+            editing: {
+                mode: "popup",
+                allowUpdating: true,
+                allowAdding: true,
+                allowDeleting:true,
+                popup: {
+                    title: " New Configuraton Management",
+                    showTitle: true,
+                    width: 750,
+                    height: 315,
+                    position: {
+                        my: "center",
+                        at: "center",
+                        of: window
+                    },
+                }
+            },
+            columns: [
+                {
+                    dataField: "ID",
+                    caption: "Id",
+                    visible: false,
+                    formItem: { visible: false }
+                },
+                {
+                    dataField: "CapabilityId",
+                    caption: "Capability",
+                    formItem: { visible: false },
+                    lookup: {
+                        allowClearing: true,
+                        dataSource: {
+                            paginate: true,
+                            store: new DevExpress.data.CustomStore({
+                                key: "ID",
+                                loadMode: "raw",
+                                load: function () {
+                                    return sendRequest(URL + "/FillCapability");
+                                }
+                            })
+                        },
+                        valueExpr: "ID",
+                        displayExpr: "Name"
+                    }
+                },
+                {
+                    dataField: "DeviceTypeId",
+                    caption: "Device Type",
+                    formItem: { visible: false },
+                    lookup: {
+                        allowClearing: true,
+                        dataSource: {
+                            paginate: true,
+                            store: new DevExpress.data.CustomStore({
+                                key: "ID",
+                                loadMode: "raw",
+                                load: function () {
+                                    return sendRequest(URL + "/FillDeviceType");
+                                }
+                            })
+                        },
+                        valueExpr: "ID",
+                        displayExpr: "Name"
+                    }
+                },
+                {
+                    dataField: "EquipmentId",
+                    formItem: { visible: false },
+                    caption: "Equipment",
+                    lookup: {
+                        allowClearing: true,
+                        dataSource: {
+                            paginate: true,
+                            store: new DevExpress.data.CustomStore({
+                                key: "ID",
+                                loadMode: "raw",
+                                load: function () {
+                                    return sendRequest(URL + "/FillEquipment");
+                                }
+                            })
+                        },
+                        valueExpr: "ID",
+                        displayExpr: "Name"
+                    }
+                },
+                {
+                    dataField: "ConfigurationId",
+                    caption: "Configuration",
+                    formItem: { visible: false },
+                    lookup: {
+                        allowClearing: true,
+                        dataSource: {
+                            paginate: true,
+                            store: new DevExpress.data.CustomStore({
+                                key: "ID",
+                                loadMode: "raw",
+                                load: function () {
+                                    return sendRequest(URL + "/FillConfiguration");
+                                }
+                            })
+                        },
+                        valueExpr: "ID",
+                        displayExpr: "Name"
+                    }
+                },
+                {
+                    dataField: "Version",
+                    caption: "Version",
+                    width: 80,
+                    formItem: { visible: false }
+                },
+                {
+                    dataField: "CapabilityConfigurationId",
+                    caption: "CapabilityConfigurationId",
+                    visible: false,
+                    formItem: { visible: false }
+                },
+                {
+                    type: "buttons",
+                    width: 170,
+                    buttons: [
+                        "edit", {
+                            hint: "Detail",
+                            text: "Detail",
+                            onClick: function (e) {
+                                debugger;
+                                if (e.row.values[4] != null) {
+                                    schema = e.row.values[4].split('.')[0];
+                                    version = e.row.values[4].split('.')[3];
+                                    capability = e.row.values[0];
+                                    deviceTypeId = e.row.values[1];
+                                    equipment = e.row.values[2];
+                                    configuration = e.row.values[3];
+                                    capabilityConfigurationId = e.row.values[5];
+                                    Id = e.row.key;
+                                } else {
+                                    schema = 0;
+                                    version = 0;
+                                    capability = e.row.values[0];
+                                    deviceTypeId = e.row.values[1];
+                                    equipment = e.row.values[2];
+                                    configuration = e.row.values[3];
+                                    capabilityConfigurationId = e.row.values[5];
+                                    Id = e.row.key;
+                                }
+
+                                newId = Id.CapabilityConfigurationId;
+                                if (newId == null) {
+
+                                    newId = Id;
+                                }
+                                $.ajax({
+                                    url: '/ConfigurationManagement/GetSection',
+                                    type: 'GET',
+                                    data: {
+                                        schema: schema,
+                                        version: version,
+                                        Id: newId
+                                    },
+                                    success: function (result) {
+                                        $("#dvConfPopUp").modal('show');
+                                        $.ajax({
+                                            url: "/ConfigurationManagement/GetSchemaAndVersion",
+                                            type: "GET",
+                                            data: {
+                                                Id: newId
+                                            },
+                                            success: function (res) {
+                                                if (res !== "") {
+                                                    //schemas = schema;
+                                                    loadVersion(res);
+                                                }
+                                            }
+                                        });
+                                        GetSection(result, schema, version, capability, deviceTypeId, equipment, configuration, newId);
+                                    },
+                                    error: function (xhr, textStatus, error) {
+                                        command: toastr["error"]("Recording Failed..!");
+                                        loadPanel.hide();
+                                    },
+                                    complete: function () {
+                                        //  loadPanel.hide();
+                                    }
+                                });
+
+
+
+                            }
+                        }
+                    ]
+                },
+            ],
+            onInitNewRow: function (e) {
+                for (var i = 0; i < e.component._options.columns.length; i++) {
+                    if (e.component._options.columns[i].dataField !== "ID" &&
+                        e.component._options.columns[i].dataField !== "Version" &&
+                        e.component._options.columns[i].dataField !== "CapabilityConfigurationId") {
+                        e.component.columnOption(e.component._options.columns[i].dataField,
+                            "formItem.visible",
+                            true);
+                    }
+                }
+            },
+            onEditingStart: function (e) {
+                for (var i = 0; i < e.component._options.columns.length; i++) {
+                    if (e.component._options.columns[i].dataField !== "ID" &&
+                        e.component._options.columns[i].dataField !== "Version" &&
+                        e.component._options.columns[i].dataField !== "CapabilityConfigurationId") {
+                        e.component.columnOption(e.component._options.columns[i].dataField,
+                            "formItem.visible",
+                            true);
+                    }
+                    if (e.component._options.columns[i].dataField !== "ID" &&
+                        e.component._options.columns[i].dataField !== "Version" &&
+                        e.component._options.columns[i].dataField !== "CapabilityConfigurationId") {
+                        e.component.columnOption(e.component._options.columns[i].dataField,
+                            "readOnly",
+                            false);
+                    }
+                }
+            }
+        }).dxDataGrid("instance");
+        dataGrid.refresh();
+        //dxTreeList.refresh();
+        dataGrid.option("height", (($(window).height()) - 400));
+    });
+    function GetSection(result, schema, version, capability, deviceTypeId, equipment, configuration) {
+        var URL = "/ConfigurationManagement";
+        debugger;
+        var datasectionType =new DevExpress.data.CustomStore({
+            key: "ID",
+            load: function () {
+                return sendRequest(URL + "/FillSectionType");
+            }
+        });
+
+        var dxTree =
+            $("#dxtreeTasks").dxTreeList({
+                dataSource: result,
+                keyExpr: "Id",
+                parentIdExpr: "ParentId",
+                columnAutoWidth: true,
+                wordWrapEnabled: true,
+                showBorders: true,
+             
+                editing: {
+                    mode: "row",
+                    allowAdding: true,
+                    allowUpdating: true,
+                    allowDeleting: true
+                },
+                onRowInserting: 
+                    function (values) {
+                        debugger;
+                        $.ajax({
+                            url: URL + "/InsertSection",
+                            type: "POST",
+                            data:
+                            {
+                                values: JSON.stringify(values.data),
+                                schema: schema,
+                                version: version,
+                                capability: capability,
+                                deviceTypeId: deviceTypeId,
+                                equipment: equipment,
+                                configuration: configuration,
+                                Id: Id
+                            }
+                        }).done(function (res) {
+                            refreshSection(res);
+                            //GetSection(result, schema, version, capability, deviceTypeId, equipment, configuration, newId);
+                        })
+             
+                    },
+                onRowUpdating: function (e) {
+
+                    swThreeSectionButtonUpd(e.key, e.newData)
+                    return;
+                },
+                onRowRemoving: 
+                    function (e) {
+                        debugger;
+                        $.ajax({
+                            url: URL + "/DeleteSection",
+                            type: "DELETE",
+                            data:
+                            {
+                                key: e.key
+                            }
+                        }).done(function (res) {
+                            refreshSection(res);
+                            //GetSection(result, schema, version, capability, deviceTypeId, equipment, configuration, newId);
+                        })
+
+                    },
+
+
+                columns: [
+                    {
+                        dataField: "Id",
+                        caption: "Id",
+                        visible: false,
+                        formItem: { visible: false }
+                    },
+                    {
+                        dataField: "ParentId",
+                        caption: "ParentId",
+                        visible: false,
+                        formItem: { visible: false }
+                    },
+                    {
+                        dataField: "Item",
+                        caption: "Item",
+                     //   minWidth: 50,
+                         validationRules: [{ type: "required" }]
+                    },
+                    {
+                        dataField: "Value",
+                        caption: "Value"//,
+                       // minWidth: 50,
+                      //  validationRules: [{ type: "required" }]
+                    },
+
+                    
+                    {
+                        dataField: "Type",
+                        caption: "Type",
+                        lookup: {
+                            allowClearing: true,
+                            dataSource: {
+                                //paginate: true,
+                                store: new DevExpress.data.CustomStore({
+                                    key: "ID",
+                                    loadMode: "raw",
+                                    load: function () {
+                                        return sendRequest(URL + "/FillSectionType");
+                                    }
+                                })
+                            },
+                            valueExpr: "ID",
+                            displayExpr: "Name",
+                            validationRules: [{ type: "required" }]
+                        }
+                    }
+                ]
+
+            });
+    }
+    function createButton(text, id) {
+        return $('<button class="swal2-input swal2-styled" style="background-color:#009688;" id="' +
+            id +
+            '">' +
+            text +
+            '</button>');
+    }
+    function loadVersion(dataString) {
+        var data = dataString;
+        var markup = "";
+        $("#version").show();
+        if (data == null) {
+            $("#version").html("");
+            $("#version").val('').trigger("chosen:updated");
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                markup += "<option value='" + data[i].Schema + '.' + data[i].Major + '.' + data[i].Minor + '.' + data[i].Tracking + "'>" + data[i].Schema + '.' + data[i].Major + '.' + data[i].Minor + '.' + data[i].Tracking + "</option>";
+            }
+            $("#version").html(markup);
+            $("#version").trigger("chosen:updated");
+        }
+        $('#version').selectpicker('refresh');
+    }
+    function createButton(text, id) {
+        return $('<button class="swal2-input swal2-styled" style="background-color:#009688;" id="' +
+            id +
+            '">' +
+            text +
+            '</button>');
+    }
+    function swThreeSectionButtonUpd(key, values) {
+        debugger;
+        var buttonsPlus = $('<div>')
+            .append(createButton('Create', 'sw_butt1'))
+            .append(createButton('Cancel', 'sw_butt2'));
+        swal({
+            title: 'Update Configuration Info</br></br><h6>The new configuraiton will be saved as a version. For submission, you need to select the necessary options to enter and send the detail screen of the configuration.</h6>',
+            html: buttonsPlus,
+            type: 'question',
+            showCancelButton: false,
+            showConfirmButton: false,
+            animation: false,
+            customClass: "animated zoomIn",
+            onOpen: function (dObj) {
+                $('#sw_butt1').on('click',
+                    function (result) {
+                        swal.close();
+                        debugger;
+                        $.ajax({
+                            url: '/ConfigurationManagement/UpdateSection',
+                            type: 'PUT',
+                            data: {
+                                key: key,
+                                values: JSON.stringify(values),
+                                schema: schema,
+                                version: version,
+                                capability: capability,
+                                deviceTypeId: deviceTypeId,
+                                equipment: equipment,
+                                configuration: configuration,
+                                Id: Id
+                            },
+                            success: function (result) {
+                                refreshSection(result);
+                            },
+                            error: function (xhr, textStatus, error) {
+                                command: toastr["error"]("Recording Failed..!");
+                            }
+                        });
+
+                    });
+                $('#sw_butt2').on('click',
+                    function () {
+                        swal.close();
+                    });
+            }
+        });
+    }
+    function refreshSection(result) {
+        loadVersion(result);
+        var selectschema = $("#dvVersion option:selected").val();
+        schema = selectschema.split('.')[0];
+        version = selectschema.split('.')[3];
+        $.ajax({
+            url: '/ConfigurationManagement/GetSection',
+            type: 'GET',
+            data: {
+                schema: schema,
+                version: version,
+                Id: newId
+            },
+            success: function (resdata) {
+
+                GetSection(resdata, schema, version, capability, deviceTypeId, equipment, configuration, newId);
+                //$("#dgConfigurationManagementSection").dxDataGrid("instance").option("dataSource", resdata);
+                //$("#dgConfigurationManagementSection").dxDataGrid("instance").refresh();
+             //   dxTreeList.dataSource = resdata;
+
+            }
+        });
+
+    }
+    function insertCustomStore(values) {
+        debugger;
+        $.ajax({
+            url: '/ConfigurationManagement/InsertSection',
+            type: 'POST',
+            data: {
+                values: JSON.stringify(values),
+                schema: schema,
+                version: version,
+                capability: capability,
+                deviceTypeId: deviceTypeId,
+                equipment: equipment,
+                configuration: configuration,
+                Id: Id
+            },
+            success: function (result) {
+                debugger;
+                refreshSection(result);
+            },
+            error: function (xhr, textStatus, error) {
+                command: toastr["error"]("Recording Failed..!");
+            }
+        });
+    }
+    function updateCustomStore(key, values) {
+        debugger;
+        swThreeSectionButtonUpd(key, values);
+        return;
+    }
+    function removeCustomStore(key) {
+        return sendRequest(URL + "/DeleteSection", "DELETE", {
+            key: key
+        });
+    }
+    function refreshConfigList() {
+        $.ajax({
+            url: '/ConfigurationManagement/GetConfigurationManagement',
+            type: 'GET',
+            success: function (resdata) {
+            //    $("#dgConfigurationManagement").dxDataGrid("instance").option("dataSource", resdata);
+                $("#dgConfigurationManagement").dxDataGrid("instance").refresh();
+            }
+        });
+
+    }
+    function sendRequest(url, method, data) {
+        //var items = $("#dgConfigurationManagement2").dxDataGrid("instance").getDataSource().items();
+        var d = $.Deferred();
+        method = method || "GET";
+        $.ajax(url,
+            {
+                method: method || "GET",
+                data: data,
+                cache: false,
+                xhrFields: { withCredentials: true }
+                //  dataGrid.refresh()
+            }).done(function (result) {
+                d.resolve(method === "GET" ? result : result);
+                //  dataGrid.refresh();
+
+            }).fail(function (xhr) {
+                d.reject(xhr.responseText ? xhr.responseText : xhr.statusText);
+                // dataGrid.refresh();
+            });
+        //dataGrid.refresh();
+        return d.promise();
+    }
+    $("#dvVersion").change(function (e) {
+        debugger;
+        var selectschema = $(this).find(':selected')[0].innerText;
+        schema = selectschema.split('.')[0];
+        version = selectschema.split('.')[3];
+        $.ajax({
+            url: "/ConfigurationManagement/GetVersion",
+            type: "GET",
+            data: {
+                schemaId: schema,
+                version: version,
+                configuration: Id
+            },
+            success: function (res) {
+                if (res !== "") {
+                    GetSection(res, schema, version, capability, deviceTypeId, equipment, configuration);
+                }
+            }
+        });
+    });
+    //$(document.body).on('change', "#dvVersion", function (e) {
+    //    var optVal = $("#dvVersion option:selected").val();
+    //    alert(optVal);
+    //});
+</script>

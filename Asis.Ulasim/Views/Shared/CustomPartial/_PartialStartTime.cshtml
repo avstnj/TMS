@@ -1,0 +1,53 @@
+﻿<label class="col-lg-2 col-form-label">
+    Başlama Saati
+</label>
+<div class="col-lg-3">
+    <div id="start-date-time" style="width: 100% !important;" data-skin="dark" data-toggle="m-tooltip" data-placement="top" data-original-title="Başlangıç Saati"></div> @*pattern="^([12][0-9]|0[1-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$"*@
+    <span class="m-form__help">
+        Lütfen Başlangış Tarihini Giriniz
+    </span>
+</div>
+
+<script type="text/javascript">
+    var newDate = new Date();
+    var startDate = newDate.getDate();
+    var startMonth = newDate.getMonth();
+    var startYear = newDate.getFullYear();
+    $("#start-date-time").dxDateBox({
+        type: "datetime",
+        displayFormat: "dd.MM.yyyy HH:mm:ss",
+        disabled: false,
+        pickerType: "calendar",
+        value: new Date(startYear, startMonth, startDate, 0, 0, 0),
+        calendarOptions: {
+            firstDayOfWeek: 1,
+            cellTemplate: function (cellData, cellIndex, cellElement) {
+                var color = $("<span>").css({ "color": "#8a86a8", "font-weight": "bold" }).text(cellData.text);
+                var normal = $("<span>").text(cellData.text);
+                return (cellIndex === 5 || cellIndex === 6) ? color : normal;
+
+            }
+        }
+
+    });
+
+
+    function GetStartDateTime() {
+        var dateBox = $("#start-date-time").dxDateBox("instance");
+        var dateBoxValue = dateBox.option('value');
+        var month = dateBoxValue.getMonth() + 1;
+
+        return dateBoxValue.getFullYear() +
+            '.' +
+            month +
+            '.' +
+            dateBoxValue.getDate() +
+            ' ' +
+            dateBoxValue.getHours() +
+            ':' +
+            dateBoxValue.getMinutes() +
+            ':' +
+            dateBoxValue.getSeconds();
+    }
+
+</script>

@@ -1,0 +1,59 @@
+{
+  "_args": [
+    [
+      "devexpress-reporting@18.2.4",
+      "C:\\Projects\\AsisUlasim\\Asis.Ulasim\\Asis.Ulasim"
+    ]
+  ],
+  "_from": "devexpress-reporting@18.2.4",
+  "_id": "devexpress-reporting@18.2.4",
+  "_inBundle": false,
+  "_integrity": "sha512-C4HlvztrQf6AysdYYRZH/aZyqTOklMw4BDMHlyWf8Kxrb8DD/QckFt3B+oUXCqJNrhRaQytH/YdXE1DJe5h69Q==",
+  "_location": "/devexpress-reporting",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "devexpress-reporting@18.2.4",
+    "name": "devexpress-reporting",
+    "escapedName": "devexpress-reporting",
+    "rawSpec": "18.2.4",
+    "saveSpec": null,
+    "fetchSpec": "18.2.4"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/devexpress-reporting/-/devexpress-reporting-18.2.4.tgz",
+  "_spec": "18.2.4",
+  "_where": "C:\\Projects\\AsisUlasim\\Asis.Ulasim\\Asis.Ulasim",
+  "author": {
+    "name": "Developer Express Inc."
+  },
+  "bugs": {
+    "url": "https://www.devexpress.com/support/"
+  },
+  "dependencies": {
+    "@devexpress/analytics-core": "18.2.4",
+    "ace-builds": "^1.3.0",
+    "jquery": "^3.1.1",
+    "jquery-ui": "^1.12.1",
+    "knockout": "^3.4.0"
+  },
+  "description": "DevExpress Reporting provides the capability to develop a reporting application to create and customize reports.",
+  "devDependencies": {
+    "webpack": "^1.13.1"
+  },
+  "homepage": "https://www.devexpress.com/",
+  "keywords": [
+    "xtrareports",
+    "reports",
+    "analytics",
+    "reporting",
+    "devexpress"
+  ],
+  "license": "SEE LICENSE IN README.md",
+  "main": "./dx-reportdesigner.js",
+  "name": "devexpress-reporting",
+  "version": "18.2.4"
+}

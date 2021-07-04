@@ -1,0 +1,54 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Asis.Ulasim.Models.Common
+@inject IViewLocalizer Localizer
+@inject IConfiguration configuration
+@{
+    Layout = "_Layout";
+}
+<head>
+    <script src="~/js/HighCharts/highcharts.js"></script>
+    <script src="~/js/HighCharts/highcharts-3d.js"></script>
+    <script src="~/js/HighCharts/exporting.js"></script>
+    <script src="~/js/HighCharts/heatmap.js"></script>
+</head>
+
+@*<link href="~/css/Maps/MapsHome.css" rel="stylesheet" />
+<style>
+    #dvMap {
+        height: 958px;
+    }
+
+    .lblMarker {
+        background-color: white;
+        font-family: "Lucida Grande", "Arial", sans-serif;
+        font-size: 10px;
+        font-weight: bold;
+        padding-left: 3px;
+        width: 70px;
+        border: 1px solid;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .lblMarkerF {
+        color: blue;
+        border-color: blue;
+    }
+
+    .lblMarkerB {
+        color: red;
+        border-color: red;
+    }
+</style>
+<script type="text/javascript">
+    var lat=   "@Html.Raw(@configuration.GetSection("MapSettings")["DefaultLat"])";
+    var long = "@Html.Raw(@configuration.GetSection("MapSettings")["DefaultLong"])";
+    var cityCode = "@Html.Raw(@configuration.GetSection("DBSettings")["CityId"])";
+</script>
+<script src="~/js/Maps/CitiesCoordinatesArray.js"></script>
+<script src="~/js/Maps/MapsHome.js"></script>*@
+
+
+
+
+

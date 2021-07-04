@@ -1,0 +1,56 @@
+﻿@using Asis.Ulasim.Models.Fills
+@{
+    var _tvm = new Tvm();
+    IQueryable<KioskCommandsModel> tvm = null;
+    tvm = _tvm.FillSelectKioskCommands();
+}
+<label class="col-lg-2 col-form-label">
+    Kiosk Komutları
+</label>
+<div class="col-lg-3 col-md-9 col-sm-12" data-skin="dark" data-toggle="m-tooltip" data-placement="top">
+    <select id="tvmCommands" class="form-control m-bootstrap-select m_selectpicker" multiple data-actions-box="true" data-live-search="true">
+        @{
+            if (tvm.Any())
+            {
+                foreach (var item in tvm)
+                {
+                    {
+                        <option value='@item.Id'>@item.aciklama</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value='HI' disabled="disabled"> Kullanıcıya Kiosk Komutları Tanımlayın..! </option>
+            }
+        }
+    </select>
+    <span class="m-form__help">
+        Lütfen Kiosk Komudu Seçiniz
+    </span>
+</div>
+
+<script type="text/javascript">
+    function GetSelectTvmCommands() {
+        var mSelectedTvm = "";
+        var lbl = $('#tvmCommands').val();
+        if (lbl === "HI") {
+            mSelectedTvm = "HI";
+        } else {
+            var ddl = document.getElementById("tvmCommands");
+            if (ddl.options[0].value === "HI") {
+                mSelectedTvm = "HI";
+            } else if (ddl.selectedIndex === -1) {
+                mSelectedTvm = "";
+            } else {
+                var selectedValueArray = [];
+                $("#tvmCommands :selected").each(function() {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelectedTvm = selectedValueArray.join(',');
+            }
+        }
+        return mSelectedTvm;
+    }
+</script>
+

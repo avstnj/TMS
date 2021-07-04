@@ -1,0 +1,776 @@
+﻿@using Asis.Ulasim.Models.Administrator
+@{
+    Layout = "_Layout";
+    var menuList = (IQueryable<MenuListModel>)ViewBag.MenuList;
+}
+
+<style type="text/css">
+    .column_2 {
+        -moz-column-count: 3; /* Firefox */
+        -webkit-column-count: 3; /* Chrome, Safari, Opera */
+        column-count: 3;
+    }
+
+        .column_2 > span {
+            display: block;
+        }
+</style>
+
+<div class="m-portlet">
+    <!--begin: Form Wizard-->
+    <div class="m-wizard m-wizard--4 m-wizard--brand" id="m_wizard">
+        <div class="row m-row--no-padding">
+            <div class="col-xl-3 col-lg-12 m--padding-top-20 m--padding-bottom-15">
+                <!--begin: Form Wizard Head -->
+                <div class="m-wizard__head">
+                    <!--begin: Form Wizard Nav -->
+                    <div class="m-wizard__nav">
+                        <div class="m-wizard__steps">
+                            <div class="m-wizard__step m-wizard__step--done" data-wizard-target="#m_wizard_form_step_1" onclick="Tab1()">
+                                <div class="m-wizard__step-info">
+                                    <a href="#" class="m-wizard__step-number">
+                                        <span>
+                                            <span>
+                                                1
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <div class="m-wizard__step-label">
+                                        User & Roles
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2" onclick="Tab2()">
+                                <div class="m-wizard__step-info">
+                                    <a href="#" class="m-wizard__step-number">
+                                        <span>
+                                            <span>
+                                                2
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <div class="m-wizard__step-label">
+                                        User & Menus
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end: Form Wizard Nav -->
+                </div>
+                <!--end: Form Wizard Head -->
+            </div>
+            <div class="col-xl-9 col-lg-12">
+                <!--begin: Form Wizard Form-->
+                <div class="m-wizard__form">
+                    <!--
+                    1) Use m-form--label-align-left class to alight the form input lables to the right
+                    2) Use m-form--state class to highlight input control borders on form validation
+                    -->
+                    <form class="m-form m-form--label-align-right m-form--state" id="m_form">
+                        <!--begin: Form Body -->
+                        <div class="m-portlet__body m-portlet__body--no-padding">
+                            <!--begin: Form Wizard Step 1-->
+                            <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
+                                <div class="m-section__content">
+                                    <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
+                                        <div class="m-demo__preview">
+                                            <!--begin::Form-->
+                                            @*<form class="m-form">*@
+                                            <div class="m-form__group form-group row" id="formGroup">
+                                                @await Html.PartialAsync("CustomPartial/_PartialUsers")
+                                                <div class="col-5">
+                                                    <div id="dvChkRoleList" class="m-checkbox-list">
+                                                        @{
+                                                            if (ViewBag.Roles != null)
+                                                            {
+                                                                foreach (var item in ViewBag.Roles)
+                                                                {
+                                                                    {
+                                                                        <label class="m-checkbox">
+                                                                            <input id="chkRole_@item.Id" type="checkbox" name="checkbox" value="@item.Id">
+                                                                            @item.RoleName
+                                                                            <span></span>
+                                                                        </label>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12 m--align-right">
+                                                    <button id="btnChangeRole" class="btn btn-primary" style="" onclick="InsertUserRoleChange()"><i class="fa fa-edit"></i> Save Changes</button>&nbsp;&nbsp;
+                                                </div>
+                                            </div>
+                                            @*</form>*@
+                                            <!--end::Form-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-form__group form-group row">
+                                    <button id="btnNewRole" class="btn btn-primary" style="" onclick="NewRoleButtonClick();"><i class="fa fa-plus"></i>New Role</button>&nbsp;&nbsp;
+                                    <button id="btnEditRole" class="btn btn-primary" style="" onclick="EditRoleButtonClick();"><i class="fa fa-edit"></i> Update Role</button>&nbsp;&nbsp;
+                                    <button id="btnDeleteRole" class="btn btn-primary" style="" onclick="DeleteRoleButtonClick();"><i class="fa fa-eraser"></i>Delete Role</button>
+                                </div>
+                            </div>
+                            <!--end: Form Wizard Step 1-->
+                            <!--begin: Form Wizard Step 2-->
+                            <div class="m-wizard__form-step" id="m_wizard_form_step_2">
+                                <!--begin::Section-->
+                                <div class="m-accordion m-accordion--default" id="m_accordion_1" role="tablist">
+                                    @if (menuList.Where(n => n.Category == "mReport").Count() > 0)
+                                    {
+                                        <!--begin::Item-->
+                                        <div class="m-accordion__item active">
+                                            <div class="m-accordion__item-head" role="tab" id="m_accordion_1_item_1_head" data-toggle="collapse" href="#m_accordion_1_item_1_body" aria-expanded="false">
+                                                <span class="m-accordion__item-icon">
+                                                    <i class="fa flaticon-layers"></i>
+                                                </span>
+                                                <span class="m-accordion__item-title">
+                                                    1. Report Screens
+                                                </span>
+                                                <span class="m-accordion__item-mode"></span>
+                                            </div>
+                                            <div class="m-accordion__item-body collapse show" id="m_accordion_1_item_1_body" role="tabpanel" aria-labelledby="m_accordion_1_item_1_head" data-parent="#m_accordion_1">
+                                                <!--begin::Content-->
+                                                <div class="tab-content active  m--padding-30">
+
+                                                    <div id="dvChkMenu" class="m-checkbox-inline">
+                                                        <div th:each="facility : ${facilities}" class="column_2">
+
+                                                            @foreach (var item in menuList.Where(n => n.Category == "mReport"))
+                                                            {
+                                                                <label class="m-checkbox" style="display: block !important;">
+                                                                    <input id="chkMenu_@item.SubMenuRecId" type="checkbox" name="checkbox" value="@item.SubMenuId">
+                                                                    @item.SubMenuName
+                                                                    <span></span>
+                                                                </label>
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end::Section-->
+                                            </div>
+                                        </div>
+                                        <!--end::Item-->
+                                    }
+                                    @if (menuList.Where(n => n.Category == "mDefinition").Count() > 0)
+                                    {
+                                        <!--begin::Item-->
+                                        <div class="m-accordion__item">
+                                            <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_1_item_2_head" data-toggle="collapse" href="#m_accordion_1_item_2_body" aria-expanded="false">
+                                                <span class="m-accordion__item-icon">
+                                                    <i class="fa  flaticon-add"></i>
+                                                </span>
+                                                <span class="m-accordion__item-title">
+                                                    2. Definition Screens
+                                                </span>
+                                                <span class="m-accordion__item-mode"></span>
+                                            </div>
+                                            <div class="m-accordion__item-body collapse" id="m_accordion_1_item_2_body" role="tabpanel" aria-labelledby="m_accordion_1_item_2_head" data-parent="#m_accordion_1">
+                                                <!--begin::Content-->
+                                                <div class="tab-content  m--padding-30">
+
+                                                    <div id="dvChkMenu" class="m-checkbox-inline">
+                                                        <div th:each="facility : ${facilities}" class="column_2">
+
+                                                            @foreach (var item in menuList.Where(n => n.Category == "mDefinition"))
+                                                            {
+                                                                <label class="m-checkbox" style="display: block !important;">
+                                                                    <input id="chkMenu_@item.SubMenuRecId" type="checkbox" name="checkbox" value="@item.SubMenuId">
+                                                                    @item.SubMenuName
+                                                                    <span></span>
+                                                                </label>
+                                                            }
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!--end::Content-->
+                                            </div>
+                                        </div>
+                                        <!--end::Item-->
+                                    }
+                                    @if (menuList.Where(n => n.Category == "mVehiclTracking").Count() > 0)
+                                    {
+                                        <!--begin::Item-->
+                                        <div class="m-accordion__item">
+                                            <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_1_item_3_head" data-toggle="collapse" href="#m_accordion_1_item_3_body" aria-expanded="false">
+                                                <span class="m-accordion__item-icon">
+                                                    <i class="fa  flaticon-map-location"></i>
+                                                </span>
+                                                <span class="m-accordion__item-title">
+                                                    3. @Localizer["VehicleTrackingSystem"]
+                                                </span>
+                                                <span class="m-accordion__item-mode"></span>
+                                            </div>
+                                            <div class="m-accordion__item-body collapse" id="m_accordion_1_item_3_body" role="tabpanel" aria-labelledby="m_accordion_1_item_3_head" data-parent="#m_accordion_1">
+                                                <!--begin::Content-->
+                                                <div class="tab-content  m--padding-30">
+
+                                                    <div id="dvChkMenu" class="m-checkbox-inline">
+                                                        <div th:each="facility : ${facilities}" class="column_2">
+
+                                                            @foreach (var item in menuList.Where(n => n.Category == "mVehiclTracking"))
+                                                            {
+                                                                <label class="m-checkbox" style="display: block !important;">
+                                                                    <input id="chkMenu_@item.SubMenuRecId" type="checkbox" name="checkbox" value="@item.SubMenuId">
+                                                                    @item.SubMenuName
+                                                                    <span></span>
+                                                                </label>
+                                                            }
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!--end::Content-->
+                                            </div>
+                                        </div>
+                                        <!--end::Item-->
+                                    }
+                                    @if (menuList.Where(n => n.Category == "Administration").Count() > 0)
+                                    {
+                                        <!--begin::Item-->
+                                        <div class="m-accordion__item">
+                                            <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_1_item_4_head" data-toggle="collapse" href="#m_accordion_1_item_4_body" aria-expanded="false">
+                                                <span class="m-accordion__item-icon">
+                                                    <i class="fa  flaticon-map-location"></i>
+                                                </span>
+                                                <span class="m-accordion__item-title">
+                                                    4. Management Panel
+                                                </span>
+                                                <span class="m-accordion__item-mode"></span>
+                                            </div>
+                                            <div class="m-accordion__item-body collapse" id="m_accordion_1_item_4_body" role="tabpanel" aria-labelledby="m_accordion_1_item_4_head" data-parent="#m_accordion_1">
+                                                <!--begin::Content-->
+                                                <div class="tab-content  m--padding-30">
+                                                    <div id="dvChkMenu" class="m-checkbox-inline">
+                                                        <div th:each="facility : ${facilities}" class="column_2">
+                                                            @foreach (var item in menuList.Where(n => n.Category == "Administration"))
+                                                            {
+                                                                <label class="m-checkbox" style="display: block !important;">
+                                                                    <input id="chkMenu_@item.SubMenuRecId" type="checkbox" name="checkbox" value="@item.SubMenuId">
+                                                                    @item.SubMenuName
+                                                                    <span></span>
+                                                                </label>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end::Content-->
+                                            </div>
+                                        </div>
+                                        <!--end::Item-->
+                                    }
+                                </div>
+                                <!--end::Section-->
+                                <!--end::Section-->
+                                <div class="m-separator m-separator--dashed m-separator--lg"></div>
+                                <div class="m-form__group form-group row">
+                                    @await Html.PartialAsync("CustomPartial/_PartialRoles")
+                                </div>
+                            </div>
+                            <!--end: Form Wizard Step 2-->
+                        </div>
+                        <!--end: Form Body -->
+                        <!--begin: Form Actions -->
+                        <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
+                            <div class="m-form__actions">
+                                <div class="row">
+                                    <div class="col-lg-12 m--align-right">
+                                        <a id="btnRoleMenu" href="#" class="btn btn-primary m-btn m-btn--custom m-btn--icon" data-wizard-action="button" onclick="InsertRoleMenuChange()">
+                                            <span>
+                                                <i class="la la-check"></i>
+                                                &nbsp;&nbsp;
+                                                <span>
+                                                   Save Changes
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: Form Actions -->
+                    </form>
+                </div>
+                <!--end: Form Wizard Form-->
+            </div>
+        </div>
+        <div class="modal fade" id="modal_Roles" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="margin-left: auto; text-align: center;">
+                            Role Edit Screen
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed">
+                            <div class="form-group m-form__group row" id="dvRoles" style="display: none">
+                                <label class="col-form-label col-lg-3 col-sm-12">
+                                    Roles
+                                </label>
+                                <div class="col-lg-4 col-md-9 col-sm-12">
+                                    <select id="slRole" class="form-control m-bootstrap-select m_selectpicker" data-live-search="true">
+                                        @{
+                                            if (ViewBag.Roles != null)
+                                            {
+                                                <option value='-1'>Select Role</option>
+                                                foreach (var item in ViewBag.Roles)
+                                                {
+                                                    {
+                                                        <option value='@item.Id'>@item.RoleName</option>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="HI" disabled="disabled"> No Data </option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row" id="dvRoleName">
+                                <label class="col-lg-3 col-form-label">
+                                    Role Name
+                                </label>
+                                <div class="col-lg-6 col-md-9 col-sm-12">
+                                    <input id="txtRole" type="text" class="form-control" name="userName" data-skin="dark" data-toggle="m-tooltip" data-placement="top" data-original-title=" @Localizer["RoleNameWrite"]">
+                                    <span class="m-form__help">
+                                        Role Name Write
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" id="btnSave" class="btn btn-primary" style="display: none" onclick="InsertNewRole()">
+                            <i class="fa fa-save"></i>
+                            Save
+                        </button>
+                        <button type="button" id="btnEdit" class="btn btn-primary" style="display: none" onclick="EditRole()">
+                            <i class="fa fa-edit"></i>
+                            Update
+                        </button>
+                        <button type="button" id="btnDelete" class="btn btn-primary" style="display: none" onclick="DeleteRole()">
+                            <i class="fa fa-eraser"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end: Form Wizard-->
+</div>
+<div id="dvMessage"></div>
+<script src="~/js/Wizard/wizard.js">
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // $('#lblKullanicilar').toggleClass('col-lg-1 col-form-label');
+        document.getElementById("lblKullanicilar").className = "col-lg-1 col-form-label";
+        document.getElementById("lblRoller").className = "col-lg-4 col-form-label";
+        document.getElementById("dvRoller").className = "col-lg-4 col-md-9 col-sm-12";
+        $("#btnRoleMenu").hide();
+        /* $.ajax({
+             url: "/Authorize/RoleNames",
+             type: "GET",
+             data: {},
+             success: function(result) {
+                 if (result.length > 5) {
+                     var div = "<div class='col-3'></div>";
+                     $("#formGroup").append(div);
+                     for (var i = 6; i < result.length; i++) {
+                         $("#formGroup div").eq(1).html("sayi");
+                     }
+                 }
+             },
+             error: function (xhr, textStatus, error) {
+                 command: toastr["error"]("Recording Failed..!");
+                 loadPanel.hide();
+             },
+             complete: function () {
+                 loadPanel.hide();
+
+             }
+         });*/
+    });
+    $("#users").change(function () {
+        var userId = $("#users").val();
+        $.ajax({
+            url: "/Authorize/RoleStatus",
+            type: "GET",
+            data: {
+                userId: userId
+            },
+            success: function (result) {
+                var chkArray = [];
+                for (var i = 0; i < $('#dvChkRoleList').find('.m-checkbox').length; i++) {
+                    var checkbox = $('#dvChkRoleList').find('.m-checkbox')[i].control.value;
+                    chkArray.push(checkbox);
+                    $("#dvChkRoleList [type=checkbox]").prop('checked', false);
+                }
+                for (var j = 0; j < result.length; j++) {
+                    if (jQuery.inArray(result[j].RoleId, chkArray) !== '1') {
+                        $("#chkRole_" + result[j].RoleId).prop("checked", true);
+                    }
+                }
+            },
+            error: function (xhr, textStatus, error) {
+                command: toastr["error"]("Recording Failed..!");
+                loadPanel.hide();
+            },
+            complete: function () {
+            }
+        });
+    });
+    function NewRoleButtonClick() {
+        $("#dvRoles").hide();
+        $("#dvRoleName").show();
+        $("#btnSave").show();
+        $("#btnEdit").hide();
+        $("#btnDelete").hide();
+        $('#modal_Roles').modal();
+    }
+    function EditRoleButtonClick() {
+        $("#dvRoles").show();
+        $("#dvRoleName").show();
+        $("#btnSave").hide();
+        $("#btnEdit").show();
+        $("#btnDelete").hide();
+        $('#modal_Roles').modal();
+    }
+    function DeleteRoleButtonClick() {
+        $("#dvRoles").show();
+        $("#dvRoleName").hide();
+        $("#btnSave").hide();
+        $("#btnEdit").hide();
+        $("#btnDelete").show();
+        $('#modal_Roles').modal();
+    }
+    function GetRole() {
+        var mSelectedDealer = "";
+        var lbl = $('#slRole').val();
+        if (lbl === "HI") {
+            mSelectedDealer = 'No Data';
+        } else {
+            var ddl = document.getElementById("slRole");
+            if (ddl.options[0].value === "HI") {
+                mSelectedDealer = "HI";
+            } else if (ddl.selectedIndex === -1) {
+                mSelectedDealer = "";
+            } else {
+                var selectedValueArray = [];
+                $("#slRole :selected").each(function () {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelectedDealer = selectedValueArray.join(',');
+            }
+        }
+        return mSelectedDealer;
+    }
+    function InsertUserRoleChange() {
+        var userId = $("#users").val();
+        if (userId === "-1") {
+            command: toastr["warning"]('Select User');
+            return false;
+        }
+        var chkArray = [];
+        var roleId = "";
+        for (var i = 0; i < $('#dvChkRoleList input[name="checkbox"]:checked').length; i++) {
+            var checkbox = $('#dvChkRoleList [type=checkbox]:checked')[i].value;
+            chkArray.push(checkbox);
+        }
+        roleId = chkArray.join(',');
+        loadPanel.show();
+        $.ajax({
+            url: "/Authorize/InsertUserRoleChange",
+            type: "POST",
+            data: {
+                roleId: roleId,
+                userId: userId
+            },
+            success: function (result) {
+                //$("#dvMessage").html(result);
+                if (result == "0") {
+                   // toastr["warning"]('Kullanıcı için seçtiğiniz rol admin ise tüm yetki atamaları yapıldığı için işlem biraz uzun sürecektir.');
+                    toastr["success"]('User Change Approved');
+                    @*$.ajax({
+                        url: "/Authorize/RoleAuthorize",
+                        type: "GET",
+                        data: { userId: userId },
+                        success: function(result) {
+                            if (result == "0")
+                                toastr["success"]('@Localizer["UserChangeApproved"]');
+                            else
+                                toastr["error"]('@Localizer["Error"]');
+                            loadPanel.hide();
+                        },
+                        error: function (xhr, textStatus, error) {
+                            command: toastr["error"]("Recording Failed..!");
+                            loadPanel.hide();
+                        },
+                        complete: function () {
+                            loadPanel.hide();
+                        }
+                    });*@
+                }else {
+                    toastr["error"]('Error');
+                }
+            },
+            error: function (xhr, textStatus, error) {
+                command: toastr["error"]("Recording Failed..!");
+                loadPanel.hide();
+            },
+            complete: function () {
+                loadPanel.hide();
+            }
+        });
+    }
+
+    function InsertNewRole() {
+        var roleName = $("#txtRole").val();
+        if (roleName === "") {
+            command: toastr["warning"]('Role Name Write');
+            return false;
+        }
+        loadPanel.show();
+        $.ajax({
+            url: "/Authorize/InsertNewRole",
+            type: "POST",
+            data: {
+                roleName: roleName
+            },
+            success: function (result) {
+                $("#dvMessage").html(result);
+                $('#modal_Roles').modal('hide');
+                if (result == "0")
+                    toastr["success"]('Role Added');
+                else
+                    toastr["error"]('Error');
+                $.ajax({
+                    url: "/Authorize/RoleNames",
+                    type: "GET",
+                    data: {},
+                    success: function (result) {
+                        var data = result[result.length - 1];
+                        var content = "<label class='m-checkbox'>" +
+                            "<input id='chkRole_" +
+                            data.Id +
+                            "' type='checkbox' name='checkbox' value='" +
+                            data.Id +
+                            "'>" +
+                            data.RoleName +
+                            "<span><span>" +
+                            "<label>";
+                        $("#dvChkRoleList").append(content);
+                        loadPanel.hide();
+                    },
+                    error: function (xhr, textStatus, error) {
+                        command: toastr["error"]("Recording Failed..!");
+                        loadPanel.hide();
+                    },
+                    complete: function () {
+                        loadPanel.hide();
+                    }
+                });
+                loadPanel.hide();
+            },
+            error: function (xhr, textStatus, error) {
+                command: toastr["error"]("Recording Failed..!");
+                loadPanel.hide();
+            },
+            complete: function () {
+                loadPanel.hide();
+            }
+        });
+    }
+    function EditRole() {
+        var roleId = GetRole();
+        var roleName = $("#txtRole").val();
+        if (roleName === "") {
+            command: toastr["warning"]('Role Name Write');
+            return false;
+        }
+        if (roleId === "-1") { 
+            command: toastr["warning"]('Select Role Change');
+            return false;
+        }
+        loadPanel.show();
+        $.ajax({
+            url: "/Authorize/EditRole",
+            type: "POST",
+            data: {
+                roleId: roleId,
+                roleName: roleName
+            },
+            success: function (result) {
+                $("#dvMessage").html(result);
+                $('#modal_Roles').modal('hide');
+                if (result == "0")
+                    toastr["success"]('Role Updated');
+                else
+                    toastr["error"]('Error');
+                $.ajax({
+                    url: "/Authorize/RoleNamesParameter",
+                    type: "GET",
+                    data: { roleId: roleId },
+                    success: function (result) {
+                        var data = result[0];
+                        $("#chkRole_" + data.Id).parent().remove();
+                        var content = "<label class='m-checkbox'>" +
+                            "<input id='chkRole_" +
+                            data.Id +
+                            "' type='checkbox' name='checkbox' value='" +
+                            data.Id +
+                            "'>" +
+                            data.RoleName +
+                            "<span><span>" +
+                            "<label>";
+                        $("#dvChkRoleList").append(content);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        command: toastr["error"]("Recording Failed..!");
+                        loadPanel.hide();
+                    },
+                    complete: function () {
+                        loadPanel.hide();
+                    }
+                });
+                loadPanel.hide();
+            },
+            error: function (xhr, textStatus, error) {
+                command: toastr["error"]("Recording Failed..!");
+                loadPanel.hide();
+            },
+            complete: function () {
+                loadPanel.hide();
+            }
+        });
+    }
+    function DeleteRole() {
+        var roleId = GetRole();
+        if (roleId === "-1") {
+            command: toastr["warning"]('Select Role Delete');
+            return false;
+        }
+        loadPanel.show();
+        $.ajax({
+            url: "/Authorize/DeleteRole",
+            type: "POST",
+            data: {
+                roleId: roleId
+            },
+            success: function (result) {
+                $("#dvMessage").html(result);
+                $('#modal_Roles').modal('hide');
+                $("#chkRole_" + roleId).parent().remove();
+                if (result == "0")
+                    toastr["success"]('Role Deleted');
+                else
+                    toastr["error"]('Error');
+                loadPanel.hide();
+            },
+            error: function (xhr, textStatus, error) {
+                command: toastr["error"]("Recording Failed..!");
+                loadPanel.hide();
+            },
+            complete: function () {
+                loadPanel.hide();
+            }
+        });
+    }
+
+    $("#roles").change(function () {
+        var roleId = window.GetRoles();
+        $.ajax({
+            url: "/Authorize/MenuRoleStatus",
+            type: "GET",
+            data: {
+                roleId: roleId
+            },
+            success: function (result) {
+                var chkArray = [];
+                for (var i = 0; i < $('#dvChkMenu').find('.m-checkbox').length; i++) {
+                    var checkbox = $('#dvChkMenu').find('.m-checkbox')[i].control.value;
+                    chkArray.push(checkbox);
+                    $("#dvChkMenu [type=checkbox]").prop('checked', false);
+                }
+                for (var j = 0; j < result.length; j++) {
+                    if (jQuery.inArray(result[j].SubMenuId, chkArray) !== '1') {
+                        $("#chkMenu_" + result[j].Id).prop("checked", true);
+                    }
+                }
+            },
+            error: function (xhr, textStatus, error) {
+                command: toastr["error"]("Recording Failed..!");
+                loadPanel.hide();
+            },
+            complete: function () {
+                loadPanel.hide();
+            }
+        });
+    });
+
+    function InsertRoleMenuChange() {
+        var roleId = window.GetRoles();
+        if (roleId === "-1") {
+            command: toastr["warning"]('Select Role');
+            return false;
+        }
+        var chkArray = [];
+        var subMenuId = "";
+        for (var i = 0; i < $('#dvChkMenu input[name="checkbox"]:checked').length; i++) {
+            var checkbox = $('#dvChkMenu [type=checkbox]:checked')[i].value;
+            chkArray.push(checkbox);
+        }
+        subMenuId = chkArray.join(',');
+        loadPanel.show();
+        $.ajax({
+            url: "/Authorize/InsertRoleMenuChange",
+            type: "POST",
+            data: {
+                roleId: roleId,
+                subMenuId: subMenuId
+            },
+            success: function (result) {
+                $("#dvMessage").html(result);
+                if (result == "0")
+                    toastr["success"]('User Change Approved');
+                else
+                    toastr["error"]('Error');
+                loadPanel.hide();
+            },
+            error: function (xhr, textStatus, error) {
+                command: toastr["error"]("Recording Failed..!");
+                loadPanel.hide();
+            },
+            complete: function () {
+                loadPanel.hide();
+
+            }
+        });
+    }
+    function Tab1() {
+        $("#btnRoleMenu").hide();
+    }
+    function Tab2() {
+        $("#btnRoleMenu").show();
+    }
+</script>

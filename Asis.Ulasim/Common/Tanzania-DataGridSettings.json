@@ -1,0 +1,24 @@
+{
+  "cityCode": "Asis.Ulasim.Tanzanya",
+  "cityId": 99,
+  "cityName": "Tanzanya",
+  "language": "false",
+  "dashboard": "false",
+  "langList": [
+    //{
+    //  "id": 1,
+    //  "name": "cuList",
+    //  "columns": [
+    //    {
+    //      "fieldName": "English;en;EN;en-US",
+    //      "fieldCode": "en",
+    //      "fieldCode2": "EN",
+    //      "culture": "en-US"
+    //    }
+    //  ]
+    //}
+  ],
+  "menuList": [
+
+  ]
+}

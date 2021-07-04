@@ -1,0 +1,56 @@
+﻿@using Asis.Ulasim.Models.Fills
+@{
+    var _tvm = new Tvm();
+    IQueryable<KioskModel> tvm = null;
+    tvm = _tvm.FillSelectKiosk();
+}
+<label class="col-lg-2 col-form-label">
+    Kiosk
+</label>
+<div class="col-lg-3 col-md-9 col-sm-12" data-skin="dark" data-toggle="m-tooltip" data-placement="top">
+    <select id="tvm" class="form-control m-bootstrap-select m_selectpicker" multiple data-actions-box="true" data-live-search="true">
+        @{
+            if (tvm.Any())
+            {
+                foreach (var item in tvm)
+                {
+                    {
+                        <option value='@item.kioskKodu'>@item.aciklama</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value='HI' disabled="disabled"> Kullanıcıya Kiosk Tanımlayın..! </option>
+            }
+        }
+    </select>
+    <span class="m-form__help">
+        Lütfen Kiosk Seçiniz
+    </span>
+</div>
+
+<script type="text/javascript">
+    function GetSelectTvm() {
+        var mSelectedTvm = "";
+        var lbl = $('#tvm').val();
+        if (lbl === "HI") {
+            mSelectedTvm = "HI";
+        } else {
+            var ddl = document.getElementById("tvm");
+            if (ddl.options[0].value === "HI") {
+                mSelectedTvm = "HI";
+            } else if (ddl.selectedIndex === -1) {
+                mSelectedTvm = "";
+            } else {
+                var selectedValueArray = [];
+                $("#tvm :selected").each(function() {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelectedTvm = selectedValueArray.join(',');
+            }
+        }
+        return mSelectedTvm;
+    }
+</script>
+

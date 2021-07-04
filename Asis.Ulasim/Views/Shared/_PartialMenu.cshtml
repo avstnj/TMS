@@ -1,0 +1,313 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Asis.Ulasim.Models.Menu
+@inject IConfiguration configuration;
+@{
+    try
+    {
+        var _roleMenu = new RoleMenu();
+        CultureInfo ci = CultureInfo.CurrentCulture;
+        string cucu = ci.TwoLetterISOLanguageName.ToUpper();
+
+        var objMenuModel = new MenuModel();
+        using (var context = new AsisContext())
+        {
+            List<RoleMenu> mRoleMenus = Context.Session.GetObject<List<RoleMenu>>("RoleMenuler");
+            if (mRoleMenus != null)
+            {
+                var mainMenuList = (from mm in context.MainMenu
+                                    where mm.IsActive == true
+                                    orderby mm.Category descending, mm.MenuOrder
+                                    select mm).ToList();
+                var subMenuList = (from sb in context.SubMenu where sb.IsActive == true orderby sb.MenuOrder select sb).ToList();
+
+                var groupedCategoryList = mainMenuList.GroupBy(u => u.Category).ToList();
+
+                /************************************************************************************/
+
+                /* Ana menüye bağlı yetkilendirilmiş bir alt menü var mı kontrol ediliyor. */
+                var tmpMainMenuList = new List<MainMenu>();
+                foreach (var mainMenu in mainMenuList)
+                {
+                    var subMenuIsExists = false;
+                    var tmpLoopSubMenuList = subMenuList.Where(w => w.MainMenuId == mainMenu.Id).ToList();
+                    foreach (var subMenu in tmpLoopSubMenuList)
+                    {
+                        if (mRoleMenus.Any(a => a.SubMenuId == subMenu.SubMenuId))
+                        {
+                            subMenuIsExists = true;
+                            break;
+                        }
+                    }
+                    if (subMenuIsExists)
+                    {
+                        tmpMainMenuList.Add(mainMenu);
+                    }
+                }
+                objMenuModel.MainMenuModel = tmpMainMenuList;
+                /************************************************************************************/
+
+                /************************************************************************************/
+                /* Alt menülerin yetkileri var mı kontrol ediliyor. */
+                var tmpSubMenuList = new List<SubMenu>();
+                foreach (var subMenu in subMenuList)
+                {
+                    if (mRoleMenus.Any(a => a.SubMenuId == subMenu.SubMenuId))
+                    {
+                        tmpSubMenuList.Add(subMenu);
+                    }
+                }
+                objMenuModel.SubMenuModel = tmpSubMenuList.ToList();
+
+                /************************************************************************************/
+
+                if (objMenuModel.MainMenuModel != null && objMenuModel.MainMenuModel.Count > 0 && objMenuModel.SubMenuModel != null && objMenuModel.SubMenuModel.Count > 0)
+                {
+                    foreach (var category in groupedCategoryList)
+                    {
+                        if (category.Key == "mReport")
+                        {
+                            if (objMenuModel.MainMenuModel.Count(x => x.Category == "mReport") > 0)
+                            {
+                                <li class="m-menu__section">
+                                    <h4 class="m-menu__section-text" style="color: #D6D7E1">
+                                       Report Screens
+                                    </h4>
+                                    <i class="m-menu__section-icon flaticon-more-v3"></i>
+                                </li>
+                                foreach (var menuItem in objMenuModel.MainMenuModel.Where(x => x.Category == "mReport"))
+                                {
+                                    var subMenuItem = objMenuModel.SubMenuModel.Where(m => m.MainMenuId == menuItem.Id);
+                                    <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" data-menu-submenu-toggle="hover">
+                                        <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                            <i class="m-menu__link-icon @menuItem.IconPath"></i>
+                                            <span class="m-menu__link-text">
+                                                @menuItem.MenuName
+                                            </span>
+                                            <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                        </a>
+                                        @if (subMenuItem.Any())
+                                        {
+                                            <div class="m-menu__submenu ">
+                                                <span class="m-menu__arrow"></span>
+                                                <ul class="m-menu__subnav">
+                                                    @foreach (var subItem in subMenuItem)
+                                                    {
+                                                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
+                                                            <span class="m-menu__link">
+                                                                <span class="m-menu__link-text">
+                                                                    @menuItem.MenuName
+                                                                </span>
+                                                            </span>
+                                                        </li>
+                                                        <li class="m-menu__item" aria-haspopup="true">
+                                                            @*<a href=@Url.Action(subItem.MenuUrl.Replace("#", @"/").Split('/')[1], subItem.MenuUrl.Replace("#", @"/").Split('/')[0]) class="m-menu__link">*@
+                                                            <a href=@Url.Action(subItem.MenuUrl.Split("/").Length == 1 ? null : subItem.MenuUrl.Replace("#", @"/").Split('/')[1], subItem.MenuUrl.Replace("#", @"/").Split('/')[0],new { culture = ci.Name }) class="m-menu__link">
+                                                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                                    <span></span>
+                                                                </i>
+                                                                <span class="m-menu__link-text sub">@subItem.MenuName</span>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (category.Key == "mDefinition")
+                        {
+                            if (objMenuModel.MainMenuModel.Count(x => x.Category == "mDefinition") > 0)
+                            {
+                                <li class="m-menu__section">
+                                    <h4 class="m-menu__section-text" style="color: #D6D7E1">
+                                       Definition Screens
+                                    </h4>
+                                    <i class="m-menu__section-icon flaticon-more-v3"></i>
+                                </li>
+                                foreach (var menuItem in objMenuModel.MainMenuModel.Where(x => x.Category == "mDefinition"))
+                                {
+                                    var subMenuItem = objMenuModel.SubMenuModel.Where(m => m.MainMenuId == menuItem.Id);
+                                    <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" data-menu-submenu-toggle="hover">
+                                        <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                            <i class="m-menu__link-icon @menuItem.IconPath"></i>
+                                            <span class="m-menu__link-text">
+                                                @menuItem.MenuName
+                                            </span>
+                                            <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                        </a>
+                                        @if (subMenuItem.Any())
+                                        {
+                                            <div class="m-menu__submenu ">
+                                                <span class="m-menu__arrow"></span>
+                                                <ul class="m-menu__subnav">
+                                                    @foreach (var subItem in subMenuItem)
+                                                    {
+                                                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
+                                                            <span class="m-menu__link">
+                                                                <span class="m-menu__link-text">
+                                                                    @menuItem.MenuName
+                                                                </span>
+                                                            </span>
+                                                        </li>
+                                                        <li class="m-menu__item" aria-haspopup="true">
+                                                            @*<a href=@Url.Action(subItem.MenuUrl.Replace("#", @"/").Split('/')[1], subItem.MenuUrl.Replace("#", @"/").Split('/')[0]) class="m-menu__link">*@
+                                                            <a href=@Url.Action(subItem.MenuUrl.Split("/").Length == 1 ? null : subItem.MenuUrl.Replace("#", @"/").Split('/')[1], subItem.MenuUrl.Replace("#", @"/").Split('/')[0],new { culture = ci.Name }) class="m-menu__link">
+                                                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                                    <span></span>
+                                                                </i>
+                                                                <span class="m-menu__link-text sub">@subItem.MenuName</span>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (category.Key == "Administration")
+                        {
+                            if (objMenuModel.MainMenuModel.Count(x => x.Category == "Administration") > 0)
+                            {
+                                <li class="m-menu__section">
+                                    <h4 class="m-menu__section-text" style="color: #D6D7E1">
+                                        Management Panel
+                                    </h4>
+                                    <i class="m-menu__section-icon flaticon-more-v3"></i>
+                                </li>
+                                foreach (var menuItem in objMenuModel.MainMenuModel.Where(x => x.Category == "Administration"))
+                                {
+                                    var subMenuItem = objMenuModel.SubMenuModel.Where(m => m.MainMenuId == menuItem.Id);
+
+                                    <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" data-menu-submenu-toggle="hover">
+                                        <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                            <i class="m-menu__link-icon @menuItem.IconPath"></i>
+                                            <span class="m-menu__link-text">
+                                                @menuItem.MenuName
+                                            </span>
+                                            <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                        </a>
+                                        @if (subMenuItem.Any())
+                                        {
+                                            <div class="m-menu__submenu ">
+                                                <span class="m-menu__arrow"></span>
+                                                <ul class="m-menu__subnav">
+                                                    @foreach (var subItem in subMenuItem)
+                                                    {
+                                                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
+                                                            <span class="m-menu__link">
+                                                                <span class="m-menu__link-text">
+                                                                    @menuItem.MenuName
+                                                                </span>
+                                                            </span>
+                                                        </li>
+
+                                                        <li class="m-menu__item" aria-haspopup="true">
+                                                            @*<a href=@Url.Action(subItem.MenuUrl.Replace("#", @"/").Split('/')[1], subItem.MenuUrl.Replace("#", @"/").Split('/')[0]) class="m-menu__link">*@
+                                                            <a href=@Url.Action(subItem.MenuUrl.Split("/").Length == 1 ? null : subItem.MenuUrl.Replace("#", @"/").Split('/')[1], subItem.MenuUrl.Replace("#", @"/").Split('/')[0],new { culture = ci.Name }) class="m-menu__link">
+                                                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                                    <span></span>
+                                                                </i>
+                                                                <span class="m-menu__link-text sub">@subItem.MenuName</span>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+
+                                    </li>
+                                }
+                            }
+                        }
+                        else if (category.Key == "mTerminal")
+                        {
+                            if (objMenuModel.MainMenuModel.Count(x => x.Category == "mTerminal") > 0)
+                            {
+                                <li class="m-menu__section">
+                                    <h4 class="m-menu__section-text" style="color: #D6D7E1">
+                                       Terminal
+                                    </h4>
+                                    <i class="m-menu__section-icon flaticon-more-v3"></i>
+                                </li>
+                                foreach (var menuItem in objMenuModel.MainMenuModel.Where(x => x.Category == "mTerminal"))
+                                {
+                                    var subMenuItem = objMenuModel.SubMenuModel.Where(m => m.MainMenuId == menuItem.Id);
+
+                                    <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" data-menu-submenu-toggle="hover">
+                                        <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                            <i class="m-menu__link-icon @menuItem.IconPath"></i>
+                                            <span class="m-menu__link-text">
+                                                @menuItem.MenuName
+                                            </span>
+                                            <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                        </a>
+
+                                        @if (subMenuItem.Any())
+                                        {
+                                            <div class="m-menu__submenu ">
+                                                <span class="m-menu__arrow"></span>
+                                                <ul class="m-menu__subnav">
+                                                    @foreach (var subItem in subMenuItem)
+                                                    {
+                                                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
+                                                            <span class="m-menu__link">
+                                                                <span class="m-menu__link-text">
+                                                                    @menuItem.MenuName
+                                                                </span>
+                                                            </span>
+                                                        </li>
+
+                                                        <li class="m-menu__item" aria-haspopup="true">
+                                                            @*<a href=@Url.Action(subItem.MenuUrl.Replace("#", @"/").Split('/')[1], subItem.MenuUrl.Replace("#", @"/").Split('/')[0]) class="m-menu__link">*@
+                                                            <a href=@Url.Action(subItem.MenuUrl.Split("/").Length == 1 ? null : subItem.MenuUrl.Replace("#", @"/").Split('/')[1], subItem.MenuUrl.Replace("#", @"/").Split('/')[0],new { culture = ci.Name }) class="m-menu__link">
+                                                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                                    <span></span>
+                                                                </i>
+                                                                <span class="m-menu__link-text sub">@subItem.MenuName</span>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+
+                                    </li>
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    <li class="m-menu__item  m-menu__item--submenu">
+                        <a href="/Account" class="m-menu__link m-menu__toggle">
+                            <i class="m-menu__link-icon"></i>
+                            <span class="title" style="font-weight: bold">Go To Login</span>
+                            <span class="arrow"></span>
+                        </a>
+                    </li>
+                }
+            }
+            else
+            {
+                <li class="m-menu__item  m-menu__item--submenu">
+                    <a href="/Account" class="m-menu__link m-menu__toggle">
+                        <i class="m-menu__link-icon"></i>
+                        <span class="m-menu__link-text" style="font-weight: bold">Go To Login</span>
+                        <span class="m-menu__link-text"></span>
+                    </a>
+                </li>
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        var message = ex.Message;
+    }
+}

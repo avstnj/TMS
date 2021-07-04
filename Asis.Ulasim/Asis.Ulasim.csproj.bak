@@ -1,0 +1,572 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+    <Version>2.0.0</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <Win32Resource />
+    <AssemblyVersion>2.0.0.3</AssemblyVersion>
+    <FileVersion>2.0.0.3</FileVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+
+
+  <ItemGroup>
+    <None Remove="Reports\BlackList.repx" />
+    <None Remove="Reports\CardBalance.repx" />
+    <None Remove="Reports\CardFill.repx" />
+    <None Remove="Reports\CardPersonalizationCardCenter.repx" />
+    <None Remove="Reports\CardPersonalizationCardType.repx" />
+    <None Remove="Reports\CardPersonalizationReason.repx" />
+    <None Remove="Reports\CardPersonalizationUser.repx" />
+    <None Remove="Reports\CardUsage.repx" />
+    <None Remove="Reports\CardUsageByBus.repx" />
+    <None Remove="Reports\CardUsageCount.repx" />
+    <None Remove="Reports\CreditDisbursement.repx" />
+    <None Remove="Reports\DailyVehicleByIns.repx" />
+    <None Remove="Reports\DealerDayEnd.repx" />
+    <None Remove="Reports\DealerFill.repx" />
+    <None Remove="Reports\DealerFillCardType.repx" />
+    <None Remove="Reports\DealersFillPercentage.repx" />
+    <None Remove="Reports\DealerTotals.repx" />
+    <None Remove="Reports\DetailRevenue.repx" />
+    <None Remove="Reports\DriverWork.repx" />
+    <None Remove="Reports\GeneralBoardingGraphic.repx" />
+    <None Remove="Reports\GeneralCardBoarding.repx" />
+    <None Remove="Reports\GeneralCredit.repx" />
+    <None Remove="Reports\GeneralFill.repx" />
+    <None Remove="Reports\PassengerBoardingStation.repx" />
+    <None Remove="Reports\PoolAccountsRenevueDetail.repx" />
+    <None Remove="Reports\PoolAccountsRevenue.repx" />
+    <None Remove="Reports\RootExpedition.repx" />
+    <None Remove="Reports\RootExpeditionDetail.repx" />
+    <None Remove="Reports\ShareholderEarnings.repx" />
+    <None Remove="Reports\ShareholderEarningsDetail.repx" />
+    <None Remove="Reports\ToplamHasilat.repx" />
+    <None Remove="Reports\TotalRevenue.repx" />
+    <None Remove="Reports\VehicleExpedition.repx" />
+    <None Remove="Reports\VehicleExpeditionDetail.repx" />
+    <None Remove="Reports\VehicleKilometer.repx" />
+    <None Remove="Reports\VehicleOperationTime.repx" />
+    <None Remove="Reports\VehicleOperationTimeDetail.repx" />
+    <None Remove="Reports\VehicleShareHolderRevenue.repx" />
+    <None Remove="Reports\VehicleSpeed.repx" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\BlackList.repx" />
+    <EmbeddedResource Include="Reports\CardBalance.repx" />
+    <EmbeddedResource Include="Reports\CardFill.repx" />
+    <EmbeddedResource Include="Reports\CardPersonalizationCardCenter.repx" />
+    <EmbeddedResource Include="Reports\CardPersonalizationCardType.repx" />
+    <EmbeddedResource Include="Reports\CardPersonalizationReason.repx" />
+    <EmbeddedResource Include="Reports\CardPersonalizationUser.repx" />
+    <EmbeddedResource Include="Reports\CardUsage.repx" />
+    <EmbeddedResource Include="Reports\CardUsageByBus.repx" />
+    <EmbeddedResource Include="Reports\CardUsageCount.repx" />
+    <EmbeddedResource Include="Reports\CreditDisbursement.repx" />
+    <EmbeddedResource Include="Reports\DailyVehicleByIns.repx" />
+    <EmbeddedResource Include="Reports\DealerDayEnd.repx" />
+    <EmbeddedResource Include="Reports\DealerFill.repx" />
+    <EmbeddedResource Include="Reports\DealerFillCardType.repx" />
+    <EmbeddedResource Include="Reports\DealersFillPercentage.repx" />
+    <EmbeddedResource Include="Reports\DealerTotals.repx" />
+    <EmbeddedResource Include="Reports\DetailRevenue.repx" />
+    <EmbeddedResource Include="Reports\DriverWork.repx" />
+    <EmbeddedResource Include="Reports\GeneralBoardingGraphic.repx" />
+    <EmbeddedResource Include="Reports\GeneralCardBoarding.repx" />
+    <EmbeddedResource Include="Reports\GeneralCredit.repx" />
+    <EmbeddedResource Include="Reports\GeneralFill.repx" />
+    <EmbeddedResource Include="Reports\PassengerBoardingStation.repx" />
+    <EmbeddedResource Include="Reports\PoolAccountsRenevueDetail.repx" />
+    <EmbeddedResource Include="Reports\PoolAccountsRevenue.repx" />
+    <EmbeddedResource Include="Reports\RootExpedition.repx" />
+    <EmbeddedResource Include="Reports\RootExpeditionDetail.repx" />
+    <EmbeddedResource Include="Reports\ShareholderEarnings.repx" />
+    <EmbeddedResource Include="Reports\ShareholderEarningsDetail.repx" />
+    <EmbeddedResource Include="Reports\ToplamHasilat.repx" />
+    <EmbeddedResource Include="Reports\VehicleExpedition.repx" />
+    <EmbeddedResource Include="Reports\VehicleExpeditionDetail.repx" />
+    <EmbeddedResource Include="Reports\VehicleKilometer.repx" />
+    <EmbeddedResource Include="Reports\VehicleOperationTime.repx" />
+    <EmbeddedResource Include="Reports\VehicleOperationTimeDetail.repx" />
+    <EmbeddedResource Include="Reports\VehicleShareHolderRevenue.repx" />
+    <EmbeddedResource Include="Reports\VehicleSpeed.repx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\default\app\layout-builder.js" />
+    <None Include="wwwroot\css\default\base\scripts.bundle.js" />
+    <None Include="wwwroot\css\default\base\style.bundle.css" />
+    <None Include="wwwroot\css\default\custom\components\base\blockui.js" />
+    <None Include="wwwroot\css\default\custom\components\base\bootstrap-notify.js" />
+    <None Include="wwwroot\css\default\custom\components\base\dropdown.js" />
+    <None Include="wwwroot\css\default\custom\components\base\scrollable.js" />
+    <None Include="wwwroot\css\default\custom\components\base\sweetalert2.js" />
+    <None Include="wwwroot\css\default\custom\components\base\toastr.js" />
+    <None Include="wwwroot\css\default\custom\components\base\treeview.js" />
+    <None Include="wwwroot\css\default\custom\components\calendar\background-events.js" />
+    <None Include="wwwroot\css\default\custom\components\calendar\basic.js" />
+    <None Include="wwwroot\css\default\custom\components\calendar\external-events.js" />
+    <None Include="wwwroot\css\default\custom\components\calendar\google.js" />
+    <None Include="wwwroot\css\default\custom\components\calendar\list-view.js" />
+    <None Include="wwwroot\css\default\custom\components\charts\amcharts\charts.js" />
+    <None Include="wwwroot\css\default\custom\components\charts\amcharts\maps.js" />
+    <None Include="wwwroot\css\default\custom\components\charts\amcharts\stock-charts.js" />
+    <None Include="wwwroot\css\default\custom\components\charts\flotcharts.js" />
+    <None Include="wwwroot\css\default\custom\components\charts\google-charts.js" />
+    <None Include="wwwroot\css\default\custom\components\charts\morris-charts.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\api\events.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\api\methods.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\column-rendering.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\column-width.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\data-ajax.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\data-json.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\data-local.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\html-table.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\local-sort.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\record-selection.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\responsive-columns.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\row-details.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\base\translation.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\child\data-ajax.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\child\data-local.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\locked\both.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\locked\html-table.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\locked\left.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\locked\right.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\scrolling\both.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\scrolling\horizontal.js" />
+    <None Include="wwwroot\css\default\custom\components\datatables\scrolling\vertical.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\validation\form-controls.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\validation\form-widgets.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\autosize.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-datepicker.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-daterangepicker.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-datetimepicker.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-markdown.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-maxlength.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-multipleselectsplitter.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-select.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-switch.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-timepicker.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\bootstrap-touchspin.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\clipboard.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\dropzone.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\form-repeater.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\google-recaptcha.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\input-mask.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\ion-range-slider.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\nouislider.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\select2.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\summernote.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\widgets\typeahead.js" />
+    <None Include="wwwroot\css\default\custom\components\forms\wizard\wizard.js" />
+    <None Include="wwwroot\css\default\custom\components\maps\google-maps.js" />
+    <None Include="wwwroot\css\default\custom\components\maps\jqvmap.js" />
+    <None Include="wwwroot\css\default\custom\components\maps\jvectormap.js" />
+    <None Include="wwwroot\css\default\custom\components\portlets\draggable.js" />
+    <None Include="wwwroot\css\default\custom\components\portlets\tools.js" />
+    <None Include="wwwroot\css\default\custom\components\utils\idle-timer.js" />
+    <None Include="wwwroot\css\default\custom\components\utils\session-timeout.js" />
+    <None Include="wwwroot\css\default\custom\header\actions.js" />
+    <None Include="wwwroot\css\default\media\img\logo\favicon.ico" />
+    <None Include="wwwroot\css\default\media\img\logo\logo.png" />
+    <None Include="wwwroot\css\default\media\img\logo\logo_compact.png" />
+    <None Include="wwwroot\css\default\media\img\logo\logo_default_dark.png" />
+    <None Include="wwwroot\css\default\media\img\logo\logo_default_light.png" />
+    <None Include="wwwroot\css\default\media\img\misc\notification_bg.jpg" />
+    <None Include="wwwroot\css\default\media\img\misc\quick_actions_bg.jpg" />
+    <None Include="wwwroot\css\default\media\img\misc\user_profile_bg.jpg" />
+    <None Include="wwwroot\css\vendors\base\fonts\flaticon\Flaticon.eot" />
+    <None Include="wwwroot\css\vendors\base\fonts\flaticon\Flaticon.svg" />
+    <None Include="wwwroot\css\vendors\base\fonts\flaticon\Flaticon.ttf" />
+    <None Include="wwwroot\css\vendors\base\fonts\flaticon\Flaticon.woff" />
+    <None Include="wwwroot\css\vendors\base\fonts\font-awesome\fontawesome-webfont.eot" />
+    <None Include="wwwroot\css\vendors\base\fonts\font-awesome\fontawesome-webfont.svg" />
+    <None Include="wwwroot\css\vendors\base\fonts\font-awesome\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\css\vendors\base\fonts\font-awesome\fontawesome-webfont.woff" />
+    <None Include="wwwroot\css\vendors\base\fonts\font-awesome\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\css\vendors\base\fonts\font-awesome\FontAwesome.otf" />
+    <None Include="wwwroot\css\vendors\base\fonts\line-awesome\line-awesome.eot" />
+    <None Include="wwwroot\css\vendors\base\fonts\line-awesome\line-awesome.svg" />
+    <None Include="wwwroot\css\vendors\base\fonts\line-awesome\line-awesome.ttf" />
+    <None Include="wwwroot\css\vendors\base\fonts\line-awesome\line-awesome.woff" />
+    <None Include="wwwroot\css\vendors\base\fonts\line-awesome\line-awesome.woff2" />
+    <None Include="wwwroot\css\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.eot" />
+    <None Include="wwwroot\css\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.svg" />
+    <None Include="wwwroot\css\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.ttf" />
+    <None Include="wwwroot\css\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.woff" />
+    <None Include="wwwroot\css\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.woff2" />
+    <None Include="wwwroot\css\vendors\base\fonts\socicon\socicon.eot" />
+    <None Include="wwwroot\css\vendors\base\fonts\socicon\socicon.svg" />
+    <None Include="wwwroot\css\vendors\base\fonts\socicon\socicon.ttf" />
+    <None Include="wwwroot\css\vendors\base\fonts\socicon\socicon.woff" />
+    <None Include="wwwroot\css\vendors\base\fonts\summernote\summernote.eot" />
+    <None Include="wwwroot\css\vendors\base\fonts\summernote\summernote.ttf" />
+    <None Include="wwwroot\css\vendors\base\fonts\summernote\summernote.woff" />
+    <None Include="wwwroot\css\vendors\base\images\ion-rangeslider\sprite-skin-flat.png" />
+    <None Include="wwwroot\css\vendors\base\images\jstree\32px.png" />
+    <None Include="wwwroot\css\vendors\base\images\jstree\40px.png" />
+    <None Include="wwwroot\css\vendors\base\images\jstree\throbber.gif" />
+    <None Include="wwwroot\css\vendors\base\images\malihu-custom-scrollbar-plugin\mCSB_buttons.png" />
+    <None Include="wwwroot\css\vendors\base\vendors.bundle.css" />
+    <None Include="wwwroot\css\vendors\base\vendors.bundle.js" />
+    <None Include="wwwroot\css\vendors\custom\flot\flot.bundle.js" />
+    <None Include="wwwroot\css\vendors\custom\fullcalendar\fullcalendar.bundle.css" />
+    <None Include="wwwroot\css\vendors\custom\fullcalendar\fullcalendar.bundle.js" />
+    <None Include="wwwroot\css\vendors\custom\gmaps\gmaps.js" />
+    <None Include="wwwroot\css\vendors\custom\jquery-ui\jquery-ui.bundle.css" />
+    <None Include="wwwroot\css\vendors\custom\jquery-ui\jquery-ui.bundle.js" />
+    <None Include="wwwroot\css\vendors\custom\jqvmap\jqvmap.bundle.css" />
+    <None Include="wwwroot\css\vendors\custom\jqvmap\jqvmap.bundle.js" />
+    <None Include="wwwroot\image\users\user3.jpg" />
+    <None Include="wwwroot\image\users\user4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="18.2.5" />
+    <PackageReference Include="DevExpress.Reporting.Core" Version="18.2.5" />
+    <PackageReference Include="DotNetCore.NPOI" Version="1.2.1" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="2.3.9" />
+    <PackageReference Include="jQuery" Version="3.3.1" />
+    <PackageReference Include="Microsoft.AspNet.SignalR.JS" Version="2.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.ViewCompilation" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="SharpKml.Core" Version="4.0.1" />
+    <PackageReference Include="StoredProcedureEFCore" Version="0.3.10" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ACWSED">
+      <HintPath>CustomDLL\ACWSED.dll</HintPath>
+    </Reference>
+    <Reference Include="CoreKmlReader">
+      <HintPath>CustomDLL\CoreKmlReader.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExtreme.AspNet.Core">
+      <HintPath>CustomDLL\DevExtreme.AspNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExtreme.AspNet.Data">
+      <HintPath>CustomDLL\DevExtreme.AspNet.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="USHDLL">
+      <HintPath>CustomDLL\USHDLL.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\Alarms\" />
+    <Folder Include="wwwroot\js\RangeSlider\" />
+    <Folder Include="wwwroot\mapOffline\css\" />
+    <Folder Include="wwwroot\mapOffline\js\" />
+    <Folder Include="wwwroot\Upload\" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Compile Update="Reports\BlackList.cs">
+      <DependentUpon>BlackList.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\BlackList.Designer.cs">
+      <DependentUpon>BlackList.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardBalance.cs">
+      <DependentUpon>CardBalance.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardBalance.Designer.cs">
+      <DependentUpon>CardBalance.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardFill.cs">
+      <DependentUpon>CardFill.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardFill.Designer.cs">
+      <DependentUpon>CardFill.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardPersonalizationCardCenter.cs">
+      <DependentUpon>CardPersonalizationCardCenter.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardPersonalizationCardCenter.Designer.cs">
+      <DependentUpon>CardPersonalizationCardCenter.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardPersonalizationCardType.cs">
+      <DependentUpon>CardPersonalizationCardType.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardPersonalizationCardType.Designer.cs">
+      <DependentUpon>CardPersonalizationCardType.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardPersonalizationReason.cs">
+      <DependentUpon>CardPersonalizationReason.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardPersonalizationReason.Designer.cs">
+      <DependentUpon>CardPersonalizationReason.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardPersonalizationUser.cs">
+      <DependentUpon>CardPersonalizationUser.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardPersonalizationUser.Designer.cs">
+      <DependentUpon>CardPersonalizationUser.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardUsage.cs">
+      <DependentUpon>CardUsage.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardUsage.Designer.cs">
+      <DependentUpon>CardUsage.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardUsageByBus.cs">
+      <DependentUpon>CardUsageByBus.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardUsageByBus.Designer.cs">
+      <DependentUpon>CardUsageByBus.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardUsageCount.cs">
+      <DependentUpon>CardUsageCount.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CardUsageCount.Designer.cs">
+      <DependentUpon>CardUsageCount.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DailyVehicleByIns.cs">
+      <DependentUpon>DailyVehicleByIns.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DailyVehicleByIns.Designer.cs">
+      <DependentUpon>DailyVehicleByIns.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerDayEnd.cs">
+      <DependentUpon>DealerDayEnd.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerDayEnd.Designer.cs">
+      <DependentUpon>DealerDayEnd.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CreditDisbursement.cs">
+      <DependentUpon>CreditDisbursement.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\CreditDisbursement.Designer.cs">
+      <DependentUpon>CreditDisbursement.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerDayEnd.cs">
+      <DependentUpon>DealerDayEnd.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerDayEnd.Designer.cs">
+      <DependentUpon>DealerDayEnd.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerFill.cs">
+      <DependentUpon>DealerFill.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerFill.Designer.cs">
+      <DependentUpon>DealerFill.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerFillCardType.cs">
+      <DependentUpon>DealerFillCardType.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerFillCardType.Designer.cs">
+      <DependentUpon>DealerFillCardType.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealersFillPercentage.cs">
+      <DependentUpon>DealersFillPercentage.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealersFillPercentage.Designer.cs">
+      <DependentUpon>DealersFillPercentage.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerTotals.cs">
+      <DependentUpon>DealerTotals.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DealerTotals.Designer.cs">
+      <DependentUpon>DealerTotals.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DetailRevenue.cs">
+      <DependentUpon>DetailRevenue.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DetailRevenue.Designer.cs">
+      <DependentUpon>DetailRevenue.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DriverWork.cs">
+      <DependentUpon>DriverWork.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DriverWork.Designer.cs">
+      <DependentUpon>DriverWork.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\GeneralBoardingGraphic.cs">
+      <DependentUpon>GeneralBoardingGraphic.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\GeneralBoardingGraphic.Designer.cs">
+      <DependentUpon>GeneralBoardingGraphic.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\GeneralCardBoarding.cs">
+      <DependentUpon>GeneralCardBoarding.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\GeneralCardBoarding.Designer.cs">
+      <DependentUpon>GeneralCardBoarding.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\GeneralCredit.cs">
+      <DependentUpon>GeneralCredit.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\GeneralCredit.Designer.cs">
+      <DependentUpon>GeneralCredit.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\GeneralFill.cs">
+      <DependentUpon>GeneralFill.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\GeneralFill.Designer.cs">
+      <DependentUpon>GeneralFill.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\PassengerBoardingStation.cs">
+      <DependentUpon>PassengerBoardingStation.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\PassengerBoardingStation.Designer.cs">
+      <DependentUpon>PassengerBoardingStation.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\PoolAccountsRenevueDetail.cs">
+      <DependentUpon>PoolAccountsRenevueDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\PoolAccountsRenevueDetail.Designer.cs">
+      <DependentUpon>PoolAccountsRenevueDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\PoolAccountsRevenue.cs">
+      <DependentUpon>PoolAccountsRevenue.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\PoolAccountsRevenue.Designer.cs">
+      <DependentUpon>PoolAccountsRevenue.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\RootExpedition.cs">
+      <DependentUpon>RootExpedition.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\RootExpedition.Designer.cs">
+      <DependentUpon>RootExpedition.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\RootExpeditionDetail.cs">
+      <DependentUpon>RootExpeditionDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\RootExpeditionDetail.Designer.cs">
+      <DependentUpon>RootExpeditionDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\PosRecord.cs">
+      <DependentUpon>PosRecord.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\PosRecord.Designer.cs">
+      <DependentUpon>PosRecord.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\ShareholderEarnings.cs">
+      <DependentUpon>ShareholderEarnings.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\ShareholderEarnings.Designer.cs">
+      <DependentUpon>ShareholderEarnings.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\ShareholderEarningsDetail.cs">
+      <DependentUpon>ShareholderEarningsDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\ShareholderEarningsDetail.Designer.cs">
+      <DependentUpon>ShareholderEarningsDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\ToplamHasilat.cs">
+      <DependentUpon>ToplamHasilat.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\ToplamHasilat.Designer.cs">
+      <DependentUpon>ToplamHasilat.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\TotalRevenue.cs">
+      <DependentUpon>TotalRevenue.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\TotalRevenue.Designer.cs">
+      <DependentUpon>TotalRevenue.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleExpedition.cs">
+      <DependentUpon>VehicleExpedition.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleExpedition.Designer.cs">
+      <DependentUpon>VehicleExpedition.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleExpeditionDetail.cs">
+      <DependentUpon>VehicleExpeditionDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleExpeditionDetail.Designer.cs">
+      <DependentUpon>VehicleExpeditionDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleKilometer.cs">
+      <DependentUpon>VehicleKilometer.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleKilometer.Designer.cs">
+      <DependentUpon>VehicleKilometer.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleOperationTime.cs">
+      <DependentUpon>VehicleOperationTime.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleOperationTime.Designer.cs">
+      <DependentUpon>VehicleOperationTime.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleOperationTimeDetail.cs">
+      <DependentUpon>VehicleOperationTimeDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleOperationTimeDetail.Designer.cs">
+      <DependentUpon>VehicleOperationTimeDetail.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleShareHolderRevenue.cs">
+      <DependentUpon>VehicleShareHolderRevenue.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleShareHolderRevenue.Designer.cs">
+      <DependentUpon>VehicleShareHolderRevenue.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleSpeed.cs">
+      <DependentUpon>VehicleSpeed.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\VehicleSpeed.Designer.cs">
+      <DependentUpon>VehicleSpeed.repx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NETCore.App" Version="2.2.1" />
+  </ItemGroup>
+
+
+
+</Project>

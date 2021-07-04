@@ -1,0 +1,29 @@
+﻿////TMS
+{
+  "MyDefaultSettings": {
+    "LogoSettings": "/image/logo_asis.png",
+    "IconSettings": "/image/logo_asis.png",
+    "TitleSettings": "Asis | Terminal Management System"
+  },
+  "WeatherSettings": {
+    "CityId": "149590",
+    "CityName": "Tanzania"
+  },
+  "MapSettings": {
+    "DefaultLat": "-6.154075",
+    "DefaultLong": "35.724059",
+    "GroupName": "TMS"
+  },
+  "DBSettings": {
+    "DBCode": "TMS",
+    "CityId": 99,
+    "ChannelCode": "cABYS_TANZANYA"
+  },
+  "dxDataGridSettings": {
+    "exportEnabled": false
+  },
+  "FtpSettings": {
+    "FtpPath": "ftp://213.14.15.70"
+  },
+  "DocumentLogo": "/wwwroot/image/logo_asis.png"
+}

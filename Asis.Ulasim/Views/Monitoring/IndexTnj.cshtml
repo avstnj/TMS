@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "IndexTnj";
+    Layout = "~/Views/Shared/_LayoutTnj.cshtml";
+}
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container">
+        <!--begin::Card-->
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <!--begin: Datatable-->
+                <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
+                <!--end: Datatable-->
+            </div>
+        </div>
+        <!--end::Card-->
+        <!--end::Modal-->
+        <div class="row">
+            <div class="col-lg-6">
+                <!--begin::Card-->
+                <div class="card card-custom">
+                    <div class="card-body" style="text-align:center !important;">
+                        <a href="#" class="btn btn-light-danger font-weight-bold" data-toggle="modal" data-target="#kt_datatable_modal_2">Hopper Status</a>
+                    </div>
+
+                </div>
+                <!--end::Card-->
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-custom">
+                    <div class="card-body" style="text-align:center !important;">
+                        <a href="#" class="btn btn-light-success font-weight-bold" data-toggle="modal" data-target="#kt_datatable_modal_3">Alarm Status</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--begin::Modal-->
+        <!--begin::Modal-->
+        <div id="kt_datatable_modal_2" class="modal fade" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content" style="min-height: 590px;">
+                    <div class="modal-header py-5">
+                        <h5 class="modal-title">
+                            Hopper Status
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!--begin: Datatable-->
+                        <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_2"></div>
+                        <!--end: Datatable-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Modal-->
+        <!--begin::Modal-->
+        <div id="kt_datatable_modal_3" class="modal fade" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content" style="min-height: 590px;">
+                    <div class="modal-header py-5">
+                        <h5 class="modal-title">
+                            Alarm Status
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!--begin: Datatable-->
+                        <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable_3"></div>
+                        <!--end: Datatable-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Modal-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Entry-->
+@section Scripts {
+    <script src="~/js/Monitoring/Monitoring.js"></script>
+}

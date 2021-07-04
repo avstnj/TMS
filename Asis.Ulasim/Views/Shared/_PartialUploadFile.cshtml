@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        .form-control-upload ol {
+            padding-left: 0;
+            margin-top: 0;
+        }
+
+        .form-control-upload li, div > p {
+            /*background: #eee;*/
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            list-style-type: none;
+            /*border: 1px solid black;*/
+        }
+
+        .form-control-upload img {
+            height: 40px;
+            -o-order: 1;
+            -webkit-order: 1;
+            order: 1;
+            margin-top: -1px;
+        }
+
+        .pImage {
+            line-height: 32px !important;
+            padding-left: 10px !important;
+        }
+
+        .form-control-upload {
+            display: block;
+            /*width: 500px;*/
+            height: 40px;
+            /*padding: 6px 12px;*/
+            font-size: 14px;
+            line-height: 1.428571429;
+            color: #555555;
+            vertical-align: middle;
+            background-color: #ffffff;
+            background-image: none;
+            border: 1px solid #cccccc;
+            border-radius: 4px !important;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        }
+    </style>
+</head>
+<body>
+    <div class="fileinput fileinput-new" data-provides="fileinput">
+        <div class="input-group input-large">
+            <div type="fileinput" class="form-control-upload" data-trigger="fileinput">
+                <p class="pImage">Yüklenecek Dosyaları Seçin (PNG, JPEG, BMP, MPEG, MP4)</p>&nbsp;
+            </div>
+            <span class="input-group-addon btn default btn-file">
+                <span for="fileinput" class="fileinput-new"> Dosya Seç </span>
+                <span for="fileinput" class="fileinput-exists"> Değiştir </span>
+                <input type="file" id="image_uploads" name="fileinput" accept=".jpg, .jpeg, .png, .bmp, .mpeg, .mp4, .avi" multiple>
+            </span>
+            <a href="javascript:;" id="btClearAll" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Sil </a>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var input = document.querySelector('#image_uploads');
+        var preview = document.querySelector('.form-control-upload');
+        image_uploads.style.opacity = 0; input.addEventListener('change', updateImageDisplay); function updateImageDisplay() {
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+            var curFiles = input.files;
+            if (curFiles.length === 0) {
+                var paraa = document.createElement('p');
+                paraa.textContent = 'Şu anda yüklenmek için seçilen dosya yok';//'No files currently selected for upload';
+                preview.appendChild(paraa);
+            } else {
+                var list = document.createElement('ol');
+                preview.appendChild(list);
+                for (var i = 0; i < curFiles.length; i++) {
+                    var listItem = document.createElement('li');
+                    var para = document.createElement('p');
+                    if (validFileType(curFiles[i])) {
+                        para.textContent = 'Dosya Adı : ' + curFiles[i].name + ',  Dosya Boyutu : ' + returnFileSize(curFiles[i].size) + '.';
+                        var image = document.createElement('img');
+                        image.src = window.URL.createObjectURL(curFiles[i]);
+
+                        listItem.appendChild(image);
+                        listItem.appendChild(para);
+
+                    } else {
+                        para.textContent = 'Dosya Adı : ' + curFiles[i].name + 'Geçerli bir dosya türü değil. Güncelleyin';//': Not a valid file type. Update your selection.';
+                        listItem.appendChild(para);
+                    }
+                    list.appendChild(listItem);
+                }
+            }
+        }
+
+        var fileTypes = [
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/bmp',
+            'video/mp4',
+            'video/mpeg'
+        ];
+        function validFileType(file) {
+            for (var i = 0; i < fileTypes.length; i++) {
+                if (file.type === fileTypes[i]) {
+                    return true;
+                }
+            }
+
+            return false;
+        } function returnFileSize(number) {
+            if (number < 1024) {
+                return number + 'bytes';
+            } else if (number > 1024 && number < 1048576) {
+                return (number / 1024).toFixed(1) + 'KB';
+            } else if (number > 1048576) {
+                return (number / 1048576).toFixed(1) + 'MB';
+            }
+        };
+
+        function clearThis() {
+            $('#image_uploads')[0].files[0].name = '';
+            $("#image_uploads input").each(function() {
+                this.value = "";
+            });
+        }
+
+        $('#btClearAll').click(function () {
+            var input = document.querySelector('#image_uploads');
+            var preview = document.querySelector('.form-control-upload');
+            var curFiles = input.files;
+            if (curFiles.length >0) {
+            var paraa = document.createElement('p');
+            paraa.textContent = 'Şu anda yüklenmek için seçilen dosya yok';
+            preview.textContent = paraa.textContent;
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿@using Asis.Ulasim.Models.Fills
+@{
+    var _device = new Device();
+    IQueryable<DeviceModel> device = null;
+    device = _device.FillDevice();
+}
+@*<label class="col-lg-2 col-form-label">
+    Device
+</label>
+<div class="col-lg-8 col-md-9 col-sm-12" data-skin="dark" data-toggle="m-tooltip" data-placement="top">
+    <select id="device" class="form-control m-bootstrap-select m_selectpicker" multiple data-actions-box="true" data-live-search="true">
+        @{
+            if (device.Any())
+            {
+                foreach (var item in device)
+                {
+                    {
+                        <option value='@item.ID'>@item.Name</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value='HI' disabled="disabled"> </option>
+            }
+        }
+    </select>
+    <span class="m-form__help">
+        Please Select Device
+    </span>
+</div>*@
+
+<div class="form-group">
+    <label>Device</label>
+    <select id="device" class="form-control form-control-solid">
+        @{
+            if (device.Any())
+            {
+                foreach (var item in device)
+                {
+                    {
+                        <option value='@item.ID'>@item.Name</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value='HI' disabled="disabled"> </option>
+            }
+        }
+    </select>
+</div>
+
+<script type="text/javascript">
+    function GetSelectDevice() {
+        var mSelected = "";
+        var lbl = $('#device').val();
+        if (lbl === "HI") {
+            mSelected = "HI";
+        } else {
+            var ddl = document.getElementById("device");
+            if (ddl.options[0].value === "HI") {
+                mSelected = "HI";
+            } else if (ddl.selectedIndex === -1) {
+                mSelected = "";
+            } else {
+                var selectedValueArray = [];
+                $("#device :selected").each(function() {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelected = selectedValueArray.join(',');
+            }
+        }
+        return mSelected;
+    }
+</script>
+
+
+
+
+
+

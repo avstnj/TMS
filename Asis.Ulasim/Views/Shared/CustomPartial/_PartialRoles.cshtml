@@ -1,0 +1,51 @@
+﻿@using Asis.Ulasim.Models.Fills
+@{
+    var role = new Roles();
+    IQueryable<RoleModel> roles = null;
+    roles = role.FillRoles();
+}
+<label id="lblRoller" class="col-lg-2 col-form-label">
+    Roles
+</label>
+<div id="dvRoller" class="col-lg-3 col-md-9 col-sm-12" data-skin="dark" data-toggle="m-tooltip" data-placement="top" data-original-title="Roles">
+    <select id="roles" class="form-control m-bootstrap-select m_selectpicker" data-live-search="true">
+        @{
+            if (roles.Any())
+            {
+                <option value='-1'>Select Roles</option>
+                foreach (var item in roles)
+                {
+                    {
+                        <option value='@item.Id'>@item.RoleName</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value="HI" disabled="disabled">No Data</option>
+            }
+        }
+    </select>
+</div>
+
+<script type="text/javascript">
+    function GetRoles() {
+        var role = "";
+        if ($("#roles").val === "HI") {
+            role = -1;
+        }
+        var roleArray = new Array();
+        if (document.getElementById("roles").selectedIndex === -1) {
+            $("#roles > option").each(function () {
+                roleArray.push($(this).val());
+            });
+            role = roleArray.join(',');
+        } else {
+            $("#roles > option:selected").each(function () {
+                roleArray.push($(this).val());
+            });
+            role = roleArray.join(',');
+        }
+        return role;
+    }
+</script>

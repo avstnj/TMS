@@ -1,0 +1,732 @@
+﻿@using System.Reflection
+@using System.Text
+@using Asis.Ulasim.Models.Common;
+@using Asis.Ulasim.Models.Account
+@using Microsoft.Extensions.Configuration
+@using Asis.Ulasim.Models.Helpers
+@using Asis.Ulasim.Controllers
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<HomeController> Localizer
+@inject IConfiguration configuration;
+<!DOCTYPE html>
+
+<html lang="tr">
+<!-- begin::Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>
+        @configuration.GetSection("MyDefaultSettings")["TitleSettings"]
+    </title>
+    <meta name="description" content="Default form examples">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--begin::Web font -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <link href="~/css/vendors/base/vendors.bundle.css" rel="stylesheet" />
+    <link href="~/css/default/base/style.bundle.css" rel="stylesheet" />
+    <link href="~/lib/devextreme/css/dx.common.css" rel="stylesheet" />
+    <link href="~/lib/devextreme/css/dx.light.compact.css" rel="stylesheet" />
+
+    <script src="~/lib/jquery/jquery_v3.3.1.js"></script>
+    <script src="~/css/vendors/base/vendors.bundle.js"></script>
+    <script src="~/css/default/base/scripts.bundle.js"></script>
+    <script src="~/css/default/custom/components/forms/widgets/bootstrap-select.js"></script>
+    <script src="~/css/default/custom/components/forms/widgets/input-mask.js"></script>
+
+    <script src="~/lib/jszip/jszip.min.js"></script>
+    <script src="~/lib/devextreme/js/knockout-3.4.0.js"></script>
+    <script src="~/lib/underscore/underscore.js"></script>
+    <script src="~/lib/devextreme/js/dx.all.js"></script>
+    <script src="~/lib/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>
+    <script src="~/lib/devextreme/js/dx.aspnet.mvc.js"></script>
+    <script src="~/css/default/custom/components/base/sweetalert2.js"></script>
+
+    <script src="https://unpkg.com/devextreme-intl/dist/devextreme-intl.min.js"></script>
+    <script src="~/js/devextreme/localization/dx.messages.tr.js"></script>
+    <script src="~/js/devextreme/localization/dx.messages.en.js"></script>
+    <script>DevExpress.localization.locale("tr");</script>
+
+    <link rel="shortcut icon" href="~/css/default/media/img/logo/Asis_Logo.ico" style="left: 0px; top: 0px;" />
+    <style>
+        #m-wrapper {
+            height: 900px !important;
+            overflow-y: auto !important;
+        }
+        #m_ver_menu {
+            height: 900px !important;
+            overflow-y: auto !important;
+        }
+    </style>
+    @RenderSection("Localization", false)
+    @RenderSection("Scripts", false)
+
+</head>
+<!-- end::Head -->
+
+@{
+    var bm = new BaseModel();
+    var language = bm.LanguageCheck();
+    ApplicationUser _usersInfo = null;
+    if (Context.User.Identity.Name != null)
+    {
+        _usersInfo = (from u in Context.User.Claims
+                      select new ApplicationUser
+                      {
+                          UserId = Convert.ToInt32(Context.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value),
+                          UserName = Context.User.Claims.FirstOrDefault(c => c.Type == "UserName")?.Value,
+                          FirstName = Context.User.Claims.FirstOrDefault(c => c.Type == "FirstName")?.Value,
+                          LastName = Context.User.Claims.FirstOrDefault(c => c.Type == "LastName")?.Value,
+                          UserEmail = Context.User.Claims.FirstOrDefault(c => c.Type == "UserEmail")?.Value,
+                          IdentityNumber = Context.User.Claims.FirstOrDefault(c => c.Type == "IdentityNumber")?.Value,
+                          UserMobile = Context.User.Claims.FirstOrDefault(c => c.Type == "UserMobile")?.Value,
+                          UserPhoto = Encoding.ASCII.GetBytes(Context.User.Claims.FirstOrDefault(c => c.Type == "UserPhoto")?.Value)
+                      }).FirstOrDefault();
+        //}
+
+    }
+    else
+    {
+        @Url.Action("/Account/Index")
+    }
+
+}
+<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
+    <!-- begin:: Page -->
+    <div class="m-grid m-grid--hor m-grid--root m-page">
+        <!-- BEGIN: Header -->
+        <header class="m-grid__item m-header " data-minimize-offset="200" data-minimize-mobile-offset="200" style="height: 59px !important;">
+            <div class="m-container m-container--fluid m-container--full-height">
+                <div class="m-stack m-stack--ver m-stack--desktop">
+                    <!-- BEGIN: Brand -->
+                    <div class="m-stack__item m-brand  m-brand--skin-dark ">
+                        <div class="m-stack m-stack--ver m-stack--general">
+                            <div class="m-stack__item m-stack__item--middle m-brand__logo" style="height: 3rem !important;">
+                                <a href="~/Home" class="m-brand__logo-wrapper">
+                                    <img src="@configuration.GetSection("MyDefaultSettings")["IconSettings"]" />
+                                </a>
+                            </div>
+                            <div class="m-stack__item m-stack__item--middle m-brand__tools" style="height: 3rem !important;">
+                                <!-- BEGIN: Left Aside Minimize Toggle -->
+                                <a href="javascript:;" id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Responsive Aside Left Menu Toggler -->
+                                <a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Responsive Header Menu Toggler -->
+                                <a id="m_aside_header_menu_mobile_toggle" href="javascript:;" class="m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Topbar Toggler -->
+                                <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
+                                    <i class="flaticon-more"></i>
+                                </a>
+                                <!-- BEGIN: Topbar Toggler -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END: Brand -->
+                    <!-- BEGIN: Topbar -->
+                    <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+
+                        <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
+                            <div class="m-stack__item m-topbar__nav-wrapper">
+                                <ul class="m-topbar__nav m-nav m-nav--inline">
+                                    @if (language == "true")
+                                    {@await Html.PartialAsync("~/Views/Shared/CustomPartial/_SelectLanguage.cshtml")}
+
+                                @*Hava Durumu*@
+                                    <li class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light" style="margin-right: 2rem; height: 59px !important">
+                                        <div class="form-group m-form__group row" style="margin-top: 0.3rem !important">
+                                            <section id="weather">
+                                                <img id="spinner">
+                                            </section>
+                                        </div>
+                                    </li>
+                                    <li class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light" style="height: 59px !important">
+
+                                        <div class="form-group m-form__group row" style="margin-top: 0.3rem !important">
+                                            <section id="weatherHatay">
+                                                <img id="spinnerHatay">
+                                            </section>
+                                        </div>
+                                    </li>
+                                    @*Hava Durumu*@
+                                    @if (Context.Session.GetObject<bool>("IsRoles"))
+                                    {
+                                        @await Html.PartialAsync("_PartialNotification")
+                                    }
+                                    <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click">
+                                        <a href="#" class="m-nav__link m-dropdown__toggle">
+                                            <span class="m-topbar__username m--font-primary">
+                                                <span class="tenancy-name">@_usersInfo.FirstName  @_usersInfo.LastName</span>   
+                                            </span>
+                                            @{
+                                                var userImage = Encoding.ASCII.GetString(_usersInfo.UserPhoto);
+                                                if (userImage != null && !string.IsNullOrEmpty(userImage))
+                                                {
+                                                    <span class="m-topbar__userpic">
+                                                        <img src="~/image/users/turkiye-bayrak.jpg" class="m--img-rounded m--marginless m--img-centered" alt="" />
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="m-topbar__userpic">
+                                                        <img src="~/image/users/turkiye-bayrak.jpg" class="m--img-rounded m--marginless m--img-centered" alt="" />
+                                                    </span>
+                                                }
+                                            }
+
+                                        </a>
+                                        <div class="m-dropdown__wrapper">
+                                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                            <div class="m-dropdown__inner">
+                                                <div class="m-dropdown__header m--align-center" style="background: url(/image/users/user_profile_bg.jpg); background-size: cover;">
+                                                    @{
+                                                        if (_usersInfo != null)
+                                                        {
+                                                            <div class="m-card-user m-card-user--skin-dark">
+                                                                <div class="m-card-user__pic">
+                                                                    <img class="m--img-rounded m--marginless" alt="" /> @*src=@userImage*@
+                                                                </div>
+                                                                <div class="m-card-user__details">
+                                                                    <span class="m-card-user__name m--font-weight-500">
+                                                                        @_usersInfo.FirstName @_usersInfo.LastName
+                                                                    </span>
+                                                                    <a href="" class="m-card-user__email m--font-weight-300 m-link">
+                                                                        @_usersInfo.Email
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="m-card-user m-card-user--skin-dark">
+                                                                <div class="m-card-user__pic">
+                                                                    <img src="~/image/users/turk-bayragi.jpg" class="m--img-rounded m--marginless" alt="" />
+                                                                </div>
+                                                                <div class="m-card-user__details">
+                                                                    <span class="m-card-user__name m--font-weight-500">
+                                                                        Mark Andre
+                                                                    </span>
+                                                                    <a href="" class="m-card-user__email m--font-weight-300 m-link">
+                                                                        mark.andre@gmail.com
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    }
+
+                                                </div>
+                                                <div class="m-dropdown__body">
+                                                    <div class="m-dropdown__content">
+                                                        <ul class="m-nav m-nav--skin-light">
+                                                            <li class="m-nav__section m--hide">
+                                                                <span class="m-nav__section-text">
+                                                                    Section
+                                                                </span>
+                                                            </li>
+                                                            <li class="m-nav__item">
+                                                                <a href="../../UserSettings" class="m-nav__link">
+                                                                    <i class="m-nav__link-icon flaticon-profile-1"></i>
+                                                                    <span class="m-nav__link-title">
+                                                                        <span class="m-nav__link-wrap">
+                                                                            <span class="m-nav__link-text">
+                                                                               My Profile
+                                                                            </span>
+                                                                            <span class="m-nav__link-badge">
+                                                                                <span class="m-badge m-badge--success">
+                                                                                    1
+                                                                                </span>
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                            <li class="m-nav__item">
+                                                                <a href="Account/LogOut" class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
+                                                                   Log out
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    @*<li id="m_quick_sidebar_toggle" class="m-nav__item">
+                                            <a href="#" class="m-nav__link m-dropdown__toggle">
+                                                <span class="m-nav__link-icon">
+                                                    <i class="flaticon-grid-menu"></i>
+                                                </span>
+                                            </a>
+                                        </li>*@
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- END: Topbar -->
+                        @*<div id="m_header_weather" class="m-topbar  m-stack m-stack--ver m-stack--generall" style="float: left;height: 59px !important">
+                                <div class="m-stack__item m-topbar__nav-wrapperr" style="height: 59px !important;">
+                                    <div class="form-group m-form__group row" style="margin-left: 2rem;">
+                                        <section id="weather" style="height: 59px !important;">
+                                            <img id="spinner">
+                                        </section>
+                                    </div>
+
+                                </div>
+                            </div>*@
+
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END: Header -->
+        <!-- begin::Body -->
+        <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
+            <!-- BEGIN: Left Aside -->
+            <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn">
+                <i class="la la-close"></i>
+            </button>
+            <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark " style="margin-top: -1rem;" @*engin*@>
+
+                <!-- BEGIN: Aside Menu -->
+                <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark "
+                     data-menu-vertical="true"
+                     data-menu-scrollable="false" data-menu-dropdown-timeout="500">
+                    <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow " style="padding: 10px 0 10px 0;">
+                        <!--Search Form-->
+                        @*<li id="searchLi">
+                                <form class="search-form" onkeypress="return event.keyCode !== 13;" role="search" method="GET" autocomplete="off">
+                                    <div class="form-group-md-form">
+                                        <input type="search" class="form-control-search" id="searchInput" placeholder="Search...">
+                                    </div>
+                                </form>
+                            </li>*@
+                        <!--/End Search Form-->
+                        @await Html.PartialAsync("_PartialMenu")
+                    </ul>
+                </div>
+                <!-- END: Aside Menu -->
+            </div>
+            <!-- END: Left Aside -->
+            <div class="m-grid__item m-grid__item--fluid m-wrapper" id="m-wrapper" style="margin-top: -1rem;" @*engin*@>
+
+                <div class="m-content">
+                    @await Html.PartialAsync("_PartialLoadPanel")
+
+                    @RenderBody()
+                    @*<div class="row">
+                        </div>*@
+
+                </div>
+            </div>
+        </div>
+        <!-- end:: Body -->
+        <!-- begin::Footer -->
+        <footer class="m-grid__item		m-footer " style="height: 59px !important;">
+            <div class="m-container m-container--fluid m-container--full-height m-page__container">
+                <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+                    <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
+                        <span class="m-footer__copyright">
+                            2019 &copy; Asis Elektronik (v @typeof(Asis.Ulasim.Certificate).Assembly.GetName().Version)
+
+                        </span>
+                    </div>
+                    @*<div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                            <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
+                                <li class="m-nav__item">
+                                    <a href="#" class="m-nav__link">
+                                        <span class="m-nav__link-text">
+                                            About
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-nav__item">
+                                    <a href="#" class="m-nav__link">
+                                        <span class="m-nav__link-text">
+                                            Privacy
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-nav__item">
+                                    <a href="#" class="m-nav__link">
+                                        <span class="m-nav__link-text">
+                                            T&C
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-nav__item">
+                                    <a href="#" class="m-nav__link">
+                                        <span class="m-nav__link-text">
+                                            Purchase
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="m-nav__item m-nav__item">
+                                        <a href="#" class="m-nav__link" data-toggle="m-tooltip" title="Support Center" data-placement="left">
+                                            <i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
+                                        </a>
+                                    </li>
+                            </ul>
+                        </div>*@
+                </div>
+            </div>
+        </footer>
+        <!-- end::Footer -->
+    </div>
+    <!-- end:: Page -->
+    <!-- begin::Quick Sidebar -->
+    <div id="m_quick_sidebar" class="m-quick-sidebar m-quick-sidebar--tabbed m-quick-sidebar--skin-light">
+        <div class="m-quick-sidebar__content m--hide">
+            <span id="m_quick_sidebar_close" class="m-quick-sidebar__close">
+                <i class="la la-close"></i>
+            </span>
+            <ul id="m_quick_sidebar_tabs" class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
+                <li class="nav-item m-tabs__item">
+                    <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_quick_sidebar_tabs_messenger" role="tab">
+                        Messages
+                    </a>
+                </li>
+
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active m-scrollable" id="m_quick_sidebar_tabs_messenger" role="tabpanel">
+                    <div class="m-messenger m-messenger--message-arrow m-messenger--skin-light">
+                        <div class="m-messenger__messages">
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--in">
+                                    <div class="m-messenger__message-pic">
+                                        <img src="~/image/users/user3.jpg" alt="" />
+                                    </div>
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-username">
+                                                Megan wrote
+                                            </div>
+                                            <div class="m-messenger__message-text">
+                                                Hi Bob. What time will be the meeting ?
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--out">
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-text">
+                                                Hi Megan. It's at 2.30PM
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--in">
+                                    <div class="m-messenger__message-pic">
+                                        <img src="~/image/users/user3.jpg" alt="" />
+                                    </div>
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-username">
+                                                Megan wrote
+                                            </div>
+                                            <div class="m-messenger__message-text">
+                                                Will the development team be joining ?
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--out">
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-text">
+                                                Yes sure. I invited them as well
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__datetime">
+                                2:30PM
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--in">
+                                    <div class="m-messenger__message-pic">
+                                        <img src="~/image/users/user3.jpg" alt="" />
+                                    </div>
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-username">
+                                                Megan wrote
+                                            </div>
+                                            <div class="m-messenger__message-text">
+                                                Noted. For the Coca-Cola Mobile App project as well ?
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--out">
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-text">
+                                                Yes, sure.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--out">
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-text">
+                                                Please also prepare the quotation for the Loop CRM project as well.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__datetime">
+                                3:15PM
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--in">
+                                    <div class="m-messenger__message-no-pic m--bg-fill-danger">
+                                        <span>
+                                            M
+                                        </span>
+                                    </div>
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-username">
+                                                Megan wrote
+                                            </div>
+                                            <div class="m-messenger__message-text">
+                                                Noted. I will prepare it.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--out">
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-text">
+                                                Thanks Megan. I will see you later.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-messenger__wrapper">
+                                <div class="m-messenger__message m-messenger__message--in">
+                                    <div class="m-messenger__message-pic">
+                                        <img src="~/image/users/user3.jpg" alt="" />
+                                    </div>
+                                    <div class="m-messenger__message-body">
+                                        <div class="m-messenger__message-arrow"></div>
+                                        <div class="m-messenger__message-content">
+                                            <div class="m-messenger__message-username">
+                                                Megan wrote
+                                            </div>
+                                            <div class="m-messenger__message-text">
+                                                Sure. See you in the meeting soon.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-messenger__seperator"></div>
+                        <div class="m-messenger__form">
+                            <div class="m-messenger__form-controls">
+                                <input type="text" name="" placeholder="Type here..." class="m-messenger__form-input">
+                            </div>
+                            <div class="m-messenger__form-tools">
+                                <a href="" class="m-messenger__form-attachment">
+                                    <i class="la la-paperclip"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end::Quick Sidebar -->
+    <!-- begin::Scroll Top -->
+    <div class="m-scroll-top m-scroll-top--skin-top" data-toggle="m-scroll-top" data-scroll-offset="500" data-scroll-speed="300">
+        <i class="la la-arrow-up"></i>
+    </div>
+    <!-- end::Scroll Top --> <!-- begin::Quick Nav -->
+    <!--begin::Modal-->
+    <div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Incoming Message Detail
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="txtGelenMessage" class="form-control-label">
+                                Incoming Message
+                            </label>
+                            <textarea class="form-control" id="txtGelenMessage" readonly="readonly" rows="6" placeholder="Gelen Mesaj..!"></textarea>
+                        </div>
+                    </form>
+                    @*<form>
+                            <div class="form-group">
+                                <label for="txtGonderMessage" class="form-control-label">
+                                    Mesaj Gönder
+                                </label>
+                                <textarea class="form-control" id="txtGonderMessage"  rows="6" placeholder="Mesaj Gönder..!"></textarea>
+                            </div>
+                        </form>*@
+                </div>
+                <div class="modal-footer">
+                    @*<button type="button" onclick="ReadMessage()" class="btn btn-danger" style="float: left">
+                            Gönder
+                        </button>*@
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" onclick="ReadMessage()" class="btn btn-primary">
+                        Read
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+
+</body>
+<!-- end::Body -->
+</html>
+@*<link href="~/js/Search/search.css" rel="stylesheet" />
+    <script src="~/js/Search/search.js"></script>*@
+@*<script src="~/css/weather/weather.js"></script>*@
+<script>
+    $(document).ready(function () {
+        getWeather();
+       // highchartsOptions();
+    });
+    //DevExpress.localization.locale(navigator.language || navigator.browserLanguage);
+    var cityIdWeather = "@configuration.GetSection("WeatherSettings")["CityId"]";
+    var cityNameWeather= "@configuration.GetSection("WeatherSettings")["CityName"]";
+
+    function getWeather() {
+        var type = "weather";
+        var units = localStorage.getItem("Units");
+        //$.ajax({
+        //    url: "http://api.openweathermap.org/data/2.5/weather?id=745044&appid=0565613c4a05b549e0028abfc6a2d4f2&units=metric",
+        //    type: 'GET',
+        //    cache: false,
+        //    dataType: "text",
+        //    success: function (data) {
+        //        localStorage.setItem("cache-" + type + "-" + units, data);
+
+        //        displayData("metric", "C", "m\/s", data);
+        //    },
+        //    error: function (errorData) {
+        //        $("#weather").html("Error retrieving current weather data :: " + errorData.status);
+        //    }
+        //});
+        $.ajax({
+            url: "http://api.openweathermap.org/data/2.5/weather?id=" + cityIdWeather + "&appid=0565613c4a05b549e0028abfc6a2d4f2&units=metric",
+            type: 'GET',
+            cache: false,
+            dataType: "text",
+            success: function (dataHatay) {
+                localStorage.setItem("cache-" + type + "-" + units, dataHatay);
+
+                displayData("metric", "C", "m\/s", dataHatay);
+            },
+            error: function (errorData) {
+                $("#weather").html("Error retrieving current weather data :: " + errorData.status);
+            }
+        });
+    };
+
+    function displayData(system, temp_units, wind_units, data) {
+        var data = data;
+        try {
+
+           // data = JSON.parse(localStorage.getItem("cache-weather-" + system));
+            data = JSON.parse(data);
+        }
+        catch (exception) {
+            if (window.console) {
+                console.error(exception);
+            }
+            return;
+        }
+        if (data.name ==="Istanbul") {
+            $("#weather").html('<img class="icon" src="/css/weather/icons/' + data.weather[0].icon + '.png" no-repeat><span id="temp" style="font:11px;font-size: 12px;">' + Math.round(data.main.temp)  + ' </span><span id="units">&deg;' + temp_units + '</span> <h6 style="font-size: 0.9rem;margin-left: 3rem;margin-top: -1rem;">' + data.name + '</h6>');
+        }
+        else {
+            $("#weatherHatay").html('<img class="icon" src="/css/weather/icons/' + data.weather[0].icon + '.png" no-repeat><span id="tempHatay" style="font:11px;font-size: 12px;">' + Math.round(data.main.temp) + ' </span><span id="unitsHatay">&deg;' + temp_units + '</span> <h6 style="font-size: 0.9rem;margin-left: 3rem;margin-top: -1rem;">' + cityNameWeather + '</h6>');
+        }
+
+    }
+
+    function highchartsOptions() {
+        var highchartsOptions = Highcharts.setOptions({
+            lang: {
+                downloadPNG: 'PNG görseli indir',
+                downloadJPEG: 'JPEG görseli indir',
+                downloadPDF: 'PDF dosyası indir',
+                downloadSVG: 'SVG vektör görseli indir',
+                downloadCSV: 'CSV indir',
+                downloadXLS: 'XLS indir',
+                viewData: 'Veri tablosunu indir',
+                openInCloud: 'Grafiği bulut ortamda aç',
+                printChart: 'Grafiği Yazdır',
+                contextButtonTitle: 'Grafik içerik menüsü'
+            }
+        }
+        );
+    }
+
+</script>

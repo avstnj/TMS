@@ -1,0 +1,63 @@
+﻿@using System
+@using System.Collections.Generic
+@using System.Linq
+@using Asis.Ulasim.Models.Helpers
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+<div title="@Localizer["Search"] @requestCulture?.Provider?.GetType().Name">
+    <form id="selectLanguage" asp-controller="Home" 
+          asp-action="SetLanguage" asp-route-returnUrl="@returnUrl" 
+          method="post" class="form-horizontal" role="form">
+        <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label> <select name="culture"
+          onchange="this.form.submit();"
+          asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+        </select>
+    </form>
+</div>
+ @*<li class="dropdown language">
+        @{
+            try
+            {
+                if (@Context.Session.GetString("Dil") == null)
+                {
+                    Context.Session.SetObject("Dil", "TR");
+                    Context.Session.SetObject("Language", "tr-TR");
+                }
+                var cuList = new List<string> { "Türkçe;tr-TR;TR", "English;en;EN", "France;fr;FR" };
+                var flagName = Context.Session.GetString("Dil").ToString().ToLower() == "ar" ? "sa" : Context.Session.GetString("Dil").ToString().ToLower();
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <img alt="" src="@Url.Content("~/assets/img/flags/" + @flagName + ".png")" style="margin: 0;" />
+                    <span class="username">@flagName.ToUpper()</span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    @foreach (var cu in cuList.Select(item => item.Split(';')).Where(cu => cu[2] != Context.Session.GetString("Dil").ToString()))
+                    {
+                        <li>
+                            <a href='@Url.Action("SetCulture", "Home", new { culture = cu[1] })'>
+                                <img alt="" src="@Url.Content("~/assets/img/flags/" + @cu[2].ToLower() + ".png")" /> @(cu[0])
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    </li>*@ 

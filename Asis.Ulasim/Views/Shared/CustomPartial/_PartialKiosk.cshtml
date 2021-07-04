@@ -1,0 +1,80 @@
+﻿@using Asis.Ulasim.Models.Fills
+@{
+    var _kiosk = new Tvm();
+    IQueryable<KioskModel> kiosk = null;
+    kiosk = _kiosk.FillSelectKiosk();
+}
+
+<label id="lblKiosk" class="col-lg-2 col-form-label">
+    Kiosk
+</label>
+<div id="dvKiosk" class="col-lg-3 col-md-9 col-sm-12" data-skin="dark" data-toggle="m-tooltip" data-placement="top" data-original-title="Kiosklar">
+    <select id="ddlKiosk" class="form-control m-bootstrap-select m_selectpicker" multiple data-actions-box="true" data-live-search="true">
+        @{
+            if (kiosk.Any())
+            {
+                foreach (var item in kiosk)
+                {
+                    {
+                        <option value='@item.kioskKodu'>@item.kioskKodu</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value="" disabled="disabled"> Tanımlı Kiosk bulunmamaktadır...! </option>
+            }
+        }
+    </select>
+    <span class="m-form__help">
+        Lütfen Kiosk Seçiniz
+    </span>
+</div>
+<script type="text/javascript">
+    function GetSelectKioskEmpty() {
+        var mSelectedRecordType = "";
+        var lbl = $('#ddlKiosk').val();
+        if (lbl === "HI") {
+            mSelectedRecordType = "NoData";
+        } else {
+            var ddl = document.getElementById("ddlKiosk");
+            if (ddl.options[0].value === "HI") {
+                mSelectedRecordType = "HI";
+            } else if (ddl.selectedIndex === -1) {
+                mSelectedRecordType = "";
+            } else {
+                var selectedValueArray = [];
+                $("#ddlKiosk option:selected").each(function() {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelectedRecordType = selectedValueArray.join(',');
+            }
+        }
+        return mSelectedRecordType;
+    }
+    function GetSelectKiosk() {
+        var mSelectedKiosk = "";
+        var lbl = $('#ddlKiosk').val();
+        if (lbl === "HI") {
+            mSelectedKiosk = "NoData";
+        } else {
+            var ddl = document.getElementById("ddlKiosk");
+            if (ddl.options[0].value === "HI") {
+                mSelectedKiosk = "HI";
+            } else if (ddl.selectedIndex === -1) {
+                var selectedValueArray = new Array();
+                $("#ddlKiosk > option").each(function () {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelectedKiosk = selectedValueArray.join(',');
+            } else {
+                var selectedValueArray = [];
+                $("#ddlKiosk option:selected").each(function () {
+                    selectedValueArray.push($(this).val());
+                });
+                mSelectedKiosk = selectedValueArray.join(',');
+            }
+        }
+        return mSelectedKiosk;
+    }
+</script>

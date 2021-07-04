@@ -1,0 +1,190 @@
+/*!
+ * Jasny Bootstrap v3.1.3 (http://jasny.github.io/bootstrap)
+ * Copyright 2012-2014 Arnold Daniels
+ * Licensed under Apache-2.0 (https://github.com/jasny/bootstrap/blob/master/LICENSE)
+ */
+
+.btn-file {
+    position: relative !important;
+    overflow: hidden !important;
+    vertical-align: middle !important;
+}
+
+    .btn-file > input {
+        position: absolute !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        font-size: 23px !important;
+        cursor: pointer !important;
+        filter: alpha(opacity=0) !important;
+        opacity: 0 !important;
+        direction: ltr;
+    }
+
+.fileinput {
+    display: inline-block !important;
+    margin-bottom: 9px !important;
+}
+
+    .fileinput .form-control {
+        display: inline-block !important;
+        padding-top: 7px !important;
+        padding-bottom: 5px !important;
+        margin-bottom: 0 !important;
+        vertical-align: middle !important;
+        cursor: text !important;
+    }
+
+    .fileinput .thumbnail {
+        display: inline-block !important;
+        margin-bottom: 5px !important;
+        overflow: hidden !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+
+        .fileinput .thumbnail > img {
+            max-height: 100% !important;
+        }
+
+    .fileinput .btn {
+        vertical-align: middle !important;
+    }
+
+.fileinput-exists .fileinput-new,
+.fileinput-new .fileinput-exists {
+    display: none;
+}
+
+.fileinput-inline .fileinput-controls {
+    display: inline !important;
+}
+
+.fileinput-filename {
+    display: inline-block !important;
+    overflow: hidden !important;
+    vertical-align: middle !important;
+}
+
+.form-control .fileinput-filename {
+    vertical-align: bottom !important;
+}
+
+.fileinput.input-group {
+    display: table !important;
+}
+
+    .fileinput.input-group > * {
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    .fileinput.input-group > .btn-file {
+        z-index: 1 !important;
+    }
+
+.fileinput-new.input-group .btn-file,
+.fileinput-new .input-group .btn-file {
+    border-radius: 0 4px 4px 0 !important;
+}
+
+    .fileinput-new.input-group .btn-file.btn-xs,
+    .fileinput-new .input-group .btn-file.btn-xs,
+    .fileinput-new.input-group .btn-file.btn-sm,
+    .fileinput-new .input-group .btn-file.btn-sm {
+        border-radius: 0 3px 3px 0 !important;
+    }
+
+    .fileinput-new.input-group .btn-file.btn-lg,
+    .fileinput-new .input-group .btn-file.btn-lg {
+        border-radius: 0 6px 6px 0 !important;
+    }
+
+.form-group.has-warning .fileinput .fileinput-preview {
+    color: #8a6d3b !important;
+}
+
+.form-group.has-warning .fileinput .thumbnail {
+    border-color: #faebcc !important;
+}
+
+.form-group.has-error .fileinput .fileinput-preview {
+    color: #a94442 !important;
+}
+
+.form-group.has-error .fileinput .thumbnail {
+    border-color: #ebccd1 !important;
+}
+
+.form-group.has-success .fileinput .fileinput-preview {
+    color: #3c763d !important;
+}
+
+.form-group.has-success .fileinput .thumbnail {
+    border-color: #d6e9c6 !important;
+}
+
+.input-group-addon:not(:first-child) {
+    border-left: 0 !important;
+}
+
+/*Engin Custom Eklendi*/
+.fileinput .input-group {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+}
+.input-large {
+    width: 320px!important;
+}
+.input-group {
+    display: table !important;
+    border-collapse: separate !important;
+}
+.fileinput .form-control {
+    display: inline-block !important;
+    padding-top: 7px !important;
+    padding-bottom: 5px !important;
+    margin-bottom: 0 !important;
+    vertical-align: middle !important;
+    cursor: text !important;
+}
+.btn.default:not(.btn-outline) {
+    color: #666 !important;
+    background-color: #e1e5ec !important;
+    border-color: #e1e5ec !important;
+}
+.fileinput {
+    margin-bottom: 0 !important;
+    display: inline-block !important;
+}
+.input-medium {
+    width: 240px !important;
+}
+.uneditable-input {
+    padding: 6px 12px;
+    min-width: 206px;
+    font-size: 14px;
+    font-weight: 400;
+    height: 34px;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #c2cad8;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.form-control {
+    outline: 0!important;
+}
+.btn, .form-control {
+    box-shadow: none!important;
+}
+.btn.red:not(.btn-outline) {
+    color: #fff;
+    background-color: #e7505a;
+    border-color: #e7505a;
+}

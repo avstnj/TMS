@@ -1,0 +1,22 @@
+﻿<div class="loadpanel" id="loadpanel"></div>
+<script type="text/javascript">
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        position: { my: "center" },
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false,
+        message: '@Localizer["Loading"]',
+        //focusStateEnabled: true
+        /*onShown: function () {
+        setTimeout(function () {
+        loadPanel.hide();
+        }, 3000);
+        }*/
+        /*onHidden: function () {
+        showEmployeeInfo(employee);
+        }*/
+    }).dxLoadPanel("instance");
+</script>

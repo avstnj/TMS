@@ -1,0 +1,92 @@
+﻿@*<style>
+        .deepnote {
+            font-style: italic;
+            font-size: 14px;
+            color: #32c5d2;
+        }
+
+        .schedule-parts {
+            display: none;
+        }
+    </style>*@
+@*<div>
+        <span class="m-subheader__daterange" id="m_dashboard_daterangepicker" style="float: right;vertical-align: middle;display: table-cell;">
+            <span class="m-subheader__daterange-label">
+                <span class="m-subheader__daterange-title"></span>
+                <span class="m-subheader__daterange-date m--font-brand">e-Mail</span>
+            </span>
+            <a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                <i class="la la-angle-down"></i>
+            </a>
+        </span>
+    </div>*@
+<span style="float: right;">
+    Programlama
+    <a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill" data-toggle="modal" data-target="#exampleModalLong">
+        <i class="la la-angle-down"></i>
+    </a>
+</span>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 1200px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Programlama</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*<div class="form-group">
+                    <label class="col-lg-2 offset-3 control-label">Raporu planlamak ister misiniz?</label>
+                    <div class="col-lg-3 offset-3 col-md-9 offset-3 col-sm-12">
+                        <input id="chbSchedule" type="checkbox" class="form-control input-medium" />
+                    </div>
+                </div>*@
+                <div class="form-group schedule-parts">
+                    <label class="col-lg-2 offset-4 control-label">Program Adı</label>
+                    <div class="col-lg-3 offset-4 col-md-9 offset-3 col-sm-12">
+                        <input id="tbScheduleName" type="text" class="form-control" placeholder="Program Adı Giriniz.." style="height: 40px; padding-left: 2px; width: 150%;"/>
+                    </div>
+                </div>
+                <div class="form-group schedule-parts">
+                    <label class="col-lg-2 offset-4 control-label">E-Posta</label>
+                    <div class="col-lg-3 offset-4 col-md-9 offset-3 col-sm-12">
+                        <input id="tbEmails" type="text" class="form-control" placeholder="E-Posta Giriniz..." style="height: 40px; padding-left: 2px; width: 150%;"/>
+                        <label>
+                            <i class="deepnote">Birden fazla kişiye göndermek için ";" ayırtınız</i>
+                        </label>
+
+                    </div>
+                </div>
+                <div class="form-group schedule-parts">
+                    <label class="col-lg-2 offset-4 control-label">Email CC</label>
+                    <div class="col-lg-3 offset-4 col-md-9 offset-3 col-sm-12">
+                        <input id="tbCC" type="text" class="form-control" placeholder="CC için Email Giriniz..." style="height: 40px; padding-left: 2px; width: 150%;"/>
+                        <label>
+                            <i class="deepnote">Birden fazla kişiye göndermek için ";" ayırtınız</i>
+                        </label>
+
+                    </div>
+                </div>
+                <div class="form-group schedule-parts">
+                    <label class="col-lg-2 offset-4 control-label">Aralık</label>
+                    <div class="col-lg-3 offset-4 col-md-9 offset-3 col-sm-12">
+                        <select id="IntervalId" class="form-control select2" style="height: 40px; padding-left: 2px; width: 70%;">
+                            <option value="1">Gün</option>
+                            <option value="2">Hafta</option>
+                            <option value="3">Ay</option>
+                            <option value="4">Yıl</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="btnSchedule" class="btn btn-primary">Program Oluştur</button>
+            </div>
+        </div>
+    </div>
+</div>

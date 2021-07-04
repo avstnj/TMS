@@ -1,0 +1,45 @@
+﻿@using System
+@using System.Linq
+@using Asis.Ulasim.Models.Common
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.Extensions.Configuration
+@using System.Collections.Generic
+@using Microsoft.Extensions.Options
+@using System.Globalization
+@inject IConfiguration configuration;
+
+<li id="dropdownLang" class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light" style="margin-right: 2rem; height: 59px !important">
+    @{
+        try
+        {
+            var bm = new BaseModel();
+            CultureInfo ci = CultureInfo.CurrentCulture;
+            string flagName = ci.TwoLetterISOLanguageName.ToUpper();
+            var cuList = bm.LanguageList();
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" style="margin-bottom: 20px">
+                <img alt="" src="@Url.Content("~/image/flags/" + @flagName + ".png")" style="margin: 20px; height: 19px !important" />
+                <span class="username">@flagName.ToUpper()</span>
+                <i class="fa fa-angle-down"></i>
+            </a>
+            if (cuList.Count > 0)
+            {
+                <ul class="dropdown-menu">
+                    @foreach (var cu in cuList.Select(item => item.Split(';')))
+                    {
+                        <li>
+                            <a href='@Url.Action("SetCulture", "Home", new {culture = cu[3]})'>
+                                <img alt="" src="@Url.Content("~/image/flags/" + @cu[2].ToLower() + ".png")" /> @(cu[0])
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+</li>
+<style>
+</style>
