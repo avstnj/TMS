@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DXQgMiGbNS/+0Wi8Ze2GgX+VcjWan4s2DTsn4DmVf3CDi4uKXA+R2hh6CFCjGgE+tWE2F3bBhspeK7bpmJs0Sg==",
+  "dgSpecHash": "lfi1f88a48pMxGe//nDJGY44CjrI4AjQ3gz1EEEhawcWFCP5nleUo3gmHmiEjBlNzZebKecGaqSqkmIPt8CVNg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tanju.avsar\\source\\NewRepo\\TMS\\TestConsoleApp\\TestConsoleApp.csproj",
+  "projectFilePath": "C:\\Users\\tanju.avsar\\source\\repos\\GitLab\\TMS\\TestConsoleApp\\TestConsoleApp.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

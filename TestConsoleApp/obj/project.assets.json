@@ -9,34 +9,30 @@
   },
   "packageFolders": {
     "C:\\Users\\tanju.avsar\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\Offline Packages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Program Files (x86)\\DevExpress 21.1\\Components\\Offline Packages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tanju.avsar\\source\\NewRepo\\TMS\\TestConsoleApp\\TestConsoleApp.csproj",
+      "projectUniqueName": "C:\\Users\\tanju.avsar\\source\\repos\\GitLab\\TMS\\TestConsoleApp\\TestConsoleApp.csproj",
       "projectName": "TestConsoleApp",
-      "projectPath": "C:\\Users\\tanju.avsar\\source\\NewRepo\\TMS\\TestConsoleApp\\TestConsoleApp.csproj",
+      "projectPath": "C:\\Users\\tanju.avsar\\source\\repos\\GitLab\\TMS\\TestConsoleApp\\TestConsoleApp.csproj",
       "packagesPath": "C:\\Users\\tanju.avsar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tanju.avsar\\source\\NewRepo\\TMS\\TestConsoleApp\\obj\\",
+      "outputPath": "C:\\Users\\tanju.avsar\\source\\repos\\GitLab\\TMS\\TestConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\Offline Packages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\DevExpress 21.1\\Components\\Offline Packages"
       ],
       "configFilePaths": [
         "C:\\Users\\tanju.avsar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.2.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 20.2.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 21.1.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\DevExpress 19.2\\Components\\System\\Components\\Packages": {},
-        "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\System\\Components\\Packages": {},
+        "C:\\Program Files (x86)\\DevExpress 21.1\\Components\\System\\Components\\Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://nuget.devexpress.com/b9daLUMqXXICjaMK8UnQAWO3OHbLgQmwBH1XnWPITVFfA9FiBD/api": {}
@@ -71,7 +67,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.204\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }
